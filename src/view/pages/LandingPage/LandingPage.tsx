@@ -21,6 +21,18 @@ export const LandingPage = () => {
                     and education authorities.
                     From attendance to admissions, SmartEdu streamlines every process, promotes transparency,
                     and empowers smarter learning across the nation.</p>
+                <div className="mt-5 z-50 flex gap-5">
+                    <button
+                        className="w-[200px] bg-white text-black px-[40px] py-4 text-2xl font-medium rounded-full hover:bg-blue-200 transition"
+                    >
+                        Register
+                    </button>
+                    <button
+                        className="w-[200px] bg-white text-black px-[40px] py-4 text-2xl font-medium rounded-full hover:bg-blue-200 transition"
+                    >
+                        Login
+                    </button>
+                </div>
             </section>
         </main>
     );
