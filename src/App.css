@@ -7,6 +7,11 @@
   pointer-events: none;
 }
 
+.heroMainTopic {
+  animation: colorChange 10s linear infinite;
+  background-size: 200% 200%;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
