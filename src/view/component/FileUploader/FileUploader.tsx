@@ -1,7 +1,7 @@
 import {UploadButton} from "react-uploader";
 import {Uploader} from "uploader";
 
-export const FileUploader = ({label, placeholder, msg, important, name, value, onChange}: props) => {
+export const FileUploader = ({height="112px", label, placeholder, msg, important, name, value, onChange}: props) => {
     // Initialize once (at the start of your app).
     const uploader = Uploader({
         apiKey: "free" // Get production API keys from Bytescale
@@ -19,7 +19,7 @@ export const FileUploader = ({label, placeholder, msg, important, name, value, o
                               options={options}
                               onComplete={files => alert(files.map(x => x.fileUrl).join("\n"))}>
                     {({onClick}) =>
-                        <button onClick={onClick} className="h-28 rounded-md border-gray-500 border-[1px] border-solid">
+                        <button onClick={onClick}  style={{ height }} className="rounded-md border-gray-500 border-[1px] border-solid">
                             Upload a file...
                         </button>
                     }
@@ -37,6 +37,7 @@ export const FileUploader = ({label, placeholder, msg, important, name, value, o
 type props = {
     label: string,
     placeholder?: string,
+    height?: string,
     type?: string,
     disabled?: string,
     msg?: string,
