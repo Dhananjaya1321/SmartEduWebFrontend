@@ -3,10 +3,10 @@ import backgroundImage from "../../assets/images/backgroundImage.jpg";
 import React from "react";
 import {Link} from "react-router-dom";
 
-export const LoginAside = ({btnStatus}: props) => {
+export const LoginAside = ({btnStatus,height="650px"}: props) => {
     return (
         <aside className='self-start relative items-center justify-center flex w-full sm:w-[60%]
-        h-[650px] bg-[#F8F8F8]'>
+         bg-[#F8F8F8]' style={{ height }}>
             <section
                 className="pl-5 pr-20 relative flex flex-col justify-center items-start">
                 <div className="bg-black opacity-75 w-full h-full absolute"></div>
@@ -51,4 +51,5 @@ export const LoginAside = ({btnStatus}: props) => {
 };
 type props = {
     btnStatus: string,
+    height?: string,
 }
