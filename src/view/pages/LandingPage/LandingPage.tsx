@@ -12,7 +12,7 @@ export const LandingPage = () => {
                 />
                 <div className="bg-black opacity-75 w-full h-full absolute"></div>
                 <h3 className="font-medium px-16 text-white text-[44px] z-10 text-center">Welcome to</h3>
-                <h1 className="font-medium leading-[130px] bg-gradient-to-r from-purple-400 via-[#F90766] to-[#1100FF] bg-clip-text text-transparent z-50 text-white text-[150px] text-center">
+                <h1 className="font-medium leading-[130px] bg-gradient-to-r from-purple-400 via-[#F90766] to-[#1100FF] bg-clip-text text-transparent z-50 text-[150px] text-center">
                     SmartEdu
                 </h1>
                 <h3 className="font-medium px-16 text-white text-[64px] z-10 text-center">The future of education</h3>
