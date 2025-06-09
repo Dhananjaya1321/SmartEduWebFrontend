@@ -6,6 +6,7 @@ import {LoginPage} from "./view/pages/LoginPage/LoginPage";
 import {RegisterPage} from "./view/pages/RegisterPage/RegisterPage";
 import {ForgotPassword} from "./view/pages/ForgotPassword/ForgotPassword";
 import {VerifyCodePage} from "./view/pages/VerifyCodePage/VerifyCodePage";
+import {ChangePasswordPage} from "./view/pages/ChangePasswordPage/ChangePasswordPage";
 
 
 function AppContent() {
@@ -16,6 +17,7 @@ function AppContent() {
             <Route path="/register" element={<RegisterPage/>}/>
             <Route path="/forgot-password" element={<ForgotPassword/>}/>
             <Route path="/verify-code" element={<VerifyCodePage/>}/>
+            <Route path="/change-password" element={<ChangePasswordPage/>}/>
         </Routes>
     );
 }
