@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 export const LoginPage = () => {
     return (
         <section className='relative justify-center items-center flex flex-row w-full sm:h-[600px]'>
-            <LoginAside/>
+            <LoginAside btnStatus={"Register"}/>
             <article className='loginArticles flex flex-col justify-center w-[80%] sm:w-[40%] h-[600px] bg-white px-8
             absolute sm:relative'>
                 <div className='flex flex-col text-start mb-5'>
