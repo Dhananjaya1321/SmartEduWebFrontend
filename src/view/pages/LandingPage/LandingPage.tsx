@@ -1,12 +1,12 @@
 // @ts-ignore
-import rr from "../../assets/images/backgroundImage.jpg";
+import backgroundImage from "../../assets/images/backgroundImage.jpg";
 export const LandingPage = () => {
     return (
         <main className='relative w-[100%]'>
             <section
                 id={"hero-section"}
                 className="h-[650px] w-[100%] relative flex flex-col justify-center items-center">
-                <img src={rr}
+                <img src={backgroundImage}
                      className="absolute inset-0 w-full h-full object-cover"
                      alt="Background"
                 />
