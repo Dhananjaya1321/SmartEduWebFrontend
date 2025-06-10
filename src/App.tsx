@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {LandingPage} from "./view/pages/LandingPage/LandingPage";
-import {LoginPage} from "./view/pages/LoginPage/LoginPage";
-import {RegisterPage} from "./view/pages/RegisterPage/RegisterPage";
-import {ForgotPassword} from "./view/pages/ForgotPassword/ForgotPassword";
-import {VerifyCodePage} from "./view/pages/VerifyCodePage/VerifyCodePage";
-import {ChangePasswordPage} from "./view/pages/ChangePasswordPage/ChangePasswordPage";
-import {PrincipalVerifyPage} from "./view/pages/PrincipalVerifyPage/PrincipalVerifyPage";
-import {SchoolVerifyPage} from "./view/pages/SchoolVerifyPage/SchoolVerifyPage";
+import {LandingPage} from "./view/pages/common/LandingPage/LandingPage";
+import {LoginPage} from "./view/pages/common/LoginPage/LoginPage";
+import {RegisterPage} from "./view/pages/school/RegisterPage/RegisterPage";
+import {ForgotPassword} from "./view/pages/common/ForgotPassword/ForgotPassword";
+import {VerifyCodePage} from "./view/pages/common/VerifyCodePage/VerifyCodePage";
+import {ChangePasswordPage} from "./view/pages/common/ChangePasswordPage/ChangePasswordPage";
+import {PrincipalVerifyPage} from "./view/pages/school/PrincipalVerifyPage/PrincipalVerifyPage";
+import {SchoolVerifyPage} from "./view/pages/school/SchoolVerifyPage/SchoolVerifyPage";
 
 
 function AppContent() {

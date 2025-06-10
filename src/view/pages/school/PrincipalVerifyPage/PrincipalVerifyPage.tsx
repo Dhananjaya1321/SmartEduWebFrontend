@@ -1,6 +1,6 @@
-import {LoginAside} from "../../component/LoginAside/LoginAside";
+import {LoginAside} from "../../../component/LoginAside/LoginAside";
 
-import {FileUploader} from "../../component/FileUploader/FileUploader";
+import {FileUploader} from "../../../component/FileUploader/FileUploader";
 
 export const PrincipalVerifyPage = () => {
     return (

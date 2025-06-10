@@ -1,12 +1,12 @@
-import {LoginAside} from "../../component/LoginAside/LoginAside";
+import {LoginAside} from "../../../component/LoginAside/LoginAside";
 
-import {FileUploader} from "../../component/FileUploader/FileUploader";
-import {DropdownField} from "../../component/DropdownField/DropdownField";
+import {FileUploader} from "../../../component/FileUploader/FileUploader";
+import {DropdownField} from "../../../component/DropdownField/DropdownField";
 import {Link} from "react-router-dom";
 // @ts-ignore
-import backgroundImage from "../../assets/images/backgroundImage.jpg";
+import backgroundImage from "../../../assets/images/backgroundImage.jpg";
 import React, {useState} from "react";
-import {TextFieldForLoginPages} from "../../component/TextFieldForLoginPages/TextFieldForLoginPages";
+import {TextFieldForLoginPages} from "../../../component/TextFieldForLoginPages/TextFieldForLoginPages";
 
 const provinceDistrictMap: Record<string, string[]> = {
     "Western": ["Colombo", "Gampaha", "Kalutara"],
