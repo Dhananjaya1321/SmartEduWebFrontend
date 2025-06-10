@@ -264,7 +264,7 @@ export const SchoolVerifyPage = () => {
                     <button
                         className={`mt-7 bg-[#006CAF] px-6 w-full py-3 rounded-md text-white font-medium`}
                     >
-                        Next
+                        Request to Register
                     </button>
                 </div>
             </article>
