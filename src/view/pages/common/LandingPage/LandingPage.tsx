@@ -1,5 +1,5 @@
 // @ts-ignore
-import backgroundImage from "../../assets/images/backgroundImage.jpg";
+import backgroundImage from "../../../assets/images/backgroundImage.jpg";
 export const LandingPage = () => {
     return (
         <main className='relative w-[100%]'>

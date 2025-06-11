@@ -1,6 +1,6 @@
 import React from "react";
-import {LoginAside} from "../../component/LoginAside/LoginAside";
-import {TextFieldForLoginPages} from "../../component/TextFieldForLoginPages/TextFieldForLoginPages";
+import {LoginAside} from "../../../component/LoginAside/LoginAside";
+import {TextFieldForLoginPages} from "../../../component/TextFieldForLoginPages/TextFieldForLoginPages";
 
 
 export const ChangePasswordPage = () => {

@@ -1,5 +1,5 @@
-import {LoginAside} from "../../component/LoginAside/LoginAside";
-import {TextFieldForLoginPages} from "../../component/TextFieldForLoginPages/TextFieldForLoginPages";
+import {LoginAside} from "../../../component/LoginAside/LoginAside";
+import {TextFieldForLoginPages} from "../../../component/TextFieldForLoginPages/TextFieldForLoginPages";
 import {Link} from "react-router-dom";
 
 export const RegisterPage = () => {

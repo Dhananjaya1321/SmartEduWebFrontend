@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {LoginAside} from "../../component/LoginAside/LoginAside";
-import {TextFieldForLoginPages} from "../../component/TextFieldForLoginPages/TextFieldForLoginPages";
+import {LoginAside} from "../../../component/LoginAside/LoginAside";
+import {TextFieldForLoginPages} from "../../../component/TextFieldForLoginPages/TextFieldForLoginPages";
 
 export const ForgotPassword = () => {
     return (
