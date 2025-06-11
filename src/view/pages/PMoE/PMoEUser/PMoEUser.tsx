@@ -5,7 +5,7 @@ import {Button} from "../../../component/Button/Button";
 import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
 import {Footer} from "../../../component/Footer/Footer";
 
-export const MoEUser = () => {
+export const PMoEUser = () => {
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
