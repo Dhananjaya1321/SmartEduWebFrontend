@@ -1,5 +1,3 @@
-import {LoginAside} from "../../../component/LoginAside/LoginAside";
-
 import {FileUploader} from "../../../component/FileUploader/FileUploader";
 import {DropdownField} from "../../../component/DropdownField/DropdownField";
 import {Link} from "react-router-dom";

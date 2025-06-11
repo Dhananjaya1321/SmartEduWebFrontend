@@ -9,6 +9,8 @@ import {VerifyCodePage} from "./view/pages/common/VerifyCodePage/VerifyCodePage"
 import {ChangePasswordPage} from "./view/pages/common/ChangePasswordPage/ChangePasswordPage";
 import {PrincipalVerifyPage} from "./view/pages/school/PrincipalVerifyPage/PrincipalVerifyPage";
 import {SchoolVerifyPage} from "./view/pages/school/SchoolVerifyPage/SchoolVerifyPage";
+import {AdminPage} from "./view/pages/school/AdminPage/AdminPage";
+import {AdminDashboard} from "./view/pages/school/AdminDashboard/AdminDashboard";
 
 
 function AppContent() {
@@ -22,6 +24,9 @@ function AppContent() {
             <Route path="/change-password" element={<ChangePasswordPage/>}/>
             <Route path="/verify-principal" element={<PrincipalVerifyPage/>}/>
             <Route path="/verify-school" element={<SchoolVerifyPage/>}/>
+            <Route path="/school-admin" element={<AdminPage/>}>
+                <Route index element={<AdminDashboard/>}/>
+            </Route>
         </Routes>
     );
 }
