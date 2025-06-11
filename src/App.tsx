@@ -13,6 +13,8 @@ import {AdminPage} from "./view/pages/school/AdminPage/AdminPage";
 import {AdminDashboard} from "./view/pages/school/AdminDashboard/AdminDashboard";
 import {ZEoMAdminDashboard} from "./view/pages/ZEoM/ZEoMAdminDashboard/ZEoMAdminDashboard";
 import {ZEoMAdminPage} from "./view/pages/ZEoM/ZEoMAdminPage/ZEoMAdminPage";
+import {PEoMAdminPage} from "./view/pages/PMoE/PEoMAdminPage/PEoMAdminPage";
+import {PEoMAdminDashboard} from "./view/pages/PMoE/PEoMAdminDashboard/PEoMAdminDashboard";
 
 
 function AppContent() {
@@ -31,6 +33,9 @@ function AppContent() {
             </Route>
             <Route path="/zonal-education-offices-admin" element={<ZEoMAdminPage/>}>
                 <Route index element={<ZEoMAdminDashboard/>}/>
+            </Route>
+            <Route path="/provincial-education-offices-admin" element={<PEoMAdminPage/>}>
+                <Route index element={<PEoMAdminDashboard/>}/>
             </Route>
         </Routes>
     );
