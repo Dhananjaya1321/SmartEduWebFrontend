@@ -11,6 +11,8 @@ import {PrincipalVerifyPage} from "./view/pages/school/PrincipalVerifyPage/Princ
 import {SchoolVerifyPage} from "./view/pages/school/SchoolVerifyPage/SchoolVerifyPage";
 import {AdminPage} from "./view/pages/school/AdminPage/AdminPage";
 import {AdminDashboard} from "./view/pages/school/AdminDashboard/AdminDashboard";
+import {ZEoMAdminDashboard} from "./view/pages/ZEoM/ZEoMAdminDashboard/ZEoMAdminDashboard";
+import {ZEoMAdminPage} from "./view/pages/ZEoM/ZEoMAdminPage/ZEoMAdminPage";
 
 
 function AppContent() {
@@ -26,6 +28,9 @@ function AppContent() {
             <Route path="/verify-school" element={<SchoolVerifyPage/>}/>
             <Route path="/school-admin" element={<AdminPage/>}>
                 <Route index element={<AdminDashboard/>}/>
+            </Route>
+            <Route path="/zonal-education-offices-admin" element={<ZEoMAdminPage/>}>
+                <Route index element={<ZEoMAdminDashboard/>}/>
             </Route>
         </Routes>
     );
