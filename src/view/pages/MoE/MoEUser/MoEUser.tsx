@@ -2,6 +2,8 @@ import React from "react";
 import {TextField} from "../../../component/TextField/TextField";
 import {TextArea} from "../../../component/TextArea/TextArea";
 import {Button} from "../../../component/Button/Button";
+import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
+import {Footer} from "../../../component/Footer/Footer";
 
 export const MoEUser = () => {
     return (
@@ -84,7 +86,8 @@ export const MoEUser = () => {
             <section
                 className='bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md'>
             </section>
-
+            <FooterSpace/>
+            <Footer/>
         </section>
     );
 };

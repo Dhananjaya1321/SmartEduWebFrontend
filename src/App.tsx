@@ -18,6 +18,7 @@ import {PEoMAdminDashboard} from "./view/pages/PMoE/PEoMAdminDashboard/PEoMAdmin
 import {MEoMAdminPage} from "./view/pages/MoE/MEoMAdminPage/MEoMAdminPage";
 import {MEoMAdminDashboard} from "./view/pages/MoE/MEoMAdminDashboard/MEoMAdminDashboard";
 import {MoEUser} from "./view/pages/MoE/MoEUser/MoEUser";
+import {PMoEUser} from "./view/pages/PMoE/PMoEUser/PMoEUser";
 
 
 function AppContent() {
@@ -39,11 +40,11 @@ function AppContent() {
             </Route>
             <Route path="/provincial-education-offices-admin" element={<PEoMAdminPage/>}>
                 <Route index element={<PEoMAdminDashboard/>}/>
+                <Route path="manage-users" element={<PMoEUser/>}/>
             </Route>
             <Route path="/ministry-education-offices-admin" element={<MEoMAdminPage/>}>
                 <Route index element={<MEoMAdminDashboard/>}/>
                 <Route path="manage-users" element={<MoEUser/>}/>
-
             </Route>
         </Routes>
     );
