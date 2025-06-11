@@ -15,6 +15,8 @@ import {ZEoMAdminDashboard} from "./view/pages/ZEoM/ZEoMAdminDashboard/ZEoMAdmin
 import {ZEoMAdminPage} from "./view/pages/ZEoM/ZEoMAdminPage/ZEoMAdminPage";
 import {PEoMAdminPage} from "./view/pages/PMoE/PEoMAdminPage/PEoMAdminPage";
 import {PEoMAdminDashboard} from "./view/pages/PMoE/PEoMAdminDashboard/PEoMAdminDashboard";
+import {MEoMAdminPage} from "./view/pages/MoE/MEoMAdminPage/MEoMAdminPage";
+import {MEoMAdminDashboard} from "./view/pages/MoE/MEoMAdminDashboard/MEoMAdminDashboard";
 
 
 function AppContent() {
@@ -36,6 +38,9 @@ function AppContent() {
             </Route>
             <Route path="/provincial-education-offices-admin" element={<PEoMAdminPage/>}>
                 <Route index element={<PEoMAdminDashboard/>}/>
+            </Route>
+            <Route path="/ministry-education-offices-admin" element={<MEoMAdminPage/>}>
+                <Route index element={<MEoMAdminDashboard/>}/>
             </Route>
         </Routes>
     );
