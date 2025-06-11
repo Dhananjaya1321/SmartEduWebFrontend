@@ -5,6 +5,7 @@ import {LandingPage} from "./view/pages/LandingPage/LandingPage";
 import {LoginPage} from "./view/pages/LoginPage/LoginPage";
 import {RegisterPage} from "./view/pages/RegisterPage/RegisterPage";
 import {ForgotPassword} from "./view/pages/ForgotPassword/ForgotPassword";
+import {VerifyCodePage} from "./view/pages/VerifyCodePage/VerifyCodePage";
 
 
 function AppContent() {
@@ -14,6 +15,7 @@ function AppContent() {
             <Route path="/login" element={<LoginPage/>}/>
             <Route path="/register" element={<RegisterPage/>}/>
             <Route path="/forgot-password" element={<ForgotPassword/>}/>
+            <Route path="/verify-code" element={<VerifyCodePage/>}/>
         </Routes>
     );
 }
