@@ -24,6 +24,7 @@ import {TeachersAndUsers} from "./view/pages/school/TeachersAndUsers/TeachersAnd
 import {SchoolUser} from "./view/pages/school/SchoolUser/SchoolUser";
 import {SchoolTeacher} from "./view/pages/school/SchoolTeacher/SchoolTeacher";
 import {MoEProvincialEducationOffice} from "./view/pages/MoE/MoEProvincialEducationOffice/MoEProvincialEducationOffice";
+import {PMoEZonalEducationOffice} from "./view/pages/PMoE/PMoEZonalEducationOffice/PMoEZonalEducationOffice";
 
 
 function AppContent() {
@@ -51,6 +52,7 @@ function AppContent() {
             <Route path="/provincial-education-offices-admin" element={<PEoMAdminPage/>}>
                 <Route index element={<PEoMAdminDashboard/>}/>
                 <Route path="manage-users" element={<PMoEUser/>}/>
+                <Route path="manage-zonal-education-offices" element={<PMoEZonalEducationOffice/>}/>
             </Route>
             <Route path="/ministry-education-offices-admin" element={<MEoMAdminPage/>}>
                 <Route index element={<MEoMAdminDashboard/>}/>
