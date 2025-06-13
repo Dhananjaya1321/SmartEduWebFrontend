@@ -7,6 +7,8 @@ import {faEye, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import ProvincialEducationOfficeModal from "../../../models/MoE/ProvincialEducationOfficeModal/ProvincialEducationOfficeModal";
 import ViewProvincialEducationOfficeModal
     from "../../../models/MoE/ViewProvincialEducationOfficeModal/ViewProvincialEducationOfficeModal";
+import EditProvincialEducationOfficeModal
+    from "../../../models/MoE/EditProvincialEducationOfficeModal/EditProvincialEducationOfficeModal";
 
 export const MoEProvincialEducationOffice = () => {
     const columns: GridColDef[] = [
