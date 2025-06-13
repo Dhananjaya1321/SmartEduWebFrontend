@@ -1,4 +1,4 @@
-export const TextField = ({label, placeholder, type, disabled, msg, important, name, value, onChange}: props) => {
+export const TextField = ({label, placeholder, type, disabled = false, msg, important, name, value, onChange}: props) => {
     return (
         <div className='w-[220px] grow mx-3 my-3 gap-1 flex flex-col justify-start'>
             <div className='flex flex-row'>
@@ -9,7 +9,7 @@ export const TextField = ({label, placeholder, type, disabled, msg, important, n
                 className={`text-input ${type=="file"?"p-[7px]":""}`}
                 type={type == null ? "text" : type}
                 placeholder={placeholder}
-                disabled={disabled == null ? false : true}
+                disabled={disabled}
                 value={value} // Controlled by the parent component
                 onChange={onChange} // Handles input change
                 name={name}
@@ -27,7 +27,7 @@ type props = {
     label: string,
     placeholder?: string,
     type?: string,
-    disabled?: string,
+    disabled?: boolean,
     msg?: string,
     important?: string,
     name?: string,
