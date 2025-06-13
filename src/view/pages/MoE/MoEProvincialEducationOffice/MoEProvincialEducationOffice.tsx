@@ -4,6 +4,7 @@ import {Footer} from "../../../component/Footer/Footer";
 import {Paper, Tooltip} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
+import ProvincialEducationOfficeModal from "../../../models/ProvincialEducationOfficeModal/ProvincialEducationOfficeModal";
 
 export const MoEProvincialEducationOffice = () => {
     const columns: GridColDef[] = [
@@ -113,13 +114,9 @@ export const MoEProvincialEducationOffice = () => {
                             name={"Search"}
                         ></input>
                     </div>
-                    <button
-                        className={`h-[46px] bg-green-600 px-6 py-3 rounded-md text-white font-medium mx-3 mt-2`}
-                    >
-                        Add New
-                    </button>
+                    <ProvincialEducationOfficeModal/>
 
-                </section> 
+                </section>
                 {/*searching and add new button*/}
                 <Paper sx={{height: 400, width: '100%'}}>
                     <DataGrid
