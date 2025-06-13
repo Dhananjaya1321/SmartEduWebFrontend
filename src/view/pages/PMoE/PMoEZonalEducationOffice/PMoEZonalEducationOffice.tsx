@@ -4,7 +4,7 @@ import {Footer} from "../../../component/Footer/Footer";
 import {Paper, Tooltip} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
-import ZonalEducationOfficeModal from "../../../models/ZonalEducationOfficeModal/ZonalEducationOfficeModal";
+import ZonalEducationOfficeModal from "../../../models/PMoE/ZonalEducationOfficeModal/ZonalEducationOfficeModal";
 
 export const PMoEZonalEducationOffice = () => {
     const columns: GridColDef[] = [
