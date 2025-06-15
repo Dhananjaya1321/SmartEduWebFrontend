@@ -5,6 +5,7 @@ import {Paper, Tooltip} from "@mui/material";
 import EditTeachersModal from "../../../models/ZMoE/EditTeachersModal/EditTeachersModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {TransferModal} from "../../../models/Common/TransferModal/TransferModal";
 
 export const ZMoEManageTeachers = () => {
     const columns: GridColDef[] = [
@@ -95,12 +96,12 @@ export const ZMoEManageTeachers = () => {
             ),
         },
         {
-            field: 'tranfer',
+            field: 'transfer',
             headerName: 'Transfer',
             width: 100,
             renderCell: (params) => (
                 <>
-
+                    <TransferModal/>
                 </>
             ),
         },
@@ -123,6 +124,8 @@ export const ZMoEManageTeachers = () => {
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
                 <h3>Teachers and Principles &gt; Manage Teachers</h3>
+                <TransferModal/>
+
             </section>
             {/*url display section*/}
             <section

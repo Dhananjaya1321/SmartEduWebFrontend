@@ -5,6 +5,7 @@ import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import EditPrinciplesModal from "../../../models/ZMoE/EditPrinciplesModal/EditPrinciplesModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {TransferModal} from "../../../models/Common/TransferModal/TransferModal";
 
 export const ZMoEManagePrinciples = () => {
     const columns: GridColDef[] = [
@@ -95,12 +96,12 @@ export const ZMoEManagePrinciples = () => {
             ),
         },
         {
-            field: 'tranfer',
+            field: 'transfer',
             headerName: 'Transfer',
             width: 100,
             renderCell: (params) => (
                 <>
-
+                    <TransferModal/>
                 </>
             ),
         },
