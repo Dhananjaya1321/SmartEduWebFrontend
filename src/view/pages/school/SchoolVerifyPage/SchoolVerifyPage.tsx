@@ -255,7 +255,6 @@ export const SchoolVerifyPage = () => {
                         placeholder={'Class count'}
                         important={"*"}
                         label={'Class count (Number of Grade 1 classes)'}
-                        type="password"
 
                     />
 

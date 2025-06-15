@@ -5,6 +5,7 @@ import {Paper, Tooltip} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import ViewSchoolModal from "../../../models/ZMoE/ViewSchoolModal/ViewSchoolModal";
+import EditSchoolModal from "../../../models/ZMoE/EditSchoolModal/EditSchoolModal";
 
 export const ZMoESchools = () => {
     const columns: GridColDef[] = [
@@ -119,6 +120,7 @@ export const ZMoESchools = () => {
                     >
                         Add New
                     </button>
+                    <EditSchoolModal/>
                 </section>
                 {/*searching and add new button*/}
                 <Paper sx={{height: 400, width: '100%'}}>
