@@ -124,8 +124,6 @@ export const ZMoEManageTeachers = () => {
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
                 <h3>Teachers and Principles &gt; Manage Teachers</h3>
-                <TransferModal/>
-
             </section>
             {/*url display section*/}
             <section
