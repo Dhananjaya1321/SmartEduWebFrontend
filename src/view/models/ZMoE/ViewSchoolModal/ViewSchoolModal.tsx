@@ -8,9 +8,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {TextField} from "../../../component/TextField/TextField";
 import {DropdownField} from "../../../component/DropdownField/DropdownField";
-import {TextFieldForLoginPages} from "../../../component/TextFieldForLoginPages/TextFieldForLoginPages";
-import {FileUploader} from "../../../component/FileUploader/FileUploader";
-import {districtZoneMap} from "../../../pages/school/SchoolVerifyPage/SchoolVerifyPage";
 
 const style = {
     position: 'absolute' as 'absolute',
