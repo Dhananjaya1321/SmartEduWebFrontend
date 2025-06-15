@@ -120,7 +120,6 @@ export const ZMoESchools = () => {
                     >
                         Add New
                     </button>
-                    <EditSchoolModal/>
                 </section>
                 {/*searching and add new button*/}
                 <Paper sx={{height: 400, width: '100%'}}>
