@@ -11,8 +11,8 @@ import {PrincipalVerifyPage} from "./view/pages/school/PrincipalVerifyPage/Princ
 import {SchoolVerifyPage} from "./view/pages/school/SchoolVerifyPage/SchoolVerifyPage";
 import {AdminPage} from "./view/pages/school/AdminPage/AdminPage";
 import {AdminDashboard} from "./view/pages/school/AdminDashboard/AdminDashboard";
-import {ZEoMAdminDashboard} from "./view/pages/ZEoM/ZEoMAdminDashboard/ZEoMAdminDashboard";
-import {ZEoMAdminPage} from "./view/pages/ZEoM/ZEoMAdminPage/ZEoMAdminPage";
+import {ZMoEAdminDashboard} from "./view/pages/ZEoM/ZMoEAdminDashboard/ZMoEAdminDashboard";
+import {ZMoEAdminPage} from "./view/pages/ZEoM/ZMoEAdminPage/ZMoEAdminPage";
 import {PEoMAdminPage} from "./view/pages/PMoE/PEoMAdminPage/PEoMAdminPage";
 import {PEoMAdminDashboard} from "./view/pages/PMoE/PEoMAdminDashboard/PEoMAdminDashboard";
 import {MEoMAdminPage} from "./view/pages/MoE/MEoMAdminPage/MEoMAdminPage";
@@ -26,6 +26,9 @@ import {SchoolTeacher} from "./view/pages/school/SchoolTeacher/SchoolTeacher";
 import {MoEProvincialEducationOffice} from "./view/pages/MoE/MoEProvincialEducationOffice/MoEProvincialEducationOffice";
 import {PMoEZonalEducationOffice} from "./view/pages/PMoE/PMoEZonalEducationOffice/PMoEZonalEducationOffice";
 import {ZMoESchools} from "./view/pages/ZEoM/ZMoESchools/ZMoESchools";
+import {ZMoETeachersAndPrinciples} from "./view/pages/ZEoM/ZMoETeachersAndPrinciples/ZMoETeachersAndPrinciples";
+import {ZMoEManagePrinciples} from "./view/pages/ZEoM/ZMoEManagePrinciples/ZMoEManagePrinciples";
+import {ZMoEManageTeachers} from "./view/pages/ZEoM/ZMoEManageTeachers/ZMoEManageTeachers";
 
 
 function AppContent() {
@@ -46,10 +49,14 @@ function AppContent() {
                     <Route path="manage-teachers" element={<SchoolTeacher/>}/>
                 </Route>
             </Route>
-            <Route path="/zonal-education-offices-admin" element={<ZEoMAdminPage/>}>
-                <Route index element={<ZEoMAdminDashboard/>}/>
+            <Route path="/zonal-education-offices-admin" element={<ZMoEAdminPage/>}>
+                <Route index element={<ZMoEAdminDashboard/>}/>
                 <Route path="manage-users" element={<ZMoEUser/>}/>
                 <Route path="manage-schools" element={<ZMoESchools/>}/>
+                <Route path="manage-teachers-and-principles" element={<ZMoETeachersAndPrinciples/>}>
+                    <Route index path="manage-principles" element={<ZMoEManagePrinciples/>}/>
+                    <Route index path="manage-teachers" element={<ZMoEManageTeachers/>}/>
+                </Route>
             </Route>
             <Route path="/provincial-education-offices-admin" element={<PEoMAdminPage/>}>
                 <Route index element={<PEoMAdminDashboard/>}/>

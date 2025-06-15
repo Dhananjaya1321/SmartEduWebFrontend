@@ -11,12 +11,12 @@ export const ZMoETeachersAndPrinciples = () => {
                 <section
                     className='bg-white flex flex-col flex-wrap items-center justify-start mt-5 p-5 rounded-xl shadow-md'>
                     <div className="w-[180px] flex flex-col items-center justify-start">
-                        <Link to={'manage-teachers'} className="w-full justify-center flex ">
+                        <Link to={'manage-principles'} className="w-full justify-center flex ">
                             <button className="bg-[#F0F4F9] w-full px-6 py-3 rounded-md text-black hover:bg-blue-950 hover:text-white font-medium mt-2">
                                 Principles
                             </button>
                         </Link>
-                        <Link to={'manage-users'} className="w-full justify-center flex ">
+                        <Link to={'manage-teachers'} className="w-full justify-center flex ">
                             <button className="bg-[#F0F4F9] w-full px-6 py-3 rounded-md text-black hover:bg-blue-950 hover:text-white font-medium mt-2">
                                 Teachers
                             </button>
