@@ -2,6 +2,9 @@ import React from "react";
 import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {Paper, Tooltip} from "@mui/material";
+import EditTeachersModal from "../../../models/ZMoE/EditTeachersModal/EditTeachersModal";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
 
 export const ZMoEManageTeachers = () => {
     const columns: GridColDef[] = [
@@ -91,7 +94,11 @@ export const ZMoEManageTeachers = () => {
             width: 100,
             renderCell: (params) => (
                 <>
-
+                    <EditTeachersModal/>
+                    <button
+                        className="rounded-xl w-[40px] h-[40px] text-green-600 hover:bg-green-100">
+                        <FontAwesomeIcon icon={faTrash}/>
+                    </button>
                 </>
             ),
         },

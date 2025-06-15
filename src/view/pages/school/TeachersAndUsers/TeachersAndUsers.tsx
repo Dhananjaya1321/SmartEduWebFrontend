@@ -1,7 +1,4 @@
 import React from "react";
-import {TextField} from "../../../component/TextField/TextField";
-import {TextArea} from "../../../component/TextArea/TextArea";
-import {Button} from "../../../component/Button/Button";
 import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
 import {Footer} from "../../../component/Footer/Footer";
 import {Link, Outlet} from "react-router-dom";
