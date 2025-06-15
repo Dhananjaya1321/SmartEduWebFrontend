@@ -106,7 +106,7 @@ export const MoEUser = () => {
                 <>
                     <EditUserModal/>
                     <button
-                        className="rounded-xl w-[40px] h-[40px] text-green-600 hover:bg-green-100">
+                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
                         <FontAwesomeIcon icon={faTrash}/>
                     </button>
                 </>
@@ -122,7 +122,7 @@ export const MoEUser = () => {
             {/*url display section*/}
             <section
                 className='bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md'>
-                <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                     <TextField
                         name="name"
                         placeholder={'ex- Nimal'}

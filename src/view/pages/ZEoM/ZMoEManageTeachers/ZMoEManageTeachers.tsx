@@ -79,6 +79,22 @@ export const ZMoEManageTeachers = () => {
             ),
         },
         {
+            field: 'address', headerName: 'Address', width: 200, renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div
+                        style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            textAlign: 'start',
+                        }}
+                    >
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
+        },
+        {
             field: 'tranfer',
             headerName: 'Transfer',
             width: 100,
@@ -96,7 +112,7 @@ export const ZMoEManageTeachers = () => {
                 <>
                     <EditTeachersModal/>
                     <button
-                        className="rounded-xl w-[40px] h-[40px] text-green-600 hover:bg-green-100">
+                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
                         <FontAwesomeIcon icon={faTrash}/>
                     </button>
                 </>

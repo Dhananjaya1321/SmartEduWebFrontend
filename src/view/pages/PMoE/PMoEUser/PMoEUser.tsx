@@ -106,7 +106,7 @@ export const PMoEUser = () => {
                 <>
                     <EditUserModal/>
                     <button
-                        className="rounded-xl w-[40px] h-[40px] text-green-600 hover:bg-green-100">
+                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
                         <FontAwesomeIcon icon={faTrash}/>
                     </button>
                 </>
