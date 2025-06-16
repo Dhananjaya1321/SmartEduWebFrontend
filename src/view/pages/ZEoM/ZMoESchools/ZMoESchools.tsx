@@ -184,7 +184,6 @@ export const ZMoESchools = () => {
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
                 <h3>Manage Schools</h3>
-                <AcceptSchoolModal/>
             </section>
             {/*url display section*/}
             <section
