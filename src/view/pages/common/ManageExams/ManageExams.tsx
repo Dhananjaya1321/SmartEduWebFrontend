@@ -74,24 +74,29 @@ export const ManageExams = () => {
             {/*url display section*/}
                     <section
                 className='bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md'>
-                <section className="flex flex-row justify-between items-center w-full mb-5">
-                    <div className="flex flex-col">
-                        <div className='flex flex-row'>
-                            <label className='text-black flex justify-start'>Search</label>
-                        </div>
-                        <input
-                            className={`text-input p-[7px]`}
-                            type={"text"}
-                            placeholder={"Search"}
-                            name={"Search"}
-                        ></input>
-                    </div>
-                </section>
-                {/*searching and add new button*/}
-                <Paper sx={{height: 400, width: '100%'}}>
-                    <DataGrid
-                        rows={[]}
-                        columns={columns}
+                        <section className="flex flex-row justify-between items-center w-full mb-5">
+                            <div className="flex flex-col">
+                                <div className='flex flex-row'>
+                                    <label className='text-black flex justify-start'>Search</label>
+                                </div>
+                                <input
+                                    className={`text-input p-[7px]`}
+                                    type={"text"}
+                                    placeholder={"Search"}
+                                    name={"Search"}
+                                ></input>
+                            </div>
+                            <button
+                                className={`h-[46px] bg-green-600 px-6 py-3 rounded-md text-white font-medium mx-3 mt-2`}
+                            >
+                                Create Exam
+                            </button>
+                        </section>
+                        {/*searching and add new button*/}
+                        <Paper sx={{height: 400, width: '100%'}}>
+                            <DataGrid
+                                rows={[]}
+                                columns={columns}
                         pagination
                         pageSizeOptions={[5, 10]}
                         // checkboxSelection

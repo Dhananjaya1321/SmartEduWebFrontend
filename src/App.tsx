@@ -29,6 +29,7 @@ import {ZMoESchools} from "./view/pages/ZEoM/ZMoESchools/ZMoESchools";
 import {ZMoETeachersAndPrinciples} from "./view/pages/ZEoM/ZMoETeachersAndPrinciples/ZMoETeachersAndPrinciples";
 import {ZMoEManagePrinciples} from "./view/pages/ZEoM/ZMoEManagePrinciples/ZMoEManagePrinciples";
 import {ZMoEManageTeachers} from "./view/pages/ZEoM/ZMoEManageTeachers/ZMoEManageTeachers";
+import {ManageExams} from "./view/pages/common/ManageExams/ManageExams";
 
 
 function AppContent() {
@@ -48,6 +49,7 @@ function AppContent() {
                     <Route index path="manage-users" element={<SchoolUser/>}/>
                     <Route path="manage-teachers" element={<SchoolTeacher/>}/>
                 </Route>
+                <Route path="manage-exam" element={<ManageExams/>}/>
             </Route>
             <Route path="/zonal-education-offices-admin" element={<ZMoEAdminPage/>}>
                 <Route index element={<ZMoEAdminDashboard/>}/>
@@ -57,16 +59,19 @@ function AppContent() {
                     <Route index path="manage-principles" element={<ZMoEManagePrinciples/>}/>
                     <Route index path="manage-teachers" element={<ZMoEManageTeachers/>}/>
                 </Route>
+                <Route path="manage-exam" element={<ManageExams/>}/>
             </Route>
             <Route path="/provincial-education-offices-admin" element={<PEoMAdminPage/>}>
                 <Route index element={<PEoMAdminDashboard/>}/>
                 <Route path="manage-users" element={<PMoEUser/>}/>
                 <Route path="manage-zonal-education-offices" element={<PMoEZonalEducationOffice/>}/>
+                <Route path="manage-exam" element={<ManageExams/>}/>
             </Route>
             <Route path="/ministry-education-offices-admin" element={<MEoMAdminPage/>}>
                 <Route index element={<MEoMAdminDashboard/>}/>
                 <Route path="manage-users" element={<MoEUser/>}/>
                 <Route path="manage-provincial-education-offices" element={<MoEProvincialEducationOffice/>}/>
+                <Route path="manage-exam" element={<ManageExams/>}/>
             </Route>
         </Routes>
     );
