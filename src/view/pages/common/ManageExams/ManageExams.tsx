@@ -3,6 +3,9 @@ import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
 import {Footer} from "../../../component/Footer/Footer";
 import React from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {CreateExamModal} from "../../../models/Common/CreateExamModal/CreateExamModal";
 
 export const ManageExams = () => {
     const columns: GridColDef[] = [
@@ -60,7 +63,10 @@ export const ManageExams = () => {
             width: 100,
             renderCell: (params) => (
                 <>
-
+                    <button
+                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
+                        <FontAwesomeIcon icon={faTrash}/>
+                    </button>
                 </>
             ),
         },
@@ -86,11 +92,7 @@ export const ManageExams = () => {
                                     name={"Search"}
                                 ></input>
                             </div>
-                            <button
-                                className={`h-[46px] bg-green-600 px-6 py-3 rounded-md text-white font-medium mx-3 mt-2`}
-                            >
-                                Create Exam
-                            </button>
+                           <CreateExamModal/>
                         </section>
                         {/*searching and add new button*/}
                         <Paper sx={{height: 400, width: '100%'}}>
