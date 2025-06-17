@@ -22,6 +22,7 @@ import {PMoEUser} from "./view/pages/PMoE/PMoEUser/PMoEUser";
 import {ZMoEUser} from "./view/pages/ZEoM/ZMoEUser/ZMoEUser";
 import {TeachersAndUsers} from "./view/pages/school/TeachersAndUsers/TeachersAndUsers";
 import {SchoolUser} from "./view/pages/school/SchoolUser/SchoolUser";
+import {SchoolTeacher} from "./view/pages/school/SchoolTeacher/SchoolTeacher";
 
 
 function AppContent() {
@@ -39,6 +40,7 @@ function AppContent() {
                 <Route index element={<AdminDashboard/>}/>
                 <Route path="manage-teachers-and-users" element={<TeachersAndUsers/>}>
                     <Route index path="manage-users" element={<SchoolUser/>}/>
+                    <Route path="manage-teachers" element={<SchoolTeacher/>}/>
                 </Route>
             </Route>
             <Route path="/zonal-education-offices-admin" element={<ZEoMAdminPage/>}>
