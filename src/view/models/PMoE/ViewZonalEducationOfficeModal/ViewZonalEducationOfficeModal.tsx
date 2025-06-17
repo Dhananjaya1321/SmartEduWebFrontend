@@ -167,6 +167,7 @@ export default function ViewZonalEducationOfficeModal() {
                             <Button
                                 name={'Done'}
                                 color={'bg-blue-600'}
+                                onClick={handleClose}
                             />
                         </div>
                     </section>
