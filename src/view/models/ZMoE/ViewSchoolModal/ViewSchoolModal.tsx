@@ -61,7 +61,6 @@ export default function ViewSchoolModal() {
                                     placeholder={'School name'}
                                     important={"*"}
                                     label={'School name'}
-                                    type="password"
                                     disabled={true}
 
                                 />

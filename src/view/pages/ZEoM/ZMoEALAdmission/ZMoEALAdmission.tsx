@@ -3,11 +3,28 @@ import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
 import {Footer} from "../../../component/Footer/Footer";
 import {Paper, Tooltip} from "@mui/material";
+import ViewALAdmission from "../../../models/ZMoE/ViewALAdmission/ViewALAdmission";
 
 export const ZMoEALAdmission = () => {
     const columns: GridColDef[] = [
         {
             field: 'school', headerName: 'School', width: 200, renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div
+                        style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            textAlign: 'start',
+                        }}
+                    >
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
+        },
+        {
+            field: 'year', headerName: 'Year', width: 200, renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <div
                         style={{
@@ -87,7 +104,10 @@ export const ZMoEALAdmission = () => {
             ),
         },
         {
-            field: 'technologyStream', headerName: 'Technology Stream Students Count', width: 200, renderCell: (params) => (
+            field: 'technologyStream',
+            headerName: 'Technology Stream Students Count',
+            width: 200,
+            renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <div
                         style={{
@@ -105,10 +125,10 @@ export const ZMoEALAdmission = () => {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 100,
+            width: 200,
             renderCell: (params) => (
                 <>
-
+                    <ViewALAdmission/>
                 </>
             ),
         },
@@ -118,6 +138,7 @@ export const ZMoEALAdmission = () => {
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
                 <h3>A/L Admission</h3>
+                <ViewALAdmission/>
             </section>
             {/*url display section*/}
             <section
