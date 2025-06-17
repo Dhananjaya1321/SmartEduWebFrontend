@@ -25,7 +25,7 @@ const style = {
     overflowY: 'auto' // Enable scrolling if content overflows
 };
 
-export default function EditProvincialEducationOfficeModal() {
+export default function EditZonalEducationOfficeModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);

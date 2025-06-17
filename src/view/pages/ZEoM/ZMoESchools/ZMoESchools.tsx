@@ -1,3 +1,4 @@
+import React from "react";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
 import {Footer} from "../../../component/Footer/Footer";
@@ -6,6 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import ViewSchoolModal from "../../../models/ZMoE/ViewSchoolModal/ViewSchoolModal";
 import EditSchoolModal from "../../../models/ZMoE/EditSchoolModal/EditSchoolModal";
+import AcceptSchoolModal from "../../../models/ZMoE/AcceptSchoolModal/AcceptSchoolModal";
 
 export const ZMoESchools = () => {
     const columns: GridColDef[] = [
@@ -85,11 +87,94 @@ export const ZMoESchools = () => {
             width: 400,
             renderCell: (params) => (
                 <>
+                    <EditSchoolModal/>
+                    <ViewSchoolModal/>
                     <button
-                        className="rounded-xl w-[40px] h-[40px] text-green-600 hover:bg-green-100">
+                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
                         <FontAwesomeIcon icon={faTrash}/>
                     </button>
-                   <ViewSchoolModal/>
+                </>
+            ),
+        },
+    ];
+    const pr_columns: GridColDef[] = [
+        {
+            field: 'school', headerName: 'School', width: 200, renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div
+                        style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            textAlign: 'start',
+                        }}
+                    >
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
+        },
+        {
+            field: 'address', headerName: 'Address', width: 200, renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div
+                        style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            textAlign: 'start',
+                        }}
+                    >
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
+        },
+        {
+            field: 'principle', headerName: 'Principle', width: 200, renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div
+                        style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            textAlign: 'start',
+                        }}
+                    >
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            width: 200,
+            renderCell: (params) => {
+                const email = params.row.user?.email || 'N/A'; // Use optional chaining to safely access email
+                return (
+                    <Tooltip title={email}>
+                        <div
+                            style={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                textAlign: 'start',
+                            }}
+                        >
+                            {email}
+                        </div>
+                    </Tooltip>
+                );
+            },
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            width: 400,
+            renderCell: (params) => (
+                <>
+                    <AcceptSchoolModal/>
                 </>
             ),
         },
@@ -115,13 +200,39 @@ export const ZMoESchools = () => {
                             name={"Search"}
                         ></input>
                     </div>
-                    <button
-                        className={`h-[46px] bg-green-600 px-6 py-3 rounded-md text-white font-medium mx-3 mt-2`}
-                    >
-                        Add New
-                    </button>
                 </section>
-                {/*searching and add new button*/}
+                {/*Pending registrations*/}
+                <Paper sx={{height: 400, width: '100%'}}>
+                    <DataGrid
+                        rows={[]}
+                        columns={pr_columns}
+                        pagination
+                        pageSizeOptions={[5, 10]}
+                        // checkboxSelection
+                        sx={{
+                            border: 0,
+                            '& .MuiDataGrid-row:hover': {
+                                backgroundColor: 'inherit' // Removes hover effect
+                            },
+                            '& .MuiDataGrid-cell:focus-within': {
+                                outline: 'none', // Removes focus outline on edit mode
+                            }
+                        }}
+                        disableRowSelectionOnClick
+                        disableColumnMenu
+                        getRowId={(row) => row.id}
+                        /*paginationModel={paginationModel}
+                        rowCount={totalElements} // Total number of rows
+                        paginationMode="server" // Use server-side pagination
+                        onPaginationModelChange={(newPagination) => {
+                            setPaginationModel(newPagination);
+                            fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
+                            });
+                        }}*/
+                    />
+                </Paper>
+                <div className="h-10 w-full"></div>
+                {/*Registered*/}
                 <Paper sx={{height: 400, width: '100%'}}>
                     <DataGrid
                         rows={[]}

@@ -4,7 +4,7 @@ import {DashboardTopNavBar} from "../../../component/DashboardTopNavBar/Dashboar
 import {AdminSideNavBar} from "../../../component/AdminSideNavBar/AdminSideNavBar";
 import {ZEoMAdminSideNavBar} from "../../../component/ZEoMAdminSideNavBar/ZEoMAdminSideNavBar";
 
-export const ZEoMAdminPage = () => {
+export const ZMoEAdminPage = () => {
     return (
         <main className='h-screen relative'>
             <DashboardTopNavBar/>

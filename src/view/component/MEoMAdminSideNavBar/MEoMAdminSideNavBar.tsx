@@ -45,7 +45,7 @@ export const MEoMAdminSideNavBar = () => {
                 name={'Provincial Education Offices'}
                 image={PEoMs}
                 activeImage={activePEoMs}
-                isActive={activeButton === 'provincialEducationOffices'}
+                isActive={activeButton === 'ProvincialEducationOffices'}
                 onClick={() => handleButtonClick('ProvincialEducationOffices')}
             />
             <SideNavBarButton

@@ -24,7 +24,7 @@ const style = {
     overflowY: 'auto' // Enable scrolling if content overflows
 };
 
-export default function ViewSchoolModal() {
+export default function AcceptSchoolModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -32,7 +32,7 @@ export default function ViewSchoolModal() {
     return (
         <div>
             <button
-                className="rounded-xl w-[40px] h-[40px] text-blue-600 hover:bg-blue-100"
+                className="rounded-xl w-[40px] h-[40px] text-orange-600 hover:bg-orange-100"
                 onClick={handleOpen}>
                 <FontAwesomeIcon icon={faEye}/>
             </button>
@@ -46,7 +46,7 @@ export default function ViewSchoolModal() {
                         <FontAwesomeIcon icon={faTimes} size="lg"/>
                     </button>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        School Details
+                        School Registration Request
                     </Typography>
                     <section
                         className='bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md'>
@@ -307,10 +307,54 @@ export default function ViewSchoolModal() {
                                     disabled={true}
                                 />
                             </div>
+                            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                <div className='grow mx-3 mt-3 gap-1 flex flex-col justify-start'>
+                                    <div className='flex flex-row'>
+                                        <label className='text-black flex justify-start'>NIC front side</label>
+                                    </div>
+                                </div>
+                                <div className="w-full h-[400px] bg-blue-950 rounded-md mx-3 my-3"></div>
+                            </div>
+                            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                <div className='grow mx-3 mt-3 gap-1 flex flex-col justify-start'>
+                                    <div className='flex flex-row'>
+                                        <label className='text-black flex justify-start'>NIC back side</label>
+                                    </div>
+                                </div>
+                                <div className="w-full h-[400px] bg-blue-950 rounded-md mx-3 my-3"></div>
+                            </div>
+                            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                <div className='grow mx-3 mt-3 gap-1 flex flex-col justify-start'>
+                                    <div className='flex flex-row'>
+                                        <label className='text-black flex justify-start'>MoE ID card front side</label>
+                                    </div>
+                                </div>
+                                <div className="w-full h-[400px] bg-blue-950 rounded-md mx-3 my-3"></div>
+                            </div>
+                            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                <div className='grow mx-3 mt-3 gap-1 flex flex-col justify-start'>
+                                    <div className='flex flex-row'>
+                                        <label className='text-black flex justify-start'>MoE ID card back side</label>
+                                    </div>
+                                </div>
+                                <div className="w-full h-[400px] bg-blue-950 rounded-md mx-3 my-3"></div>
+                            </div>
+                            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                <div className='grow mx-3 mt-3 gap-1 flex flex-col justify-start'>
+                                    <div className='flex flex-row'>
+                                        <label className='text-black flex justify-start'>Appointment letter</label>
+                                    </div>
+                                </div>
+                                <div className="w-full h-[1000px] bg-blue-950 rounded-md mx-3 my-3"></div>
+                            </div>
                         </section>
                         <div className='flex flex-row flex-wrap items-center justify-end w-full'>
                             <Button
-                                name={'Done'}
+                                name={'Reject'}
+                                color={'bg-red-600'}
+                            />
+                            <Button
+                                name={'Accept'}
                                 color={'bg-blue-600'}
                             />
                         </div>

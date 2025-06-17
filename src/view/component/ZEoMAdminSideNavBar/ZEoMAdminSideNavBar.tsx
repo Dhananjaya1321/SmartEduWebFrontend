@@ -19,7 +19,7 @@ import activeTeachersAndPrinciples from "../../assets/icons/employees (1).png"
 // @ts-ignore
 import activeExams from "../../assets/icons/exam (2).png"
 // @ts-ignore
-import activeSchools from "../../assets/icons/school (2).png"
+import activeSchools from "../../assets/icons/school (3).png"
 // @ts-ignore
 import activeUsers   from "../../assets/icons/team (1).png"
 // @ts-ignore
@@ -50,7 +50,7 @@ export const ZEoMAdminSideNavBar = () => {
                 name={'Teachers and Principles'}
                 image={teachersAndPrinciples}
                 activeImage={activeTeachersAndPrinciples}
-                isActive={activeButton === 'teachersAndPrinciples'}
+                isActive={activeButton === 'TeachersAndPrinciples'}
                 onClick={() => handleButtonClick('TeachersAndPrinciples')}
             />
             <SideNavBarButton
@@ -74,7 +74,7 @@ export const ZEoMAdminSideNavBar = () => {
                 name={'A/L Admission'}
                 image={examAndNICApplications}
                 activeImage={activeExamAndNICApplications}
-                isActive={activeButton === 'A/L Admission'}
+                isActive={activeButton === 'A/LAdmission'}
                 onClick={() => handleButtonClick('A/LAdmission')}
             />
             <SideNavBarButton

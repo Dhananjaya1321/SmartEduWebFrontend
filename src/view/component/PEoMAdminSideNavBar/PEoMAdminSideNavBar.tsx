@@ -45,7 +45,7 @@ export const PEoMAdminSideNavBar = () => {
                 name={'Zonal Education Offices'}
                 image={ZEoMs}
                 activeImage={activeZEoMs}
-                isActive={activeButton === 'zonalEducationOffices'}
+                isActive={activeButton === 'ZonalEducationOffices'}
                 onClick={() => handleButtonClick('ZonalEducationOffices')}
             />
             <SideNavBarButton

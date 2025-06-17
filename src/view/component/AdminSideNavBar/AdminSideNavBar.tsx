@@ -62,7 +62,7 @@ export const AdminSideNavBar = () => {
                 name={'Teachers and Users'}
                 image={teachersAndUsers}
                 activeImage={activeTeachersAndUsers}
-                isActive={activeButton === 'teachersAndUsers'}
+                isActive={activeButton === 'TeachersAndUsers'}
                 onClick={() => handleButtonClick('TeachersAndUsers')}
             />
             <SideNavBarButton
@@ -78,7 +78,7 @@ export const AdminSideNavBar = () => {
                 name={'Grades and Classes'}
                 image={gradesAndClasses}
                 activeImage={activeGradesAndClasses}
-                isActive={activeButton === 'Grades and Classes'}
+                isActive={activeButton === 'GradesAndClasses'}
                 onClick={() => handleButtonClick('GradesAndClasses')}
             />
             <SideNavBarButton
@@ -86,7 +86,7 @@ export const AdminSideNavBar = () => {
                 name={'Time Table'}
                 image={timeTable}
                 activeImage={activeTimeTable}
-                isActive={activeButton === 'Time Table'}
+                isActive={activeButton === 'TimeTable'}
                 onClick={() => handleButtonClick('TimeTable')}
             />
             <SideNavBarButton
@@ -118,15 +118,15 @@ export const AdminSideNavBar = () => {
                 name={'Exam And NIC Applications'}
                 image={examAndNICApplications}
                 activeImage={activeExamAndNICApplications}
-                isActive={activeButton === 'Exam And NIC Applications'}
+                isActive={activeButton === 'ExamAndNICApplications'}
                 onClick={() => handleButtonClick('ExamAndNICApplications')}
             />
             <SideNavBarButton
-                path={'/school-admin/manage-al-dmission'}
+                path={'/school-admin/manage-al-admission'}
                 name={'A/L Admission'}
                 image={examAndNICApplications}
                 activeImage={activeExamAndNICApplications}
-                isActive={activeButton === 'A/L Admission'}
+                isActive={activeButton === 'A/LAdmission'}
                 onClick={() => handleButtonClick('A/LAdmission')}
             />
         </nav>

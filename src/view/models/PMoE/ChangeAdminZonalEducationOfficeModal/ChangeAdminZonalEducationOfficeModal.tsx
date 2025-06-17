@@ -104,7 +104,6 @@ export default function ChangeAdminZonalEducationOfficeModal() {
                                     <div className={`h-[5px]`}>
                                         <small
                                             className={`text-start text-red-600 block`}>
-                                            {"The password is automatically generated and sent to the user's provided email address."}
                                         </small>
                                     </div>
                                 </div>

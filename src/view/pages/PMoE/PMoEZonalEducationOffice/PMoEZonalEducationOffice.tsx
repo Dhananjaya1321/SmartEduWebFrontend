@@ -5,10 +5,12 @@ import {Paper, Tooltip} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import ZonalEducationOfficeModal from "../../../models/PMoE/ZonalEducationOfficeModal/ZonalEducationOfficeModal";
-import EditProvincialEducationOfficeModal
-    from "../../../models/PMoE/EditZonalEducationOfficeModal/EditZonalEducationOfficeModal";
 import ChangeAdminZonalEducationOfficeModal
     from "../../../models/PMoE/ChangeAdminZonalEducationOfficeModal/ChangeAdminZonalEducationOfficeModal";
+import ViewZonalEducationOfficeModal
+    from "../../../models/PMoE/ViewZonalEducationOfficeModal/ViewZonalEducationOfficeModal";
+import EditZonalEducationOfficeModal
+    from "../../../models/PMoE/EditZonalEducationOfficeModal/EditZonalEducationOfficeModal";
 
 export const PMoEZonalEducationOffice = () => {
     const columns: GridColDef[] = [
@@ -72,10 +74,7 @@ export const PMoEZonalEducationOffice = () => {
             width: 400,
             renderCell: (params) => (
                 <>
-                    <button
-                        className="rounded-xl w-[40px] h-[40px] text-orange-600 hover:bg-orange-100">
-                        <FontAwesomeIcon icon={faPen}/>
-                    </button>
+                    <ChangeAdminZonalEducationOfficeModal/>
                 </>
             ),
         },
@@ -85,14 +84,8 @@ export const PMoEZonalEducationOffice = () => {
             width: 400,
             renderCell: (params) => (
                 <>
-                    <button
-                        className="rounded-xl w-[40px] h-[40px] text-green-600 hover:bg-green-100">
-                        <FontAwesomeIcon icon={faTrash}/>
-                    </button>
-                    <button
-                        className="rounded-xl w-[40px] h-[40px] text-blue-600 hover:bg-blue-100">
-                        <FontAwesomeIcon icon={faEye}/>
-                    </button>
+                    <EditZonalEducationOfficeModal/>
+                    <ViewZonalEducationOfficeModal/>
                 </>
             ),
         },
