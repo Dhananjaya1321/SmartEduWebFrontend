@@ -131,7 +131,7 @@ export const EditExamModal = () => {
                         className='bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md'>
                         <section className='w-full flex flex-row flex-wrap items-center justify-center'>
                             <div className="w-full items-start flex my-2">
-                                <h3 className="font-medium">Create Exam</h3>
+                                <h3 className="font-medium">Update Exam</h3>
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                 <DropdownField

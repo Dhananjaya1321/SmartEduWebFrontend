@@ -7,6 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {CreateExamModal} from "../../../models/Common/CreateExamModal/CreateExamModal";
 import {EditExamModal} from "../../../models/Common/EditExamModal/EditExamModal";
+import {ViewExamModal} from "../../../models/Common/ViewExamModal/ViewExamModal";
 
 export const ManageExams = () => {
     const columns: GridColDef[] = [
@@ -64,6 +65,7 @@ export const ManageExams = () => {
             width: 100,
             renderCell: (params) => (
                 <>
+                    <ViewExamModal/>
                     <EditExamModal/>
                     <button
                         className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
