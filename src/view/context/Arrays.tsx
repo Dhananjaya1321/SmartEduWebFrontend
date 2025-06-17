@@ -120,3 +120,94 @@ export const teacherPopulationOptions = [
     { label: '501–1,000', value: '501-1000' },
     { label: 'Above 1,000', value: 'above_1000' }
 ];
+
+// Grades Options
+export const gradeOptions = [
+    { label: 'Select...', value: '' },
+    { label: 'Grade 1', value: 'grade_1' },
+    { label: 'Grade 2', value: 'grade_2' },
+    { label: 'Grade 3', value: 'grade_3' },
+    { label: 'Grade 4', value: 'grade_4' },
+    { label: 'Grade 5', value: 'grade_5' },
+    { label: 'Grade 6', value: 'grade_6' },
+    { label: 'Grade 7', value: 'grade_7' },
+    { label: 'Grade 8', value: 'grade_8' },
+    { label: 'Grade 9', value: 'grade_9' },
+    { label: 'Grade 10', value: 'grade_10' },
+    { label: 'Grade 11', value: 'grade_11' },
+    { label: 'Grade 12', value: 'grade_12' },
+    { label: 'Grade 13', value: 'grade_13' }
+];
+
+
+// Basic subject map for grade 1–11
+export const gradeSubjectMap: Record<string, string[]> = {
+    grade_1: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
+    grade_2: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
+    grade_3: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
+    grade_4: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
+    grade_5: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
+
+    grade_6: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Geography", "Health & PE", "ICT", "Aesthetics", "Civic Education"],
+    grade_7: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Geography", "Health & PE", "ICT", "Aesthetics", "Civic Education"],
+    grade_8: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Geography", "Health & PE", "ICT", "Aesthetics", "Civic Education"],
+    grade_9: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Geography", "Health & PE", "ICT", "Aesthetics", "Civic Education"],
+
+    grade_10: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Civic Education", "Business Studies", "ICT", "Geography", "Home Science", "Art", "Music", "Dance", "Drama", "Tech Subjects"],
+    grade_11: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Civic Education", "Business Studies", "ICT", "Geography", "Home Science", "Art", "Music", "Dance", "Drama", "Tech Subjects"],
+};
+
+
+export const alStreams = [
+    { label: 'Science', value: 'science' },
+    { label: 'Commerce', value: 'commerce' },
+    { label: 'Arts', value: 'arts' },
+    { label: 'Technology', value: 'technology' },
+    { label: 'General', value: 'general' }
+];
+
+export const paperType = [
+    { label: 'Select...', value: '' },
+    { label: 'Part 1', value: 'part_1' },
+    { label: 'Part 2', value: 'part_2' },
+    { label: 'Part 3', value: 'part_3' },
+
+];
+
+export const alStreamSubjects: Record<string, string[]> = {
+    science: [
+        "Combined Mathematics",
+        "Biology",
+        "Chemistry",
+        "Physics",
+        "Agriculture",
+        "ICT"
+    ],
+    commerce: [
+        "Accounting",
+        "Business Studies",
+        "Economics"
+    ],
+    arts: [
+        "Logic",
+        "Political Science",
+        "Geography",
+        "History",
+        "Sinhala / Tamil / English Literature",
+        "Buddhism / Hinduism / Christianity / Islam",
+        "Greek and Roman Civilization",
+        "Drama and Theatre",
+        "Music",
+        "Art"
+    ],
+    technology: [
+        "Engineering Technology",
+        "Bio Systems Technology",
+        "Science for Technology",
+        "English for Technology"
+    ],
+    general: [
+        "General English",
+        "Common General Test"
+    ]
+};
