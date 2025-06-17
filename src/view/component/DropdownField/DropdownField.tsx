@@ -14,11 +14,15 @@ type Props = {
     disabled?: boolean;
     msg?: string;
     important?: string;
+    mt?: string;
+    mb?: string;
+    ml?: string;
+    mr?: string;
 };
 
-export const DropdownField = ({label, options, value, onChange, name, disabled = false, msg, important}: Props) => {
+export const DropdownField = ({label, options, value, onChange, name, disabled = false, msg, important,mt="20px",mb="0px",ml="0px",mr="0px"}: Props) => {
     return (
-        <div className='grow mt-2 sm:mt-5 gap-1 flex flex-col justify-start'>
+        <div style={{marginTop:mt, marginLeft:ml,marginRight:mr,marginBottom:mb}} className='grow mt-2 gap-1 flex flex-col justify-start'>
             <div className='flex flex-row'>
                 <label className='textFieldForLoginPageLabel text-black flex justify-start'>{label}</label>
                 <small className={`text-red-600 text-[16px] ${important == null ? 'hidden' : 'block'}`}>*</small>

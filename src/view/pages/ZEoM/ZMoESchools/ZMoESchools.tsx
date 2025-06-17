@@ -3,13 +3,12 @@ import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
 import {Footer} from "../../../component/Footer/Footer";
 import {Paper, Tooltip} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEye, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
-import ProvincialEducationOfficeModal from "../../../models/ProvincialEducationOfficeModal/ProvincialEducationOfficeModal";
+import {faEye, faTrash} from "@fortawesome/free-solid-svg-icons";
 
-export const MoEProvincialEducationOffice = () => {
+export const ZMoESchools = () => {
     const columns: GridColDef[] = [
         {
-            field: 'PMoE', headerName: 'pMoE', width: 200, renderCell: (params) => (
+            field: 'school', headerName: 'School', width: 200, renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <div
                         style={{
@@ -25,7 +24,23 @@ export const MoEProvincialEducationOffice = () => {
             ),
         },
         {
-            field: 'admin', headerName: 'Admin', width: 200, renderCell: (params) => (
+            field: 'address', headerName: 'Address', width: 200, renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div
+                        style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            textAlign: 'start',
+                        }}
+                    >
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
+        },
+        {
+            field: 'principle', headerName: 'Principle', width: 200, renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <div
                         style={{
@@ -63,19 +78,6 @@ export const MoEProvincialEducationOffice = () => {
             },
         },
         {
-            field: 'changeAdmin',
-            headerName: 'Change admin',
-            width: 400,
-            renderCell: (params) => (
-                <>
-                    <button
-                        className="rounded-xl w-[40px] h-[40px] text-orange-600 hover:bg-orange-100">
-                        <FontAwesomeIcon icon={faPen}/>
-                    </button>
-                </>
-            ),
-        },
-        {
             field: 'actions',
             headerName: 'Actions',
             width: 400,
@@ -97,7 +99,7 @@ export const MoEProvincialEducationOffice = () => {
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
-                <h3>Manage Provincial Education Offices</h3>
+                <h3>Manage Schools</h3>
             </section>
             {/*url display section*/}
             <section
@@ -114,7 +116,11 @@ export const MoEProvincialEducationOffice = () => {
                             name={"Search"}
                         ></input>
                     </div>
-                    <ProvincialEducationOfficeModal/>
+                    <button
+                        className={`h-[46px] bg-green-600 px-6 py-3 rounded-md text-white font-medium mx-3 mt-2`}
+                    >
+                        Add New
+                    </button>
 
                 </section>
                 {/*searching and add new button*/}
