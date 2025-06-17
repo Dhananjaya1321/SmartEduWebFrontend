@@ -6,9 +6,9 @@ import {TextArea} from "../../../component/TextArea/TextArea";
 import {Button} from "../../../component/Button/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faPen, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {TextField} from "../../../component/TextField/TextField";
 import {DropdownField} from "../../../component/DropdownField/DropdownField";
 import {useEffect, useState} from "react";
+import {districtZoneMap, provinceDistrictMap} from "../../../context/Arrays"
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -23,53 +23,6 @@ const style = {
     boxShadow: 24,
     p: 4,
     overflowY: 'auto' // Enable scrolling if content overflows
-};
-
-const provinceDistrictMap: Record<string, string[]> = {
-    "Western": ["Colombo", "Gampaha", "Kalutara"],
-    "Central": ["Kandy", "Matale", "Nuwara Eliya"],
-    "Southern": ["Galle", "Matara", "Hambantota"],
-    "Northern": ["Jaffna", "Mannar", "Vavuniya", "Mullaitivu", "Kilinochchi"],
-    "Eastern": ["Batticaloa", "Ampara", "Trincomalee"],
-    "North Western": ["Kurunegala", "Puttalam"],
-    "North Central": ["Anuradhapura", "Polonnaruwa"],
-    "Uva": ["Badulla", "Moneragala"],
-    "Sabaragamuwa": ["Ratnapura", "Kegalle"]
-};
-export const districtZoneMap: Record<string, string[]> = {
-    "Colombo": ["Colombo", "Homagama", "Piliyandala", "Sri Jayawardanapura"],
-    "Gampaha": ["Gampaha", "Kelaniya", "Minuwangoda", "Negombo"],
-    "Kalutara": ["Horana", "Kalutara", "Matugama"],
-
-    "Kandy": ["Denuwara", "Gampola", "Kandy", "Katugastota", "Teldeniya", "Wathegama"],
-    "Matale": ["Galewela", "Matale", "Naula", "Wilgamuwa"],
-    "Nuwara Eliya": ["Hanguranketha", "Hatton", "Kotmale", "Nuwara Eliya", "Walapane"],
-
-    "Galle": ["Ambalangoda", "Elpitiya", "Galle", "Udugama"],
-    "Matara": ["Akuressa", "Matara", "Morawaka", "Mulatiyana (Hakmana)"],
-    "Hambantota": ["Hambantota", "Tangalle", "Walasmulla"],
-
-    "Jaffna": ["Islands", "Jaffna", "Thenmarachchi", "Vadamarachchi", "Valikamam"],
-    "Mannar": ["Madhu", "Mannar"],
-    "Vavuniya": ["Vavuniya North", "Vavuniya South"],
-    "Mullaitivu": ["Mullaitivu", "Thunukkai"],
-    "Kilinochchi": ["Kilinochchi North", "Kilinochchi South"],
-
-    "Batticaloa": ["Batticaloa", "Batticaloa Central", "Batticaloa West", "Kalkudah", "Paddiruppu"],
-    "Ampara": ["Akkaraipattu", "Ampara", "Dehiattakandiya", "Kalmunai", "Mahaoya", "Sammanthurai", "Thirukkovil"],
-    "Trincomalee": ["Kantale", "Kinniya", "Muttur", "Trincomalee", "Trincomalee North"],
-
-    "Kurunegala": ["Giriulla", "Ibbagamuwa", "Kuliyapitiya", "Kurunegala", "Maho", "Nikaweratiya"],
-    "Puttalam": ["Chilaw", "Puttalam"],
-
-    "Anuradhapura": ["Anuradhapura", "Galenbindunuwewa", "Kebithigollewa", "Kekirawa", "Thambuttegama"],
-    "Polonnaruwa": ["Dimbulagala", "Hingurakgoda", "Polonnaruwa"],
-
-    "Badulla": ["Badulla", "Bandarawela", "Mahiyanganaya", "Passara", "Viyaluwa", "Welimada"],
-    "Moneragala": ["Bibile", "Moneragala", "Thanamalwila", "Wellawaya"],
-
-    "Ratnapura": ["Balangoda", "Embilipitiya", "Nivitigala", "Ratnapura"],
-    "Kegalle": ["Dehiowita", "Kegalle", "Mawanella"]
 };
 
 export default function EditProvincialEducationOfficeModal() {

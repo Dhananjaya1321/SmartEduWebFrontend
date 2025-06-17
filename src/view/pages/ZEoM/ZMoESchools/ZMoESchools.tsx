@@ -3,7 +3,9 @@ import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
 import {Footer} from "../../../component/Footer/Footer";
 import {Paper, Tooltip} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEye, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import ViewSchoolModal from "../../../models/ZMoE/ViewSchoolModal/ViewSchoolModal";
+import EditSchoolModal from "../../../models/ZMoE/EditSchoolModal/EditSchoolModal";
 
 export const ZMoESchools = () => {
     const columns: GridColDef[] = [
@@ -87,10 +89,7 @@ export const ZMoESchools = () => {
                         className="rounded-xl w-[40px] h-[40px] text-green-600 hover:bg-green-100">
                         <FontAwesomeIcon icon={faTrash}/>
                     </button>
-                    <button
-                        className="rounded-xl w-[40px] h-[40px] text-blue-600 hover:bg-blue-100">
-                        <FontAwesomeIcon icon={faEye}/>
-                    </button>
+                   <ViewSchoolModal/>
                 </>
             ),
         },
@@ -121,7 +120,6 @@ export const ZMoESchools = () => {
                     >
                         Add New
                     </button>
-
                 </section>
                 {/*searching and add new button*/}
                 <Paper sx={{height: 400, width: '100%'}}>
