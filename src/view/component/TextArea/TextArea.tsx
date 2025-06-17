@@ -1,4 +1,4 @@
-export const TextArea = ({label, placeholder, msg, important, name, value, onChange}: props) => {
+export const TextArea = ({label, placeholder, msg, important,disabled = false, name, value, onChange}: props) => {
     return (
         <div className='grow mx-3 my-3 gap-1 flex flex-col justify-start'>
             <div className='flex flex-row'>
@@ -10,6 +10,7 @@ export const TextArea = ({label, placeholder, msg, important, name, value, onCha
                       value={value} // Controlled by the parent component
                       onChange={onChange} // Handles input change
                       name={name}
+                      disabled={disabled}
             ></textarea>
             <div className={`h-[5px]`}>
                 <small
@@ -26,6 +27,7 @@ type props = {
     msg?: string,
     important?: string,
     name?: string,
+    disabled?: boolean,
     value?: string; // Added value prop
     onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void; // Added onChange prop
 }
