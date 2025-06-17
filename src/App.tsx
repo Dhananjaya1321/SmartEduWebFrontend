@@ -31,6 +31,7 @@ import {ZMoEManagePrinciples} from "./view/pages/ZEoM/ZMoEManagePrinciples/ZMoEM
 import {ZMoEManageTeachers} from "./view/pages/ZEoM/ZMoEManageTeachers/ZMoEManageTeachers";
 import {ManageExams} from "./view/pages/common/ManageExams/ManageExams";
 import {ZMoEALAdmission} from "./view/pages/ZEoM/ZMoEALAdmission/ZMoEALAdmission";
+import {ALAdmission} from "./view/pages/school/ALAdmission/ALAdmission";
 
 
 function AppContent() {
@@ -51,6 +52,7 @@ function AppContent() {
                     <Route path="manage-teachers" element={<SchoolTeacher/>}/>
                 </Route>
                 <Route path="manage-exam" element={<ManageExams/>}/>
+                <Route path="manage-al-admission" element={<ALAdmission/>}/>
             </Route>
             {/*school*/}
 

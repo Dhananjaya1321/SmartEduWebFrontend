@@ -138,7 +138,6 @@ export const ZMoEALAdmission = () => {
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
                 <h3>A/L Admission</h3>
-                <ViewALAdmission/>
             </section>
             {/*url display section*/}
             <section
