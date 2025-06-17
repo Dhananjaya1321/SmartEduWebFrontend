@@ -19,6 +19,7 @@ import {MEoMAdminPage} from "./view/pages/MoE/MEoMAdminPage/MEoMAdminPage";
 import {MEoMAdminDashboard} from "./view/pages/MoE/MEoMAdminDashboard/MEoMAdminDashboard";
 import {MoEUser} from "./view/pages/MoE/MoEUser/MoEUser";
 import {PMoEUser} from "./view/pages/PMoE/PMoEUser/PMoEUser";
+import {ZMoEUser} from "./view/pages/ZEoM/ZMoEUser/ZMoEUser";
 
 
 function AppContent() {
@@ -37,6 +38,7 @@ function AppContent() {
             </Route>
             <Route path="/zonal-education-offices-admin" element={<ZEoMAdminPage/>}>
                 <Route index element={<ZEoMAdminDashboard/>}/>
+                <Route path="manage-users" element={<ZMoEUser/>}/>
             </Route>
             <Route path="/provincial-education-offices-admin" element={<PEoMAdminPage/>}>
                 <Route index element={<PEoMAdminDashboard/>}/>
