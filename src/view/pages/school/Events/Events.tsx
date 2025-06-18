@@ -112,11 +112,7 @@ export const Events = () => {
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
-                <h3>Manage Events</h3><EditEventModal/>
-                <button
-                    className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
-                    <FontAwesomeIcon icon={faTrash}/>
-                </button>
+                <h3>Manage Events</h3>
             </section>
             {/*url display section*/}
             <section
