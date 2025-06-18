@@ -35,6 +35,8 @@ import {ALAdmission} from "./view/pages/school/ALAdmission/ALAdmission";
 import {ALAdmissionApplications} from "./view/pages/school/ALAdmissionApplications/ALAdmissionApplications";
 import {ALSelectedApplications} from "./view/pages/school/ALSelectedApplications/ALSelectedApplications";
 import {Events} from "./view/pages/school/Events/Events";
+import {ExamsAndNICApplication} from "./view/pages/school/ExamsAndNICApplication/ExamsAndNICApplication";
+import {ExamsAndNIC} from "./view/pages/school/ExamsAndNIC/ExamsAndNIC";
 
 
 function AppContent() {
@@ -60,6 +62,9 @@ function AppContent() {
                     <Route path="manage-enrolled-students" element={<ALSelectedApplications/>}/>
                 </Route>
                 <Route path="manage-events" element={<Events/>}/>
+                <Route path="manage-exam-and-nic-application" element={<ExamsAndNIC/>}>
+                    <Route index path="manage-applications" element={<ExamsAndNICApplication/>}/>
+                </Route>
             </Route>
             {/*school*/}
 
