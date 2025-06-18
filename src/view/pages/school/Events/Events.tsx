@@ -9,6 +9,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {DropdownField} from "../../../component/DropdownField/DropdownField";
 import {eventGradeOptions} from "../../../context/Arrays";
+import EditEventModal from "../../../models/School/EditEventModal/EditEventModal";
 
 export const Events = () => {
     const columns: GridColDef[] = [
@@ -111,7 +112,11 @@ export const Events = () => {
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
-                <h3>Manage Events</h3>
+                <h3>Manage Events</h3><EditEventModal/>
+                <button
+                    className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
+                    <FontAwesomeIcon icon={faTrash}/>
+                </button>
             </section>
             {/*url display section*/}
             <section
