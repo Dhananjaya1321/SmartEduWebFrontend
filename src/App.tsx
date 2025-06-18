@@ -33,6 +33,7 @@ import {ManageExams} from "./view/pages/common/ManageExams/ManageExams";
 import {ZMoEALAdmission} from "./view/pages/ZEoM/ZMoEALAdmission/ZMoEALAdmission";
 import {ALAdmission} from "./view/pages/school/ALAdmission/ALAdmission";
 import {ALAdmissionApplications} from "./view/pages/school/ALAdmissionApplications/ALAdmissionApplications";
+import {ALSelectedApplications} from "./view/pages/school/ALSelectedApplications/ALSelectedApplications";
 
 
 function AppContent() {
@@ -55,6 +56,7 @@ function AppContent() {
                 <Route path="manage-exam" element={<ManageExams/>}/>
                 <Route path="manage-al-admission" element={<ALAdmission/>}>
                     <Route index path="manage-applications" element={<ALAdmissionApplications/>}/>
+                    <Route path="manage-enrolled-students" element={<ALSelectedApplications/>}/>
                 </Route>
             </Route>
             {/*school*/}

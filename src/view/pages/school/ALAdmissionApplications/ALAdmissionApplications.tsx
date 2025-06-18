@@ -7,14 +7,38 @@ const admissionApplications = [
     {
         streamName: "Maths",
         applicants: [
-            {id: 1, name: "Nimal", previousSchool: "Royal College", stream: "Maths", score: 240, stats: "Available"},
-            {id: 2, name: "Kamal", previousSchool: "Ananda", stream: "Maths", score: 230, stats: "Available"}
+            {
+                id: 1,
+                name: "Nimal",
+                previousSchool: "Royal College",
+                stream: "Maths",
+                score: 240,
+                contact: "075113254",
+                stats: "Available"
+            },
+            {
+                id: 2,
+                name: "Kamal",
+                previousSchool: "Ananda",
+                stream: "Maths",
+                score: 230,
+                contact: "075113254",
+                stats: "Available"
+            }
         ]
     },
     {
         streamName: "Bio",
         applicants: [
-            {id: 3, name: "Sunil", previousSchool: "Dharmapala", stream: "Bio", score: 250, stats: "Selected"}
+            {
+                id: 3,
+                name: "Sunil",
+                previousSchool: "Dharmapala",
+                stream: "Bio",
+                score: 250,
+                contact: "075113254",
+                stats: "Selected"
+            }
         ]
     }
 ];
@@ -86,6 +110,22 @@ export const ALAdmissionApplications = () => {
             ),
         },
         {
+            field: 'contact', headerName: 'Contact', width: 200, renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div
+                        style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            textAlign: 'start',
+                        }}
+                    >
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
+        },
+        {
             field: 'stats', headerName: 'Stats', width: 200, renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <div
@@ -107,7 +147,10 @@ export const ALAdmissionApplications = () => {
             width: 100,
             renderCell: (params) => (
                 <>
-
+                    <button
+                        className="bg-yellow-600 w-full px-2 py-3 rounded-md text-white hover:bg-yellow-950 hover:text-white font-medium">
+                        Accept
+                    </button>
                 </>
             ),
         },
