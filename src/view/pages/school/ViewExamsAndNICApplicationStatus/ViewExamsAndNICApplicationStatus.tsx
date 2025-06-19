@@ -8,6 +8,7 @@ import {Paper} from "@mui/material";
 import EditEventModal from "../../../models/School/EditEventModal/EditEventModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faTrash} from "@fortawesome/free-solid-svg-icons";
+import EditOLApplicationModal from "../../../models/School/EditOLApplicationModal/EditOLApplicationModal";
 
 interface StudentApplication {
     id: number;
@@ -105,6 +106,7 @@ export const ViewExamsAndNICApplicationStatus = () => {
                 width: 150,
                 renderCell: () => (
                     <>
+                        <EditOLApplicationModal/>
                         <button
                             className="rounded-xl w-[40px] h-[40px] text-blue-600 hover:bg-blue-100">
                             <FontAwesomeIcon icon={faEye}/>
