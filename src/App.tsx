@@ -40,6 +40,7 @@ import {ExamsAndNIC} from "./view/pages/school/ExamsAndNIC/ExamsAndNIC";
 import {
     ViewExamsAndNICApplicationStatus
 } from "./view/pages/school/ViewExamsAndNICApplicationStatus/ViewExamsAndNICApplicationStatus";
+import {Letters} from "./view/pages/school/Letters/Letters";
 
 
 function AppContent() {
@@ -60,14 +61,15 @@ function AppContent() {
                     <Route path="manage-teachers" element={<SchoolTeacher/>}/>
                 </Route>
                 <Route path="manage-exam" element={<ManageExams/>}/>
-                <Route path="manage-al-admission" element={<ALAdmission/>}>
-                    <Route index path="manage-applications" element={<ALAdmissionApplications/>}/>
-                    <Route path="manage-enrolled-students" element={<ALSelectedApplications/>}/>
-                </Route>
                 <Route path="manage-events" element={<Events/>}/>
+                <Route path="manage-letter" element={<Letters/>}/>
                 <Route path="manage-exam-and-nic-application" element={<ExamsAndNIC/>}>
                     <Route index path="manage-applications" element={<ExamsAndNICApplication/>}/>
                     <Route index path="view-applications" element={<ViewExamsAndNICApplicationStatus/>}/>
+                </Route>
+                <Route path="manage-al-admission" element={<ALAdmission/>}>
+                    <Route index path="manage-applications" element={<ALAdmissionApplications/>}/>
+                    <Route path="manage-enrolled-students" element={<ALSelectedApplications/>}/>
                 </Route>
             </Route>
             {/*school*/}
