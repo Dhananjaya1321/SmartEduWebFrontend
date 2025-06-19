@@ -7,6 +7,7 @@ import {faPen, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {Autocomplete} from "@mui/material";
 import {FileUploader} from "../../../component/FileUploader/FileUploader";
 import {useState} from "react";
+import {TextField} from "../../../component/TextField/TextField";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -67,41 +68,12 @@ export default function EditALApplicationModal() {
                             </div>
 
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                    <div
-                                        className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                        <div className='grow mx-3 my-3 gap-1 flex flex-col justify-start'>
-                                            <div className='flex flex-row'>
-                                                <label
-                                                    className='text-black flex justify-start'>Student</label>
-                                                <small
-                                                    className={`text-red-600 text-[16px] block`}>*</small>
-                                            </div>
-                                            <Autocomplete
-                                                options={student}
-                                                getOptionLabel={(option) => `${option.name} (${option.index})`}
-                                                value={selectedStudent}
-                                                onChange={(event, newValue) => setSelectedStudent(newValue)}
-                                                onInputChange={(event, value) => handleStudentSearch(value)}
-                                                renderInput={(params) => (
-                                                    <div ref={params.InputProps.ref}>
-                                                        <input
-                                                            {...params.inputProps}
-                                                            className="text-input"
-                                                            type="text"
-                                                            placeholder="Search student..."
-                                                            value={params.inputProps.value}
-                                                        />
-                                                    </div>
-                                                )}
-                                            />
-                                            <div className={`h-[5px]`}>
-                                                <small
-                                                    className={`text-start text-red-600 block`}></small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <TextField
+                                    name="studentName"
+                                    label={'Student name'}
+                                    important={"*"}
+                                    disabled={true}
+                                />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                 <div className='flex flex-row flex-wrap items-center justify-center w-full'>
