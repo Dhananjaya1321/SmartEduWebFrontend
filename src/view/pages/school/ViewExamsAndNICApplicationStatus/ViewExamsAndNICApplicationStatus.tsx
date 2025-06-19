@@ -9,6 +9,7 @@ import EditEventModal from "../../../models/School/EditEventModal/EditEventModal
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faTrash} from "@fortawesome/free-solid-svg-icons";
 import EditOLApplicationModal from "../../../models/School/EditOLApplicationModal/EditOLApplicationModal";
+import EditALApplicationModal from "../../../models/School/EditALApplicationModal/EditALApplicationModal";
 
 interface StudentApplication {
     id: number;
@@ -107,10 +108,6 @@ export const ViewExamsAndNICApplicationStatus = () => {
                 renderCell: () => (
                     <>
                         <EditOLApplicationModal/>
-                        <button
-                            className="rounded-xl w-[40px] h-[40px] text-blue-600 hover:bg-blue-100">
-                            <FontAwesomeIcon icon={faEye}/>
-                        </button>
                     </>
                 )
             }
@@ -149,7 +146,9 @@ export const ViewExamsAndNICApplicationStatus = () => {
             headerName: "Actions",
             width: 150,
             renderCell: () => (
-                <Button name="View" color="bg-blue-500"/>
+                <>
+                    <EditALApplicationModal/>
+                </>
             )
         }
     ];
