@@ -87,7 +87,15 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate photo"}/>
+                                            <FileUploader label={"Birth certificate front side photo"}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                    <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                        <div
+                                            className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
+                                            <FileUploader label={"Birth certificate back side photo"}/>
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +164,15 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate photo"}/>
+                                            <FileUploader label={"Birth certificate front side photo"}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                    <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                        <div
+                                            className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
+                                            <FileUploader label={"Birth certificate back side photo"}/>
                                         </div>
                                     </div>
                                 </div>
@@ -225,7 +241,15 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate photo"}/>
+                                            <FileUploader label={"Birth certificate front side photo"}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                    <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                        <div
+                                            className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
+                                            <FileUploader label={"Birth certificate back side photo"}/>
                                         </div>
                                     </div>
                                 </div>
@@ -278,7 +302,15 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate photo"}/>
+                                            <FileUploader label={"Birth certificate front side photo"}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                    <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                        <div
+                                            className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
+                                            <FileUploader label={"Birth certificate back side photo"}/>
                                         </div>
                                     </div>
                                 </div>

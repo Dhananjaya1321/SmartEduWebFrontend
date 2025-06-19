@@ -1,13 +1,13 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import {TextArea} from "../../../component/TextArea/TextArea";
 import {Button} from "../../../component/Button/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPen, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {Autocomplete} from "@mui/material";
-import {FileUploader} from "../../../component/FileUploader/FileUploader";
-import {useState} from "react";
+import {faEye, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {TextField} from "../../../component/TextField/TextField";
+import {DropdownField} from "../../../component/DropdownField/DropdownField";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -23,32 +23,18 @@ const style = {
     p: 4,
     overflowY: 'auto' // Enable scrolling if content overflows
 };
-interface Student {
-    id: number;
-    name: string;
-    index: string;
-}
 
-
-export default function EditNICApplicationModal() {
+export default function ViewG5ApplicationModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-
-    const [selectedApplication, setSelectedApplication] = useState('');
-    const [student, setStudent] = useState<Student[]>([]);
-    const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
-    const handleStudentSearch = async (inputValue: string) => {
-
-    };
-
     return (
         <div>
             <button
-                className="rounded-xl w-[40px] h-[40px] text-green-600 hover:bg-green-100"
+                className="rounded-xl w-[40px] h-[40px] text-blue-600 hover:bg-blue-100"
                 onClick={handleOpen}>
-                <FontAwesomeIcon icon={faPen}/>
+                <FontAwesomeIcon icon={faEye}/>
             </button>
             <Modal open={open} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                 <Box sx={style}>
@@ -59,43 +45,49 @@ export default function EditNICApplicationModal() {
                     >
                         <FontAwesomeIcon icon={faTimes} size="lg"/>
                     </button>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        View Zonal Education Office
+                    </Typography>
                     <section
                         className='bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md'>
                         <section
                             className='w-full flex flex-row flex-wrap items-center justify-center'>
                             <div className="w-full items-start flex my-2">
-                                <h3 className="font-medium">Edit NIC Application</h3>
-                            </div>
-
-                            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                <TextField
-                                    name="studentName"
-                                    label={'Student name'}
-                                    important={"*"}
-                                    disabled={true}
-                                />
+                                <h3 className="font-medium">View NIC Application</h3>
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                 <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                    <div
-                                        className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                        <FileUploader label={"Birth certificate front side photo"}/>
-                                    </div>
+                                    <TextField
+                                        name="studentName"
+                                        label={'Student name'}
+                                        important={"*"}
+                                        disabled={true}
+                                    />
                                 </div>
-                            </div>
-                            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                 <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                    <div
-                                        className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                        <FileUploader label={"Birth certificate back side photo"}/>
+                                    <div className='grow mx-3 mt-3 gap-1 flex flex-col justify-start'>
+                                        <div className='flex flex-row'>
+                                            <label className='text-black flex justify-start'>Birth certificate front
+                                                side</label>
+                                        </div>
                                     </div>
+                                    <div className="w-full h-[1000px] bg-blue-950 rounded-md mx-3 my-3"></div>
+                                </div>
+                                <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                    <div className='grow mx-3 mt-3 gap-1 flex flex-col justify-start'>
+                                        <div className='flex flex-row'>
+                                            <label className='text-black flex justify-start'>Birth certificate back side</label>
+                                        </div>
+                                    </div>
+                                    <div className="w-full h-[1000px] bg-blue-950 rounded-md mx-3 my-3"></div>
                                 </div>
                             </div>
                         </section>
                         <div className='flex flex-row flex-wrap items-center justify-end w-full'>
                             <Button
-                                name={'Update'}
-                                color={'bg-green-600'}
+                                name={'Done'}
+                                color={'bg-blue-600'}
+                                onClick={handleClose}
                             />
                         </div>
                     </section>

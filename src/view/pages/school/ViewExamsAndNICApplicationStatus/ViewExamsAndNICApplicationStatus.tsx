@@ -12,6 +12,10 @@ import EditOLApplicationModal from "../../../models/School/EditOLApplicationModa
 import EditALApplicationModal from "../../../models/School/EditALApplicationModal/EditALApplicationModal";
 import EditGrade5ApplicationModal from "../../../models/School/EditGrade5ApplicationModal/EditGrade5ApplicationModal";
 import EditNICApplicationModal from "../../../models/School/EditNICApplicationModal/EditNICApplicationModal";
+import ViewALApplicationModal from "../../../models/School/ViewALApplicationModal/ViewALApplicationModal";
+import ViewG5ApplicationModal from "../../../models/School/ViewG5ApplicationModal/ViewG5ApplicationModal";
+import ViewNICApplicationModal from "../../../models/School/ViewNICApplicationModal/ViewNICApplicationModal";
+import ViewOLApplicationModal from "../../../models/School/ViewOLApplicationModal/ViewOLApplicationModal";
 
 interface StudentApplication {
     id: number;
@@ -110,6 +114,7 @@ export const ViewExamsAndNICApplicationStatus = () => {
                 renderCell: () => (
                     <>
                         <EditOLApplicationModal/>
+                        <ViewOLApplicationModal/>
                     </>
                 )
             }
@@ -150,6 +155,7 @@ export const ViewExamsAndNICApplicationStatus = () => {
             renderCell: () => (
                 <>
                     <EditALApplicationModal/>
+                    <ViewALApplicationModal/>
                 </>
             )
         }
@@ -177,6 +183,7 @@ export const ViewExamsAndNICApplicationStatus = () => {
             renderCell: () => (
                 <>
                     <EditGrade5ApplicationModal/>
+                    <ViewG5ApplicationModal/>
                 </>
             )
         }
@@ -204,6 +211,7 @@ export const ViewExamsAndNICApplicationStatus = () => {
             renderCell: () => (
                 <>
                     <EditNICApplicationModal/>
+                    <ViewNICApplicationModal/>
                 </>
             )
         }
