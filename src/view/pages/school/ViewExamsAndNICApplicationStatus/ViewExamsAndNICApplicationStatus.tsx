@@ -10,6 +10,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faTrash} from "@fortawesome/free-solid-svg-icons";
 import EditOLApplicationModal from "../../../models/School/EditOLApplicationModal/EditOLApplicationModal";
 import EditALApplicationModal from "../../../models/School/EditALApplicationModal/EditALApplicationModal";
+import EditGrade5ApplicationModal from "../../../models/School/EditGrade5ApplicationModal/EditGrade5ApplicationModal";
+import EditNICApplicationModal from "../../../models/School/EditNICApplicationModal/EditNICApplicationModal";
 
 interface StudentApplication {
     id: number;
@@ -173,7 +175,9 @@ export const ViewExamsAndNICApplicationStatus = () => {
             headerName: "Actions",
             width: 150,
             renderCell: () => (
-                <Button name="View" color="bg-blue-500"/>
+                <>
+                    <EditGrade5ApplicationModal/>
+                </>
             )
         }
     ];
@@ -198,7 +202,9 @@ export const ViewExamsAndNICApplicationStatus = () => {
             headerName: "Actions",
             width: 150,
             renderCell: () => (
-                <Button name="View" color="bg-blue-500"/>
+                <>
+                    <EditNICApplicationModal/>
+                </>
             )
         }
     ];
