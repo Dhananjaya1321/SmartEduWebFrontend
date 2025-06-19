@@ -1,12 +1,9 @@
 import React, {useState} from "react";
-import {TextField} from "../../../component/TextField/TextField";
-import {TextArea} from "../../../component/TextArea/TextArea";
 import {Button} from "../../../component/Button/Button";
 import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
-import {Autocomplete, Paper} from "@mui/material";
-import {DataGrid} from "@mui/x-data-grid";
+import {Autocomplete} from "@mui/material";
 import {DropdownField} from "../../../component/DropdownField/DropdownField";
-import {eventGradeOptions, examsAndNICApplicationOptions} from "../../../context/Arrays";
+import {examsAndNICApplicationOptions} from "../../../context/Arrays";
 import {FileUploader} from "../../../component/FileUploader/FileUploader";
 
 interface Student {
@@ -88,8 +85,25 @@ export const ExamsAndNICApplication = () => {
                                 </div>
                                 <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                        <div className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
+                                        <div
+                                            className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
                                             <FileUploader label={"Birth certificate photo"}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                    <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                        <div
+                                            className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
+                                            <FileUploader label={"NIC front side photo"}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                    <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                                        <div
+                                            className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
+                                            <FileUploader label={"NIC back side photo"}/>
                                         </div>
                                     </div>
                                 </div>
