@@ -5,10 +5,11 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import {ClassTimeTable} from "../../../component/ClassTimeTable/ClassTimeTable";
+import TimeTableModal from "../../../models/School/TimeTableModal/TimeTableModal";
 
 interface ClassGroup {
     grade: string;
-    classRange: string;
+    classRange: string[];
     classCount: number;
     classes: {
         className: string;
@@ -24,8 +25,8 @@ interface ClassGroup {
 
 const classData: ClassGroup[] = [
     {
-        grade: "10",
-        classRange: "A - D",
+        grade: "Grade 10",
+        classRange: ["A"],
         classCount: 1,
         classes: [
             {
@@ -122,8 +123,8 @@ const classData: ClassGroup[] = [
         ],
     },
     {
-        grade: "11",
-        classRange: "A - C",
+        grade: "Grade 11",
+        classRange: ["A","B"],
         classCount: 2,
         classes: [
             {
@@ -332,7 +333,7 @@ export const TimeTable = () => {
                             className="mt-2 flex flex-row justify-between w-full px-6 py-3 bg-[#F0F4F9] text-black hover:bg-blue-950 hover:text-white font-medium border-b rounded-md"
                         >
                             <h3>{item.grade}</h3>
-                            <h3>{item.classRange}</h3>
+                            <h3>{item.classRange[0]} - {item.classRange[item.classRange.length - 1]}</h3>
                             <h3>{item.classCount}</h3>
                         </button>
                     ))}
@@ -342,8 +343,8 @@ export const TimeTable = () => {
                 {selectedGrade && (
                     <section className="w-[900px] bg-white flex flex-col mt-5 p-5 rounded-xl shadow-md">
                         <section className="text-[#005285] flex flex-row justify-between w-full mb-4">
-                            <h3>Grade {selectedGrade.grade} Classes</h3>
-                            <Button name={"Create Time Table"} color={"bg-green-600"} />
+                            <h3>{selectedGrade.grade} Classes</h3>
+                            <TimeTableModal classOptions={selectedGrade.classRange} grade={selectedGrade.grade} />
                         </section>
 
                         <section className="flex flex-col w-full gap-3">
