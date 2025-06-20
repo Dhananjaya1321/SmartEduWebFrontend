@@ -41,6 +41,7 @@ import {
     ViewExamsAndNICApplicationStatus
 } from "./view/pages/school/ViewExamsAndNICApplicationStatus/ViewExamsAndNICApplicationStatus";
 import {Letters} from "./view/pages/school/Letters/Letters";
+import {TimeTable} from "./view/pages/school/TimeTable/TimeTable";
 
 
 function AppContent() {
@@ -60,6 +61,7 @@ function AppContent() {
                     <Route index path="manage-users" element={<SchoolUser/>}/>
                     <Route path="manage-teachers" element={<SchoolTeacher/>}/>
                 </Route>
+                <Route path="manage-time-table" element={<TimeTable/>}/>
                 <Route path="manage-exam" element={<ManageExams/>}/>
                 <Route path="manage-events" element={<Events/>}/>
                 <Route path="manage-letter" element={<Letters/>}/>
