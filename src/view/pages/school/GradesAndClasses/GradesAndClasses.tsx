@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import TimeTableModal from "../../../models/School/TimeTableModal/TimeTableModal";
 import {Paper, Tooltip} from "@mui/material";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
@@ -6,6 +6,7 @@ import EditUserModal from "../../../models/Common/EditUserModal/EditUserModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {Button} from "../../../component/Button/Button";
+import CreateClassModal from "../../../models/School/CreateClassModal/CreateClassModal";
 
 // Simulated Backend Data
 interface Student {
@@ -38,9 +39,9 @@ const classData: ClassGroup[] = [
                 classTeacher: "Ms. Kamani",
                 subject: "Sinhala",
                 students: [
-                    { id: "S1", name: "Nimal Perera" },
-                    { id: "S2", name: "Kamal Fernando" },
-                    { id: "S3", name: "Sunethra Silva" }
+                    {id: "S1", name: "Nimal Perera"},
+                    {id: "S2", name: "Kamal Fernando"},
+                    {id: "S3", name: "Sunethra Silva"}
                 ]
             }
         ]
@@ -55,8 +56,8 @@ const classData: ClassGroup[] = [
                 classTeacher: "Mr. Silva",
                 subject: "Math",
                 students: [
-                    { id: "S4", name: "Ruwan Jayasuriya" },
-                    { id: "S5", name: "Chathurika Weerasinghe" }
+                    {id: "S4", name: "Ruwan Jayasuriya"},
+                    {id: "S5", name: "Chathurika Weerasinghe"}
                 ]
             },
             {
@@ -64,9 +65,9 @@ const classData: ClassGroup[] = [
                 classTeacher: "Mrs. Dilani",
                 subject: "Geography",
                 students: [
-                    { id: "S6", name: "Amal Rajapaksha" },
-                    { id: "S7", name: "Dinesh Kumara" },
-                    { id: "S8", name: "Piumi Nadeesha" }
+                    {id: "S6", name: "Amal Rajapaksha"},
+                    {id: "S7", name: "Dinesh Kumara"},
+                    {id: "S8", name: "Piumi Nadeesha"}
                 ]
             }
         ]
@@ -97,7 +98,7 @@ export const GradesAndClasses = () => {
             width: 250,
             valueGetter: (params) => params.row.subject
         },
-        { field: 'className', headerName: 'Class', width: 120 },
+        {field: 'className', headerName: 'Class', width: 120},
         {
             field: 'studentsCount',
             headerName: 'Students Count',
@@ -150,7 +151,7 @@ export const GradesAndClasses = () => {
                     <section className="w-[900px] bg-white flex flex-col mt-5 p-5 rounded-xl shadow-md">
                         <section className="text-[#005285] flex flex-row justify-between w-full mb-4">
                             <h3>{selectedGrade.grade} Classes</h3>
-                            <Button name={"Create Class"} color={"bg-green-600"}/>
+                            <CreateClassModal/>
                         </section>
 
                         <section className="flex flex-col w-full gap-3">
