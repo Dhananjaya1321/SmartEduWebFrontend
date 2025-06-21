@@ -7,6 +7,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {Button} from "../../../component/Button/Button";
 import CreateClassModal from "../../../models/School/CreateClassModal/CreateClassModal";
+import ViewClassModal from "../../../models/School/ViewClassModal/ViewClassModal";
+import EditClassModal from "../../../models/School/EditClassModal/EditClassModal";
 
 // Simulated Backend Data
 interface Student {
@@ -108,10 +110,11 @@ export const GradesAndClasses = () => {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 100,
+            width: 150,
             renderCell: (params) => (
                 <>
-                    <EditUserModal/>
+                    <ViewClassModal classData={params.row} />
+                    <EditClassModal/>
                     <button
                         className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
                         <FontAwesomeIcon icon={faTrash}/>
