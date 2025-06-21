@@ -9,6 +9,7 @@ import {Button} from "../../../component/Button/Button";
 import CreateClassModal from "../../../models/School/CreateClassModal/CreateClassModal";
 import ViewClassModal from "../../../models/School/ViewClassModal/ViewClassModal";
 import EditClassModal from "../../../models/School/EditClassModal/EditClassModal";
+import GradeCreationModal from "../../../models/School/GradeCreationModal/GradeCreationModal";
 
 // Simulated Backend Data
 interface Student {
@@ -126,71 +127,76 @@ export const GradesAndClasses = () => {
 
     const [selectedGrade, setSelectedGrade] = useState<ClassGroup | null>(null);
 
+    const schoolHasNoClasses = classData.every(group => group.classes.length === 0);
+
     return (
-        <section className="h-max flex w-[95%] flex-col justify-center">
-            <section className="flex flex-row gap-5">
-                {/* Sidebar */}
-                <section className="bg-white flex flex-col items-center mt-5 p-5 rounded-xl shadow-md w-[250px]">
-                    <div className="flex w-full flex-row justify-between font-semibold mb-2">
-                        <h3>Grade</h3>
-                        <h3>Class</h3>
-                        <h3>Count</h3>
-                    </div>
-                    {classData.map((item, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setSelectedGrade(item)}
-                            className="mt-2 flex flex-row justify-between w-full px-6 py-3 bg-[#F0F4F9] text-black hover:bg-blue-950 hover:text-white font-medium border-b rounded-md"
-                        >
-                            <h3>{item.grade}</h3>
-                            <h3>{item.classRange[0]} - {item.classRange[item.classRange.length - 1]}</h3>
-                            <h3>{item.classCount}</h3>
-                        </button>
-                    ))}
-                </section>
-
-                {/* Timetable Panel */}
-                {selectedGrade && (
-                    <section className="w-[900px] bg-white flex flex-col mt-5 p-5 rounded-xl shadow-md">
-                        <section className="text-[#005285] flex flex-row justify-between w-full mb-4">
-                            <h3>{selectedGrade.grade} Classes</h3>
-                            <CreateClassModal/>
-                        </section>
-
-                        <section className="flex flex-col w-full gap-3">
-                            <Paper sx={{height: 400, width: '100%'}}>
-                                <DataGrid
-                                    rows={selectedGrade.classes}
-                                    columns={columns}
-                                    getRowId={(row) => row.className}
-                                    pagination
-                                    pageSizeOptions={[5, 10]}
-                                    // checkboxSelection
-                                    sx={{
-                                        border: 0,
-                                        '& .MuiDataGrid-row:hover': {
-                                            backgroundColor: 'inherit' // Removes hover effect
-                                        },
-                                        '& .MuiDataGrid-cell:focus-within': {
-                                            outline: 'none', // Removes focus outline on edit mode
-                                        }
-                                    }}
-                                    disableRowSelectionOnClick
-                                    disableColumnMenu
-                                    /*paginationModel={paginationModel}
-                                    rowCount={totalElements} // Total number of rows
-                                    paginationMode="server" // Use server-side pagination
-                                    onPaginationModelChange={(newPagination) => {
-                                        setPaginationModel(newPagination);
-                                        fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
-                                        });
-                                    }}*/
-                                />
-                            </Paper>
-                        </section>
+        <>
+            {schoolHasNoClasses && <GradeCreationModal openByDefault />}
+            <section className="h-max flex w-[95%] flex-col justify-center">
+                <section className="flex flex-row gap-5">
+                    {/* Sidebar */}
+                    <section className="bg-white flex flex-col items-center mt-5 p-5 rounded-xl shadow-md w-[250px]">
+                        <div className="flex w-full flex-row justify-between font-semibold mb-2">
+                            <h3>Grade</h3>
+                            <h3>Class</h3>
+                            <h3>Count</h3>
+                        </div>
+                        {classData.map((item, index) => (
+                            <button
+                                key={index}
+                                onClick={() => setSelectedGrade(item)}
+                                className="mt-2 flex flex-row justify-between w-full px-6 py-3 bg-[#F0F4F9] text-black hover:bg-blue-950 hover:text-white font-medium border-b rounded-md"
+                            >
+                                <h3>{item.grade}</h3>
+                                <h3>{item.classRange[0]} - {item.classRange[item.classRange.length - 1]}</h3>
+                                <h3>{item.classCount}</h3>
+                            </button>
+                        ))}
                     </section>
-                )}
+
+                    {/* Timetable Panel */}
+                    {selectedGrade && (
+                        <section className="w-[900px] bg-white flex flex-col mt-5 p-5 rounded-xl shadow-md">
+                            <section className="text-[#005285] flex flex-row justify-between w-full mb-4">
+                                <h3>{selectedGrade.grade} Classes</h3>
+                                <CreateClassModal/>
+                            </section>
+
+                            <section className="flex flex-col w-full gap-3">
+                                <Paper sx={{height: 400, width: '100%'}}>
+                                    <DataGrid
+                                        rows={selectedGrade.classes}
+                                        columns={columns}
+                                        getRowId={(row) => row.className}
+                                        pagination
+                                        pageSizeOptions={[5, 10]}
+                                        // checkboxSelection
+                                        sx={{
+                                            border: 0,
+                                            '& .MuiDataGrid-row:hover': {
+                                                backgroundColor: 'inherit' // Removes hover effect
+                                            },
+                                            '& .MuiDataGrid-cell:focus-within': {
+                                                outline: 'none', // Removes focus outline on edit mode
+                                            }
+                                        }}
+                                        disableRowSelectionOnClick
+                                        disableColumnMenu
+                                        /*paginationModel={paginationModel}
+                                        rowCount={totalElements} // Total number of rows
+                                        paginationMode="server" // Use server-side pagination
+                                        onPaginationModelChange={(newPagination) => {
+                                            setPaginationModel(newPagination);
+                                            fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
+                                            });
+                                        }}*/
+                                    />
+                                </Paper>
+                            </section>
+                        </section>
+                    )}
+                </section>
             </section>
-        </section>
+        </>
     );
 };
