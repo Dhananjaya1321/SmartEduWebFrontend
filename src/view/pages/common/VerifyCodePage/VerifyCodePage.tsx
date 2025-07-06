@@ -6,58 +6,58 @@ import userAPIController from "../../../../controller/UserAPIController";
 
 
 export const VerifyCodePage = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
+        const location = useLocation();
+        const navigate = useNavigate();
 
-    // Get emailOrUsername and OTP passed from previous page (Forgot Password)
-    const { email: email, otp: initialOtp } = location.state || {};
+        // Get email and OTP passed from previous page (Forgot Password)
+        const {email: email, otp: initialOtp} = location.state || {};
 
-    const [enteredCode, setEnteredCode] = useState('');
-    const [otp, setOtp] = useState(initialOtp);
-    const [errors, setErrors] = useState('');
+        const [enteredCode, setEnteredCode] = useState('');
+        const [otp, setOtp] = useState(initialOtp);
+        const [errors, setErrors] = useState('');
 
-    // Input change handler
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEnteredCode(e.target.value);
-        setErrors(''); // Clear errors on typing
-    };
+        // Input change handler
+        const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            setEnteredCode(e.target.value);
+            setErrors(''); // Clear errors on typing
+        };
 
-    // Resend OTP handler
-    const handleResendOTP = async () => {
-        if (!email) {
-            alert('Email missing. Please start again.');
-            return;
-        }
-        try {
-            const response = await userAPIController.checkEmailAndSendOTP(email);
-            if (response && !response.error) {
-                setOtp(response.otp); // Update OTP with new one
-                setErrors('');
-            } else {
-                alert(response.error || 'Failed to resend OTP. Please try again.');
+        // Resend OTP handler
+        const handleResendOTP = async () => {
+            if (!email) {
+                alert('Email missing. Please start again.');
+                return;
             }
-        } catch (error) {
-            alert('An error occurred while resending OTP.');
-        }
-    };
+            try {
+                const response = await userAPIController.checkEmailAndSendOTP(email);
+                if (response && !response.error) {
+                    setOtp(response.otp); // Update OTP with new one
+                    setErrors('');
+                } else {
+                    alert(response.error || 'Failed to resend OTP. Please try again.');
+                }
+            } catch (error) {
+                alert('An error occurred while resending OTP.');
+            }
+        };
 
-    // Verify code handler
-    const handleVerifyCode = () => {
-        if (enteredCode.trim() === '') {
-            alert('Please enter the verification code.');
-            return;
-        }
+        // Verify code handler
+        const handleVerifyCode = () => {
+            if (enteredCode.trim() === '') {
+                alert('Please enter the verification code.');
+                return;
+            }
 
-        if (enteredCode !== otp) {
-            alert('Invalid verification code.');
-            return;
-        }
+            if (enteredCode !== otp) {
+                alert('Invalid verification code.');
+                return;
+            }
 
-        // Success: navigate to change-password page with emailOrUsername
-        navigate('/change-password', { state: { email: email } });
-    };
+            // Success: navigate to change-password page with emailOrUsername
+            navigate('/change-password', {state: {email: email}});
+        };
 
-    return (
+        return (
             <section className='relative justify-center items-center flex flex-row w-full sm:h-[600px]'>
                 <LoginAside btnStatus={"Login"}/>
                 <article className='verifyCodeArticle flex flex-col justify-center w-[80%] sm:w-[40%] h-[600px] bg-white px-8
