@@ -48,8 +48,33 @@ const userAPIController = {
         } catch (err: any) {
             return false;
         }
-    }
-
+    },
+    saveUser: async (user: any) => {
+        try {
+            const response = await apiClient.post(
+                `/user`,
+                user
+            );
+            if (response.status === 200) {
+                return response.data;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            return null;
+        }
+    },
+    getAllUsers: async () => {
+        try {
+            const response = await apiClient.get(`/user`);
+            if (response.status === 200 && response.data.state === "OK") {
+                return response.data.data; // should contain .content & .page.totalElements
+            }
+            return null;
+        } catch (error) {
+            return null;
+        }
+    },
 };
 
 export default userAPIController;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {TextField} from "../../../component/TextField/TextField";
 import {TextArea} from "../../../component/TextArea/TextArea";
 import {Button} from "../../../component/Button/Button";
@@ -9,20 +9,19 @@ import {Paper, Tooltip} from "@mui/material";
 import EditUserModal from "../../../models/Common/EditUserModal/EditUserModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import userAPIController from "../../../../controller/UserAPIController";
 
 export const ZMoEUser = () => {
     const columns: GridColDef[] = [
         {
             field: 'name', headerName: 'Name', width: 200, renderCell: (params) => (
                 <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
+                    <div style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'start'
+                    }}>
                         {params.value}
                     </div>
                 </Tooltip>
@@ -114,6 +113,46 @@ export const ZMoEUser = () => {
         },
     ];
 
+    const [users, setUsers] = useState<any[]>([]);
+    const [formData, setFormData] = useState({
+        name: '', contact: '', nic: '', username: '', email: '', address: ''
+    });
+
+    const fetchUsers = async () => {
+        const response = await userAPIController.getAllUsers();
+        if (response && Array.isArray(response)) setUsers(response);
+    };
+
+    const handleChange = (e: any) => {
+        const {name, value} = e.target;
+        setFormData({...formData, [name]: value});
+    };
+
+    const handleSave = async () => {
+        const payload = {
+            name: formData.name,
+            email: formData.email,
+            username: formData.username,
+            nic: formData.nic,
+            contact: formData.contact,
+            address: formData.address,
+            role: "ZMOE_EMPLOYEE"
+        };
+        const success = await userAPIController.saveUser(payload);
+        if (success) {
+            fetchUsers();
+            setFormData({name: '', contact: '', nic: '', username: '', email: '', address: ''});
+            alert("User saved successfully");
+        } else {
+            alert("Failed to save user");
+        }
+    };
+
+    useEffect(() => {
+        fetchUsers();
+        console.log(users)
+
+    }, []);
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
@@ -128,18 +167,24 @@ export const ZMoEUser = () => {
                         placeholder={'ex- Nimal'}
                         label={'Name'}
                         important={"*"}
+                        value={formData.name}
+                        onChange={handleChange}
                     />
                     <TextField
                         name="contact"
                         placeholder={'ex- 070 000 0000'}
                         label={'Contact'}
                         important={"*"}
+                        value={formData.contact}
+                        onChange={handleChange}
                     />
                     <TextField
                         name="nic"
                         placeholder={'ex- 000000000000 or 000000000v'}
                         label={'NIC'}
                         important={"*"}
+                        value={formData.nic}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className='flex flex-row flex-wrap items-center justify-center w-full'>
@@ -148,14 +193,16 @@ export const ZMoEUser = () => {
                         placeholder={'ex- Isuru123'}
                         label={'Username'}
                         important={"*"}
-
+                        value={formData.username}
+                        onChange={handleChange}
                     />
                     <TextField
                         name="email"
                         placeholder={'ex- example@gmail.com'}
                         label={'Email'}
                         important={"*"}
-
+                        value={formData.email}
+                        onChange={handleChange}
                     />
                     <div className='grow w-[220px] mx-3 my-3 gap-1 flex flex-col justify-start'>
                         <div className='flex flex-row'>
@@ -181,13 +228,15 @@ export const ZMoEUser = () => {
                         name="address"
                         placeholder={'ex- ABC Road, Galle'}
                         label={'Address'}
-
+                        value={formData.address}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className='flex flex-row flex-wrap items-center justify-end w-full'>
                     <Button
                         name={'Save'}
                         color={'bg-[#2FEB00]'}
+                        onClick={handleSave}
                     />
                 </div>
             </section>
@@ -209,10 +258,10 @@ export const ZMoEUser = () => {
                 {/*searching and add new button*/}
                 <Paper sx={{height: 400, width: '100%'}}>
                     <DataGrid
-                        rows={[]}
+                        rows={users}
                         columns={columns}
-                        pagination
                         pageSizeOptions={[5, 10]}
+                        // pagination
                         // checkboxSelection
                         sx={{
                             border: 0,
