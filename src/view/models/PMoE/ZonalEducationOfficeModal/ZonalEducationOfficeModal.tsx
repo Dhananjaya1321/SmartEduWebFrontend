@@ -9,6 +9,8 @@ import {faPen, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {TextField} from "../../../component/TextField/TextField";
 import {DropdownField} from "../../../component/DropdownField/DropdownField";
 import {useEffect, useState} from "react";
+import zMOEAPIController from "../../../../controller/ZMOEAPIController";
+import pMOEAPIController from "../../../../controller/PMOEAPIController";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -76,21 +78,44 @@ export default function ZonalEducationOfficeModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [province, setProvince] = useState('');
     const [districts, setDistricts] = useState<string[]>([]);
     const [selectedDistrict, setSelectedDistrict] = useState('');
     const [zonals, setZonals] = useState<string[]>([]);
     const [selectedZonal, setSelectedZonal] = useState('');
+    const [formData, setFormData] = useState({
+        zonalAddress: '',
+        name: '',
+        contact: '',
+        nic: '',
+        username: '',
+        email: '',
+        adminAddress: ''
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
 
     // Load districts when province comes from DB
     useEffect(() => {
-        if ("Western") {
-            const loadedDistricts = provinceDistrictMap["Western"] || [];
-            setDistricts(loadedDistricts);
-            setSelectedDistrict('');
-            setZonals([]);
-            setSelectedZonal('');
-        }
-    }, ["Western"]);
+        const fetchProvince = async () => {
+            const pmoeData = await pMOEAPIController.getLoggedInPMOE();
+            console.log(pmoeData)
+            if (pmoeData) {
+                setProvince(pmoeData);
+                const loadedDistricts = provinceDistrictMap[pmoeData];
+                setDistricts(loadedDistricts);
+                setSelectedDistrict('');
+                setZonals([]);
+                setSelectedZonal('');
+            }
+        };
+
+        fetchProvince();
+    }, []);
+
 
     // Load zonals when a district is selected
     const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -98,6 +123,51 @@ export default function ZonalEducationOfficeModal() {
         setSelectedDistrict(district);
         setZonals(districtZoneMap[district] || []);
         setSelectedZonal('');
+    };
+
+    const handleSave = async () => {
+        if (!selectedDistrict || !selectedZonal || !formData.name || !formData.contact || !formData.nic || !formData.username || !formData.email) {
+            alert("All required fields must be filled.");
+            return;
+        }
+
+        const payload = {
+            province: province,
+            district: selectedDistrict,
+            zonal: selectedZonal,
+            officeAddress: formData.zonalAddress,
+            fullName: formData.name,
+            name: formData.name,
+            contact: formData.contact,
+            nic: formData.nic,
+            username: formData.username,
+            email: formData.email,
+            address: formData.adminAddress
+        };
+
+        try {
+            const response = await zMOEAPIController.saveZMOEOfficeWithAdmin(payload);
+            if (response) {
+                alert("Zonal Education Office created successfully!");
+                handleClose();
+                setFormData({
+                    zonalAddress: '',
+                    name: '',
+                    contact: '',
+                    nic: '',
+                    username: '',
+                    email: '',
+                    adminAddress: ''
+                });
+                setSelectedDistrict('');
+                setSelectedZonal('');
+            } else {
+                alert("Failed to create ZMOE.");
+            }
+        } catch (error) {
+            console.error("Error saving ZMOE:", error);
+            alert("An error occurred.");
+        }
     };
     return (
         <div>
@@ -176,18 +246,24 @@ export default function ZonalEducationOfficeModal() {
                                     placeholder={'ex- Nimal'}
                                     label={'Name'}
                                     important={"*"}
+                                    value={formData.name}
+                                    onChange={handleChange}
                                 />
                                 <TextField
                                     name="contact"
                                     placeholder={'ex- 070 000 0000'}
                                     label={'Contact'}
                                     important={"*"}
+                                    value={formData.contact}
+                                    onChange={handleChange}
                                 />
                                 <TextField
                                     name="nic"
                                     placeholder={'ex- 000000000000 or 000000000v'}
                                     label={'NIC'}
                                     important={"*"}
+                                    value={formData.nic}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
@@ -196,14 +272,16 @@ export default function ZonalEducationOfficeModal() {
                                     placeholder={'ex- Isuru123'}
                                     label={'Username'}
                                     important={"*"}
-
+                                    value={formData.username}
+                                    onChange={handleChange}
                                 />
                                 <TextField
                                     name="email"
                                     placeholder={'ex- example@gmail.com'}
                                     label={'Email'}
                                     important={"*"}
-
+                                    value={formData.email}
+                                    onChange={handleChange}
                                 />
                                 <div className='grow w-[220px] mx-3 my-3 gap-1 flex flex-col justify-start'>
                                     <div className='flex flex-row'>
@@ -229,7 +307,8 @@ export default function ZonalEducationOfficeModal() {
                                     name="adminAddress"
                                     placeholder={'ex- ABC Road, Galle'}
                                     label={'Address'}
-
+                                    value={formData.adminAddress}
+                                    onChange={handleChange}
                                 />
                             </div>
                         </section>
@@ -237,6 +316,7 @@ export default function ZonalEducationOfficeModal() {
                             <Button
                                 name={'Create'}
                                 color={'bg-green-600'}
+                                onClick={handleSave}
                             />
                         </div>
                     </section>

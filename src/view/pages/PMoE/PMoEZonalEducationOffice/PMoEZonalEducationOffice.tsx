@@ -11,36 +11,81 @@ import ViewZonalEducationOfficeModal
     from "../../../models/PMoE/ViewZonalEducationOfficeModal/ViewZonalEducationOfficeModal";
 import EditZonalEducationOfficeModal
     from "../../../models/PMoE/EditZonalEducationOfficeModal/EditZonalEducationOfficeModal";
+import {useEffect, useState} from "react";
+import pMOEAPIController from "../../../../controller/PMOEAPIController";
+import zMOEAPIController from "../../../../controller/ZMOEAPIController";
+import ChangeAdminProvincialEducationOfficeModal
+    from "../../../models/MoE/ChangeAdminProvincialEducationOfficeModal/ChangeAdminProvincialEducationOfficeModal";
+import EditProvincialEducationOfficeModal
+    from "../../../models/MoE/EditProvincialEducationOfficeModal/EditProvincialEducationOfficeModal";
+import ViewProvincialEducationOfficeModal
+    from "../../../models/MoE/ViewProvincialEducationOfficeModal/ViewProvincialEducationOfficeModal";
 
 export const PMoEZonalEducationOffice = () => {
     const columns: GridColDef[] = [
         {
-            field: 'ZMoE', headerName: 'pMoE', width: 200, renderCell: (params) => (
+            field: 'province',
+            headerName: 'Province',
+            width: 200,
+            renderCell: (params) => (
                 <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
+                    <div style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'start',
+                    }}>
                         {params.value}
                     </div>
                 </Tooltip>
             ),
         },
         {
-            field: 'admin', headerName: 'Admin', width: 200, renderCell: (params) => (
+            field: 'district',
+            headerName: 'District',
+            width: 200,
+            renderCell: (params) => (
                 <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
+                    <div style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'start',
+                    }}>
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
+        },
+        {
+            field: 'zonal',
+            headerName: 'Zonal',
+            width: 200,
+            renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'start',
+                    }}>
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
+        },
+        {
+            field: 'name',
+            headerName: 'Admin',
+            width: 200,
+            renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'start',
+                    }}>
                         {params.value}
                     </div>
                 </Tooltip>
@@ -50,46 +95,47 @@ export const PMoEZonalEducationOffice = () => {
             field: 'email',
             headerName: 'Email',
             width: 200,
-            renderCell: (params) => {
-                const email = params.row.user?.email || 'N/A'; // Use optional chaining to safely access email
-                return (
-                    <Tooltip title={email}>
-                        <div
-                            style={{
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                textAlign: 'start',
-                            }}
-                        >
-                            {email}
-                        </div>
-                    </Tooltip>
-                );
-            },
+            renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'start',
+                    }}>
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
         },
         {
             field: 'changeAdmin',
             headerName: 'Change admin',
             width: 400,
-            renderCell: (params) => (
-                <>
-                    <ChangeAdminZonalEducationOfficeModal/>
-                </>
-            ),
+            renderCell: () => <ChangeAdminZonalEducationOfficeModal />
         },
         {
             field: 'actions',
             headerName: 'Actions',
             width: 400,
-            renderCell: (params) => (
+            renderCell: () => (
                 <>
-                    <EditZonalEducationOfficeModal/>
-                    <ViewZonalEducationOfficeModal/>
+                    <EditZonalEducationOfficeModal />
+                    <ViewZonalEducationOfficeModal />
                 </>
             ),
-        },
+        }
     ];
+    // Inside the component
+    const [zmoeAdmins, setZmoeAdmins] = useState([]);
+
+    useEffect(() => {
+        const fetchPMOEs = async () => {
+            const data = await zMOEAPIController.getAllZMOEAdmins();
+            setZmoeAdmins(data.content);
+        };
+        fetchPMOEs();
+    }, []);
 
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
@@ -117,11 +163,10 @@ export const PMoEZonalEducationOffice = () => {
                 {/*searching and add new button*/}
                 <Paper sx={{height: 400, width: '100%'}}>
                     <DataGrid
-                        rows={[]}
+                        rows={zmoeAdmins}
                         columns={columns}
                         pagination
                         pageSizeOptions={[5, 10]}
-                        // checkboxSelection
                         sx={{
                             border: 0,
                             '& .MuiDataGrid-row:hover': {
