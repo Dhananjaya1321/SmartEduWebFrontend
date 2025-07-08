@@ -14,15 +14,13 @@ import userAPIController from "../../../../controller/UserAPIController";
 export const ZMoEUser = () => {
     const columns: GridColDef[] = [
         {
-            field: 'name', headerName: 'Name', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div style={{
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        textAlign: 'start'
-                    }}>
-                        {params.value}
+            field: 'name',
+            headerName: 'Name',
+            width: 200,
+            renderCell: (params) => (
+                <Tooltip title={params.row.name || params.row.username || 'N/A'}>
+                    <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'start' }}>
+                        {params.row.name || params.row.username || 'N/A'}
                     </div>
                 </Tooltip>
             ),
@@ -32,17 +30,10 @@ export const ZMoEUser = () => {
             headerName: 'Email',
             width: 200,
             renderCell: (params) => {
-                const email = params.row.user?.email || 'N/A'; // Use optional chaining to safely access email
+                const email = params.row.email || 'N/A';
                 return (
                     <Tooltip title={email}>
-                        <div
-                            style={{
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                textAlign: 'start',
-                            }}
-                        >
+                        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'start' }}>
                             {email}
                         </div>
                     </Tooltip>
@@ -150,9 +141,8 @@ export const ZMoEUser = () => {
 
     useEffect(() => {
         fetchUsers();
-        console.log(users)
-
     }, []);
+
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
