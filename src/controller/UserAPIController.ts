@@ -86,7 +86,19 @@ const userAPIController = {
         } catch (error) {
             return null;
         }
-    }
+    },
+    updateUser: async (updatedUser: any) => {
+        try {
+            const response = await apiClient.put(`/user/${updatedUser.id}`, updatedUser);
+            if (response.status === 200) {
+                return response.data;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            return null;
+        }
+    },
 };
 
 export default userAPIController;

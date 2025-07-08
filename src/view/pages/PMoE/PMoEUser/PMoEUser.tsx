@@ -94,7 +94,7 @@ export const PMoEUser = () => {
             width: 100,
             renderCell: (params) => (
                 <>
-                    <EditUserModal/>
+                    <EditUserModal rowData={params.row} onUpdateUser={handleUserUpdate} />
                     <button
                         className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100"
                         onClick={() => handleDelete(params.row.id)}
@@ -140,6 +140,24 @@ export const PMoEUser = () => {
             alert("Failed to save user");
         }
     };
+
+    const handleUserUpdate = (updatedUser: {
+        id: string;
+        name: string;
+        contact: string;
+        nic: string;
+        username: string;
+        email: string;
+        address: string;
+        role?: string;
+    }) => {
+        setUsers(prevUsers =>
+            prevUsers.map(user =>
+                user.id === updatedUser.id ? updatedUser : user
+            )
+        );
+    };
+
 
     const handleDelete = async (id: string) => {
         const confirmed = window.confirm("Are you sure you want to delete this user?");

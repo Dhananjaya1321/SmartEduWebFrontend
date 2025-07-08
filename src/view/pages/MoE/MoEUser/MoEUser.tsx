@@ -94,7 +94,8 @@ export const MoEUser = () => {
             width: 100,
             renderCell: (params) => (
                 <>
-                    <EditUserModal/>
+                    {/*console.log("params.row:", params.row);*/}
+                    <EditUserModal rowData={params.row} onUpdateUser={handleUserUpdate} />
                     <button
                         className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100"
                         onClick={() => handleDelete(params.row.id)}
@@ -139,6 +140,23 @@ export const MoEUser = () => {
         } else {
             alert("Failed to save user");
         }
+    };
+
+    const handleUserUpdate = (updatedUser: {
+        id: string;
+        name: string;
+        contact: string;
+        nic: string;
+        username: string;
+        email: string;
+        address: string;
+        role?: string;
+    }) => {
+        setUsers(prevUsers =>
+            prevUsers.map(user =>
+                user.id === updatedUser.id ? updatedUser : user
+            )
+        );
     };
 
     const handleDelete = async (id: string) => {
