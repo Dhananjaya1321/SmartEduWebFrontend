@@ -39,9 +39,20 @@ const pMOEAPIController = {
             console.error("Error fetching PMOE:", error);
             return null;
         }
-    }
+    },
+    updatePMOEOffice: async (payload: { institutionID: string; officeAddress: string; address: string }) => {
+        try {
+            const response = await apiClient.put(`/pmoe/${payload.institutionID}`, {
+                officeAddress: payload.officeAddress,
+                address: payload.address
+            });
 
-
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (err: any) {
+            console.error("Error updating PMOE:", err);
+            return false;
+        }
+    },
 };
 
 export default pMOEAPIController;

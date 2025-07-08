@@ -79,7 +79,7 @@ export const MoEProvincialEducationOffice = () => {
             width: 400,
             renderCell: (params) => (
                 <>
-                    <EditProvincialEducationOfficeModal />
+                    <EditProvincialEducationOfficeModal office={params.row}/>
                     <ViewProvincialEducationOfficeModal office={params.row}/>
                 </>
             ),
