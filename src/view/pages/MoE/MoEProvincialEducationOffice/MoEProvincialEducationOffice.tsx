@@ -77,10 +77,10 @@ export const MoEProvincialEducationOffice = () => {
             field: 'actions',
             headerName: 'Actions',
             width: 400,
-            renderCell: () => (
+            renderCell: (params) => (
                 <>
                     <EditProvincialEducationOfficeModal />
-                    <ViewProvincialEducationOfficeModal />
+                    <ViewProvincialEducationOfficeModal office={params.row}/>
                 </>
             ),
         }
