@@ -27,7 +27,20 @@ const pMOEAPIController = {
             console.error("Error fetching PMOE admins:", error);
             return [];
         }
+    },
+    getLoggedInPMOE: async () => {
+        try {
+            const response = await apiClient.get('/pmoe/province'); // or another endpoint
+            if (response.status === 200 && response.data.state === 'OK') {
+                return response.data.data; // PMOE admin data
+            }
+            return null;
+        } catch (error) {
+            console.error("Error fetching PMOE:", error);
+            return null;
+        }
     }
+
 
 };
 
