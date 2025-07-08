@@ -96,7 +96,9 @@ export const ZMoEUser = () => {
                 <>
                     <EditUserModal/>
                     <button
-                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
+                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100"
+                        onClick={() => handleDelete(params.row.id)}
+                    >
                         <FontAwesomeIcon icon={faTrash}/>
                     </button>
                 </>
@@ -136,6 +138,24 @@ export const ZMoEUser = () => {
             alert("User saved successfully");
         } else {
             alert("Failed to save user");
+        }
+    };
+
+    const handleDelete = async (id: string) => {
+        const confirmed = window.confirm("Are you sure you want to delete this user?");
+        if (!confirmed) return;
+
+        try {
+            const response = await userAPIController.deleteUser(id);
+            if (response.state === "OK") {
+                setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
+                alert("User deleted successfully!");
+            } else if (response && response.state === "BAD_REQUEST") {
+                alert(response.message || "Failed to delete user.");
+            } else {
+                alert("Failed to delete user.");
+            }
+        } catch (e) {
         }
     };
 

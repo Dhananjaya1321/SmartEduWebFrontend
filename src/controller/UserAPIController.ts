@@ -75,6 +75,18 @@ const userAPIController = {
             return null;
         }
     },
+    deleteUser: async (id: string) =>  {
+        try {
+            const response = await apiClient.delete(`/user/${id}`);
+            if (response.status === 200) {
+                return response.data;
+            } else  {
+                return null;
+            }
+        } catch (error) {
+            return null;
+        }
+    }
 };
 
 export default userAPIController;
