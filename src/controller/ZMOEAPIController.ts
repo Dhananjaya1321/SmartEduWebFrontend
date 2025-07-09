@@ -27,8 +27,20 @@ const zMOEAPIController = {
             console.error("Error fetching ZMOE admins:", error);
             return [];
         }
-    }
+    },
+    updateZMOEOffice: async (payload: { institutionID: string; officeAddress: string; address: string }) => {
+        try {
+            const response = await apiClient.put(`/zmoe/${payload.institutionID}`, {
+                officeAddress: payload.officeAddress,
+                address: payload.address
+            });
 
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (err: any) {
+            console.error("Error updating ZMOE:", err);
+            return false;
+        }
+    },
 };
 
 export default zMOEAPIController;

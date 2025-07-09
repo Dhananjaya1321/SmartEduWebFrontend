@@ -12,14 +12,7 @@ import ViewZonalEducationOfficeModal
 import EditZonalEducationOfficeModal
     from "../../../models/PMoE/EditZonalEducationOfficeModal/EditZonalEducationOfficeModal";
 import {useEffect, useState} from "react";
-import pMOEAPIController from "../../../../controller/PMOEAPIController";
 import zMOEAPIController from "../../../../controller/ZMOEAPIController";
-import ChangeAdminProvincialEducationOfficeModal
-    from "../../../models/MoE/ChangeAdminProvincialEducationOfficeModal/ChangeAdminProvincialEducationOfficeModal";
-import EditProvincialEducationOfficeModal
-    from "../../../models/MoE/EditProvincialEducationOfficeModal/EditProvincialEducationOfficeModal";
-import ViewProvincialEducationOfficeModal
-    from "../../../models/MoE/ViewProvincialEducationOfficeModal/ViewProvincialEducationOfficeModal";
 
 export const PMoEZonalEducationOffice = () => {
     const columns: GridColDef[] = [
@@ -118,10 +111,10 @@ export const PMoEZonalEducationOffice = () => {
             field: 'actions',
             headerName: 'Actions',
             width: 400,
-            renderCell: () => (
+            renderCell: (params) => (
                 <>
-                    <EditZonalEducationOfficeModal />
-                    <ViewZonalEducationOfficeModal />
+                    <EditZonalEducationOfficeModal office={params.row}/>
+                    <ViewZonalEducationOfficeModal office={params.row}/>
                 </>
             ),
         }
