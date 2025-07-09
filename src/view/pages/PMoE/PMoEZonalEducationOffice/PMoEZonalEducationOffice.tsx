@@ -105,7 +105,7 @@ export const PMoEZonalEducationOffice = () => {
             field: 'changeAdmin',
             headerName: 'Change admin',
             width: 400,
-            renderCell: () => <ChangeAdminZonalEducationOfficeModal />
+            renderCell: (params) => <ChangeAdminZonalEducationOfficeModal office={params.row} />
         },
         {
             field: 'actions',
