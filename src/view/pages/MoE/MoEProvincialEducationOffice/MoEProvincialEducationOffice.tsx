@@ -71,7 +71,7 @@ export const MoEProvincialEducationOffice = () => {
             field: 'changeAdmin',
             headerName: 'Change admin',
             width: 400,
-            renderCell: () => <ChangeAdminProvincialEducationOfficeModal />
+            renderCell: (params) => <ChangeAdminProvincialEducationOfficeModal office={params.row}/>
         },
         {
             field: 'actions',

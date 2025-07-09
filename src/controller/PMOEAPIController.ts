@@ -16,6 +16,21 @@ const pMOEAPIController = {
             return null;
         }
     },
+    createNewAdminForProvincialEducationOffice: async (user: any) => {
+        try {
+            const response = await apiClient.post(
+                `/pmoe/create-new-admin/${user.institutionID}`,
+                user
+            );
+            if (response.status === 200) {
+                return response.data;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            return null;
+        }
+    },
     getAllPMOEAdmins: async () => {
         try {
             const response = await apiClient.get('/pmoe/admins');
