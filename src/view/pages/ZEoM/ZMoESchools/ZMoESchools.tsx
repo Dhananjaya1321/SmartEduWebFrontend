@@ -68,7 +68,7 @@ export const ZMoESchools = () => {
             field: 'actions', headerName: 'Actions', width: 400, renderCell: (params) => (
                 <>
                     <EditSchoolModal />
-                    <ViewSchoolModal />
+                    <ViewSchoolModal school={params.row.originalSchool}/>
                     <button className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
                         <FontAwesomeIcon icon={faTrash} />
                     </button>
