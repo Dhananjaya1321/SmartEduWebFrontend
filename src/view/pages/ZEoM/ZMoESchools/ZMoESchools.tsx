@@ -9,6 +9,7 @@ import EditSchoolModal from "../../../models/ZMoE/EditSchoolModal/EditSchoolModa
 import ViewSchoolModal from "../../../models/ZMoE/ViewSchoolModal/ViewSchoolModal";
 import AcceptSchoolModal from "../../../models/ZMoE/AcceptSchoolModal/AcceptSchoolModal";
 import schoolAPIController from "../../../../controller/SchoolAPIController";
+import userAPIController from "../../../../controller/UserAPIController";
 
 export const ZMoESchools = () => {
     const [pendingSchools, setPendingSchools] = useState([]);
@@ -69,7 +70,10 @@ export const ZMoESchools = () => {
                 <>
                     <EditSchoolModal school={params.row.originalSchool}/>
                     <ViewSchoolModal school={params.row.originalSchool}/>
-                    <button className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
+                    <button
+                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100"
+                        onClick={() => handleDelete(params.row.id)}
+                    >
                         <FontAwesomeIcon icon={faTrash} />
                     </button>
                 </>
@@ -91,6 +95,21 @@ export const ZMoESchools = () => {
         }
     ];
 
+    const handleDelete = async (id: string) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this school?");
+        if (confirmDelete) {
+            const isDeleted = await schoolAPIController.deleteSchoolById(id);
+            if (isDeleted) {
+                // Refresh the list after deletion
+                const pending = await schoolAPIController.findAllPendingSchools();
+                const approved = await schoolAPIController.findAllApprovedSchools();
+                setPendingSchools(pending);
+                setApprovedSchools(approved);
+            } else {
+                alert("Failed to delete the school. Please try again.");
+            }
+        }
+    };
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
@@ -100,46 +119,60 @@ export const ZMoESchools = () => {
             <section className='bg-white flex flex-col items-center mt-5 p-5 rounded-xl shadow-md'>
                 <section className="flex flex-row justify-between items-center w-full mb-5">
                     <div className="flex flex-col">
-                        <label className='text-black'>Search</label>
-                        <input className="text-input p-[7px]" type="text" placeholder="Search" />
+                        <div className='flex flex-row'>
+                            <label className='text-black flex justify-start'>Search</label>
+                        </div>
+                        <input
+                            className={`text-input p-[7px]`}
+                            type={"text"}
+                            placeholder={"Search"}
+                            name={"Search"}
+                        ></input>
                     </div>
                 </section>
 
-                <Paper sx={{ height: 400, width: '100%', mb: 3 }}>
-                    <h4 className="text-[#005285] mb-2">Pending Registrations</h4>
-                    <DataGrid
-                        rows={mapSchoolsToRows(pendingSchools)}
-                        columns={pr_columns}
-                        pagination
-                        pageSizeOptions={[5, 10]}
-                        disableRowSelectionOnClick
-                        disableColumnMenu
-                        getRowId={(row) => row.id}
-                        sx={{
-                            border: 0,
-                            '& .MuiDataGrid-row:hover': { backgroundColor: 'inherit' },
-                            '& .MuiDataGrid-cell:focus-within': { outline: 'none' },
-                        }}
-                    />
-                </Paper>
+                {pendingSchools.length > 0 && (
+                    <Paper sx={{height: 400, width: '100%', mb: 3}}>
+                        <h4 className="text-[#005285] mb-2">Pending Registrations</h4>
+                        <DataGrid
+                            rows={mapSchoolsToRows(pendingSchools)}
+                            columns={pr_columns}
+                            pagination
+                            pageSizeOptions={[5, 10]}
+                            disableRowSelectionOnClick
+                            disableColumnMenu
+                            getRowId={(row) => row.id}
+                            sx={{
+                                border: 0,
+                                '& .MuiDataGrid-row:hover': { backgroundColor: 'inherit' },
+                                '& .MuiDataGrid-cell:focus-within': { outline: 'none' },
+                            }}
+                        />
+                    </Paper>
+                )}
 
-                <Paper sx={{ height: 400, width: '100%' }}>
-                    <h4 className="text-[#005285] mb-2">Approved Schools</h4>
-                    <DataGrid
-                        rows={mapSchoolsToRows(approvedSchools)}
-                        columns={columns}
-                        pagination
-                        pageSizeOptions={[5, 10]}
-                        disableRowSelectionOnClick
-                        disableColumnMenu
-                        getRowId={(row) => row.id}
-                        sx={{
-                            border: 0,
-                            '& .MuiDataGrid-row:hover': { backgroundColor: 'inherit' },
-                            '& .MuiDataGrid-cell:focus-within': { outline: 'none' },
-                        }}
-                    />
-                </Paper>
+                {approvedSchools.length > 0 && (
+                    <Paper sx={{ height: 400, width: '100%' }}>
+                        <h4 className="text-[#005285] mb-2">Approved Schools</h4>
+                        <DataGrid
+                            rows={mapSchoolsToRows(approvedSchools)}
+                            columns={columns}
+                            pagination
+                            pageSizeOptions={[5, 10]}
+                            disableRowSelectionOnClick
+                            disableColumnMenu
+                            getRowId={(row) => row.id}
+                            sx={{
+                                border: 0,
+                                '& .MuiDataGrid-row:hover': { backgroundColor: 'inherit' },
+                                '& .MuiDataGrid-cell:focus-within': { outline: 'none' },
+                            }}
+                        />
+                    </Paper>
+                )}
+
+
+
             </section>
 
             <FooterSpace />

@@ -36,6 +36,15 @@ const schoolAPIController = {
             return false;
         }
     },
+    deleteSchoolById: async (id: string) => {
+        try {
+            const response = await apiClient.delete(`/schools/${id}`);
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (error) {
+            return false;
+        }
+    },
+
     findAllApprovedSchools: async () => {
         try {
             const response = await apiClient.get(`/schools/approved-schools`);
