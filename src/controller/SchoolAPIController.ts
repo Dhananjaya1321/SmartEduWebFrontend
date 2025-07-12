@@ -16,6 +16,15 @@ const schoolAPIController = {
             return null;
         }
     },
+    updateSchoolDetails: async (updatedData: any) => {
+        try {
+            const response = await apiClient.put(`/schools/${updatedData.id}`, updatedData);
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (error) {
+            console.error("Error updating school", error);
+            return false;
+        }
+    },
     updateSchoolStatus: async (id: string, status: string) => {
         try {
             const response = await apiClient.put(`/schools/update-school-status/${id}`, null, {
