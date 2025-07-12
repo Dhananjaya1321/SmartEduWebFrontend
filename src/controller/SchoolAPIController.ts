@@ -16,6 +16,30 @@ const schoolAPIController = {
             return null;
         }
     },
+    findAllApprovedSchools: async () => {
+        try {
+            const response = await apiClient.get(`/schools/approved-schools`);
+
+            if (response.status === 200 && response.data.state === 'OK') {
+                return response.data.data;
+            }
+            return [];
+        } catch (error) {
+            return [];
+        }
+    },
+    findAllPendingSchools: async () => {
+        try {
+            const response = await apiClient.get(`/schools/pending-schools`);
+
+            if (response.status === 200 && response.data.state === 'OK') {
+                return response.data.data;
+            }
+            return [];
+        } catch (error) {
+            return [];
+        }
+    },
 };
 
 export default schoolAPIController;
