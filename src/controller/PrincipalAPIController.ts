@@ -13,6 +13,25 @@ const principalAPIController = {
             return [];
         }
     },
+    update: async (payload: any) => {
+        try {
+            const response = await apiClient.put(`/principals/${payload.id}`, payload);
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (error) {
+            return false;
+        }
+    },
+    getAll: async () => {
+        try {
+            const response = await apiClient.get(`/principals`);
+            if (response.status === 200 && response.data.state === "OK") {
+                return response.data.data.content;
+            }
+            return null;
+        } catch (error) {
+            return null;
+        }
+    },
 };
 
 export default principalAPIController;
