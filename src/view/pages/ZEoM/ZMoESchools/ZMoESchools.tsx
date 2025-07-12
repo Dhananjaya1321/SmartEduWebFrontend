@@ -31,6 +31,7 @@ export const ZMoESchools = () => {
             school: school.schoolName,
             address: `${school.district}, ${school.zonal}`,
             principle: school.principal.fullName || "N/A",
+            originalSchool: school
         }));
     };
 
@@ -79,10 +80,15 @@ export const ZMoESchools = () => {
     const pr_columns: GridColDef[] = [
         ...columns.slice(0, -1),
         {
-            field: 'actions', headerName: 'Actions', width: 400, renderCell: (params) => (
-                <AcceptSchoolModal />
-            ),
-        },
+            field: 'actions',
+            headerName: 'Actions',
+            width: 400,
+            renderCell: (params) => (
+                <>
+                    <AcceptSchoolModal school={params.row.originalSchool} />
+                </>
+            )
+        }
     ];
 
     return (

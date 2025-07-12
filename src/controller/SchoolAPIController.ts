@@ -16,6 +16,17 @@ const schoolAPIController = {
             return null;
         }
     },
+    updateSchoolStatus: async (id: string, status: string) => {
+        try {
+            const response = await apiClient.put(`/schools/update-school-status/${id}`, null, {
+                params: {status}
+            });
+
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (err: any) {
+            return false;
+        }
+    },
     findAllApprovedSchools: async () => {
         try {
             const response = await apiClient.get(`/schools/approved-schools`);

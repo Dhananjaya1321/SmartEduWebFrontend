@@ -8,6 +8,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {TextField} from "../../../component/TextField/TextField";
 import {DropdownField} from "../../../component/DropdownField/DropdownField";
+import principalAPIController from "../../../../controller/PrincipalAPIController";
+import schoolAPIController from "../../../../controller/SchoolAPIController";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -23,11 +25,40 @@ const style = {
     p: 4,
     overflowY: 'auto' // Enable scrolling if content overflows
 };
+interface AcceptSchoolModalProps {
+    school: any;
+}
 
-export default function AcceptSchoolModal() {
+export default function AcceptSchoolModal({ school }: AcceptSchoolModalProps) {
+    const [principal, setPrincipal] = React.useState<any>(null);
+    const [loading, setLoading] = React.useState<boolean>(false);
+    const [actionLoading, setActionLoading] = React.useState(false);
+
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const handleOpen = async () => {
+        setOpen(true);
+        if (school?.principal?.id) {
+            setLoading(true);
+            const data = await principalAPIController.getPrincipalUserAccountDetailsByProfileId(school.principal.id);
+            setPrincipal(data);
+            setLoading(false);
+        }
+    };
+
+    const handleStatusChange = async (status: 'APPROVED' | 'REJECTED') => {
+        if (!school?.id) return;
+        setActionLoading(true);
+        const success = await schoolAPIController.updateSchoolStatus(school.id, status);
+        setActionLoading(false);
+        if (success) {
+            alert(`School ${status.toLowerCase()} successfully.`);
+            handleClose(); // Close modal
+        } else {
+            alert('Failed to update school status.');
+        }
+    };
 
     return (
         <div>
@@ -56,186 +87,27 @@ export default function AcceptSchoolModal() {
                                 <h3 className="font-medium">View School Details</h3>
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                <TextField
-                                    name="schoolName"
-                                    placeholder={'School name'}
-                                    important={"*"}
-                                    label={'School name'}
-                                    type="password"
-                                    disabled={true}
-
-                                />
+                                <TextField label="School Name" value={school?.schoolName || ''} disabled={true} />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                <DropdownField
-                                    important={"*"}
-                                    label={"Select province"}
-                                    mt={"12px"}
-                                    mb={"12px"}
-                                    ml={"12px"}
-                                    mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
-                                    disabled={true}
-                                />
-                                <DropdownField
-                                    important={"*"}
-                                    label={"Select district"}
-                                    mt={"12px"}
-                                    mb={"12px"}
-                                    ml={"12px"}
-                                    mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
-                                    disabled={true}
-                                />
-                                <DropdownField
-                                    important={"*"}
-                                    label={"Select zonal"}
-                                    mt={"12px"}
-                                    mb={"12px"}
-                                    ml={"12px"}
-                                    mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
-                                    disabled={true}
-                                />
+                                <TextField label="Province" value={school?.province || ''} disabled={true} />
+                                <TextField label="District" value={school?.district || ''} disabled={true} />
+                                <TextField label="Zonal" value={school?.zonal || ''} disabled={true} />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                <DropdownField
-                                    important={"*"}
-                                    label={"Level of School"}
-                                    mt={"12px"}
-                                    mb={"12px"}
-                                    ml={"12px"}
-                                    mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
-                                    disabled={true}
-                                />
-                                <DropdownField
-                                    important={"*"}
-                                    label={"Type of School"}
-                                    mt={"12px"}
-                                    mb={"12px"}
-                                    ml={"12px"}
-                                    mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
-                                    disabled={true}
-                                />
-                                <DropdownField
-                                    important={"*"}
-                                    label={"Grade Span"}
-                                    mt={"12px"}
-                                    mb={"12px"}
-                                    ml={"12px"}
-                                    mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
-                                    disabled={true}
-                                />
+                                <TextField label="Level of School" value={school?.levelOfSchool || ''} disabled={true} />
+                                <TextField label="Type of School" value={school?.typeOfSchool || ''} disabled={true} />
+                                <TextField label="Grade Span" value={school?.gradeSpan || ''} disabled={true} />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                <DropdownField
-                                    important={"*"}
-                                    label={"Select gender"}
-                                    mt={"12px"}
-                                    mb={"12px"}
-                                    ml={"12px"}
-                                    mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
-                                    disabled={true}
-                                />
-                                <DropdownField
-                                    important={"*"}
-                                    label={"Select ethnicity"}
-                                    mt={"12px"}
-                                    mb={"12px"}
-                                    ml={"12px"}
-                                    mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
-                                    disabled={true}
-                                />
-                                <DropdownField
-                                    important={"*"}
-                                    label={"Select language medium"}
-                                    mt={"12px"}
-                                    mb={"12px"}
-                                    ml={"12px"}
-                                    mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
-                                    disabled={true}
-                                />
+                                <TextField label="Gender" value={school?.gender || ''} disabled={true} />
+                                <TextField label="Ethnicity" value={school?.ethnicity || ''} disabled={true} />
+                                <TextField label="Language Medium" value={school?.languageMedium || ''} disabled={true} />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                <DropdownField
-                                    important={"*"}
-                                    label={"Select student Population"}
-                                    mt={"12px"}
-                                    mb={"12px"}
-                                    ml={"12px"}
-                                    mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
-                                    disabled={true}
-                                />
-                                <DropdownField
-                                    important={"*"}
-                                    label={"Select teacher Population"}
-                                    mt={"12px"}
-                                    mb={"12px"}
-                                    ml={"12px"}
-                                    mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
-                                    disabled={true}
-                                />
-                                <TextField
-                                    name="classCount"
-                                    placeholder={'Class count'}
-                                    important={"*"}
-                                    label={'Number of Grade 1 classes'}
-                                    type="password"
-                                    disabled={true}
-
-                                />
+                                <TextField label="Student Population" value={school?.studentPopulation || ''} disabled={true} />
+                                <TextField label="Teacher Population" value={school?.teacherPopulation || ''} disabled={true} />
+                                <TextField label="Class Count" value={school?.classCount || ''} disabled={true} />
                             </div>
                         </section>
                         <section
@@ -244,60 +116,13 @@ export default function AcceptSchoolModal() {
                                 <h3 className="font-medium">Principal Details</h3>
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                <TextField
-                                    name="name"
-                                    placeholder={'ex- Nimal'}
-                                    label={'Name'}
-                                    important={"*"}
-                                    disabled={true}
-                                />
-                                <TextField
-                                    name="contact"
-                                    placeholder={'ex- 070 000 0000'}
-                                    label={'Contact'}
-                                    important={"*"}
-                                    disabled={true}
-                                />
-                                <TextField
-                                    name="nic"
-                                    placeholder={'ex- 000000000000 or 000000000v'}
-                                    label={'NIC'}
-                                    important={"*"}
-                                    disabled={true}
-                                />
+                                <TextField label="Principal Name" value={school?.principal?.fullName || ''} disabled={true} />
+                                <TextField label="Contact" value={principal?.contact || ''} disabled={true} />
+                                <TextField label="NIC" value={principal?.nic || ''} disabled={true} />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
-                                <TextField
-                                    name="username"
-                                    placeholder={'ex- Isuru123'}
-                                    label={'Username'}
-                                    important={"*"}
-                                    disabled={true}
-                                />
-                                <TextField
-                                    name="email"
-                                    placeholder={'ex- example@gmail.com'}
-                                    label={'Email'}
-                                    important={"*"}
-                                    disabled={true}
-                                />
-                                <div className='grow w-[220px] mx-3 my-3 gap-1 flex flex-col justify-start'>
-                                    <div className='flex flex-row'>
-                                        <label className='text-black flex justify-start'>Password</label>
-                                    </div>
-                                    <input
-                                        className={`text-input p-[7px]`}
-                                        type={"text"}
-                                        placeholder={"*******"}
-                                        disabled={true}
-                                        name={"Password"}
-                                    ></input>
-                                    <div className={`h-[5px]`}>
-                                        <small
-                                            className={`text-start text-red-600 block`}>
-                                        </small>
-                                    </div>
-                                </div>
+                                <TextField label="Username" value={principal?.username || ''} disabled={true} />
+                                <TextField label="Email" value={principal?.email || ''} disabled={true} />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                 <TextArea
@@ -305,6 +130,7 @@ export default function AcceptSchoolModal() {
                                     placeholder={'ex- ABC Road, Galle'}
                                     label={'Address'}
                                     disabled={true}
+                                    value={principal?.address || ''}
                                 />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
@@ -313,7 +139,10 @@ export default function AcceptSchoolModal() {
                                         <label className='text-black flex justify-start'>NIC front side</label>
                                     </div>
                                 </div>
-                                <div className="w-full h-[400px] bg-blue-950 rounded-md mx-3 my-3"></div>
+                                <img
+                                    className="w-full bg-blue-950 rounded-md mx-3 my-3"
+                                     src={school?.principal?.nicFrontImageUrl}
+                                ></img>
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                 <div className='grow mx-3 mt-3 gap-1 flex flex-col justify-start'>
@@ -321,7 +150,10 @@ export default function AcceptSchoolModal() {
                                         <label className='text-black flex justify-start'>NIC back side</label>
                                     </div>
                                 </div>
-                                <div className="w-full h-[400px] bg-blue-950 rounded-md mx-3 my-3"></div>
+                                <img
+                                    className="w-full bg-blue-950 rounded-md mx-3 my-3"
+                                    src={school?.principal?.nicBackImageUrl}
+                                ></img>
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                 <div className='grow mx-3 mt-3 gap-1 flex flex-col justify-start'>
@@ -329,7 +161,10 @@ export default function AcceptSchoolModal() {
                                         <label className='text-black flex justify-start'>MoE ID card front side</label>
                                     </div>
                                 </div>
-                                <div className="w-full h-[400px] bg-blue-950 rounded-md mx-3 my-3"></div>
+                                <img
+                                    className="w-full bg-blue-950 rounded-md mx-3 my-3"
+                                    src={school?.principal?.nicFrontImageUrl}
+                                ></img>
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                 <div className='grow mx-3 mt-3 gap-1 flex flex-col justify-start'>
@@ -337,7 +172,10 @@ export default function AcceptSchoolModal() {
                                         <label className='text-black flex justify-start'>MoE ID card back side</label>
                                     </div>
                                 </div>
-                                <div className="w-full h-[400px] bg-blue-950 rounded-md mx-3 my-3"></div>
+                                <img
+                                    className="w-full bg-blue-950 rounded-md mx-3 my-3"
+                                    src={school?.principal?.nicBackImageUrl}
+                                ></img>
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                 <div className='grow mx-3 mt-3 gap-1 flex flex-col justify-start'>
@@ -345,18 +183,24 @@ export default function AcceptSchoolModal() {
                                         <label className='text-black flex justify-start'>Appointment letter</label>
                                     </div>
                                 </div>
-                                <div className="w-full h-[1000px] bg-blue-950 rounded-md mx-3 my-3"></div>
+                                <img
+                                    className="w-full bg-blue-950 rounded-md mx-3 my-3"
+                                    src={school?.principal?.appointmentLetterUrl}
+                                ></img>
                             </div>
                         </section>
                         <div className='flex flex-row flex-wrap items-center justify-end w-full'>
                             <Button
                                 name={'Reject'}
                                 color={'bg-red-600'}
+                                onClick={() => handleStatusChange('REJECTED')}
                             />
                             <Button
                                 name={'Accept'}
                                 color={'bg-blue-600'}
+                                onClick={() => handleStatusChange('APPROVED')}
                             />
+
                         </div>
                     </section>
                 </Box>
