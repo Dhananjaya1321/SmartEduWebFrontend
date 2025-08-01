@@ -1,92 +1,53 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
 import {Paper, Tooltip} from "@mui/material";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import EditTeachersModal from "../../../models/ZMoE/EditTeachersModal/EditTeachersModal";
-
+import teacherAPIController from "../../../../controller/TeacherAPIController";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
+interface TeacherRow {
+    id: string;
+    teacherName: string;
+    email: string;
+    contact: string;
+    school: string;
+    address: string;
+    originalTeacher: any;
+}
 export const SchoolTeacher = () => {
     const columns: GridColDef[] = [
         {
-            field: 'name', headerName: 'Name', width: 200, renderCell: (params) => (
+            field: 'teacherName', headerName: 'Teacher Name', width: 200, renderCell: (params) => (
                 <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
+                    <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'start' }}>
                         {params.value}
                     </div>
                 </Tooltip>
             ),
         },
         {
-            field: 'subject', headerName: 'Subject', width: 200, renderCell: (params) => (
+            field: 'email', headerName: 'Email', width: 200, renderCell: (params) => (
                 <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
+                    <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'start' }}>
                         {params.value}
                     </div>
                 </Tooltip>
             ),
-        },
-        {
-            field: 'email',
-            headerName: 'Email',
-            width: 200,
-            renderCell: (params) => {
-                const email = params.row.user?.email || 'N/A'; // Use optional chaining to safely access email
-                return (
-                    <Tooltip title={email}>
-                        <div
-                            style={{
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                textAlign: 'start',
-                            }}
-                        >
-                            {email}
-                        </div>
-                    </Tooltip>
-                );
-            },
         },
         {
             field: 'contact', headerName: 'Contact', width: 200, renderCell: (params) => (
                 <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
+                    <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'start' }}>
                         {params.value}
                     </div>
                 </Tooltip>
             ),
         },
         {
-            field: 'nic', headerName: 'NIC', width: 200, renderCell: (params) => (
+            field: 'school', headerName: 'School', width: 200, renderCell: (params) => (
                 <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
+                    <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'start' }}>
                         {params.value}
                     </div>
                 </Tooltip>
@@ -95,14 +56,7 @@ export const SchoolTeacher = () => {
         {
             field: 'address', headerName: 'Address', width: 200, renderCell: (params) => (
                 <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
+                    <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'start' }}>
                         {params.value}
                     </div>
                 </Tooltip>
@@ -114,11 +68,31 @@ export const SchoolTeacher = () => {
             width: 100,
             renderCell: (params) => (
                 <>
-                    {/*<EditTeachersModal/>*/}
+                    <EditTeachersModal teacher={params.row.originalTeacher}/>
                 </>
             ),
         },
     ];
+    const [teachers, setTeachers] = useState<TeacherRow[]>([]);
+
+    useEffect(() => {
+        const fetchTeachers = async () => {
+            const data = await teacherAPIController.findAllForSchool();
+            if (data) {
+                const formatted = data.map((item: any) => ({
+                    id: item.id,
+                    teacherName: item.fullName || 'N/A',
+                    email: item.email || 'N/A',
+                    contact: item.contact || 'N/A',
+                    school: item.schoolName || 'N/A',
+                    address: item.address || 'N/A',
+                    originalTeacher: item,
+                }));
+                setTeachers(formatted);
+            }
+        };
+        fetchTeachers();
+    }, []);
 
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
@@ -142,33 +116,24 @@ export const SchoolTeacher = () => {
                     </div>
                 </section>
                 {/*searching and add new button*/}
-                <Paper sx={{height: 400, width: '100%'}}>
+                <Paper sx={{ height: 400, width: '100%' }}>
                     <DataGrid
-                        rows={[]}
+                        rows={teachers}
                         columns={columns}
                         pagination
                         pageSizeOptions={[5, 10]}
-                        // checkboxSelection
-                        sx={{
-                            border: 0,
-                            '& .MuiDataGrid-row:hover': {
-                                backgroundColor: 'inherit' // Removes hover effect
-                            },
-                            '& .MuiDataGrid-cell:focus-within': {
-                                outline: 'none', // Removes focus outline on edit mode
-                            }
-                        }}
                         disableRowSelectionOnClick
                         disableColumnMenu
                         getRowId={(row) => row.id}
-                        /*paginationModel={paginationModel}
-                        rowCount={totalElements} // Total number of rows
-                        paginationMode="server" // Use server-side pagination
-                        onPaginationModelChange={(newPagination) => {
-                            setPaginationModel(newPagination);
-                            fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
-                            });
-                        }}*/
+                        sx={{
+                            border: 0,
+                            '& .MuiDataGrid-row:hover': {
+                                backgroundColor: 'inherit',
+                            },
+                            '& .MuiDataGrid-cell:focus-within': {
+                                outline: 'none',
+                            }
+                        }}
                     />
                 </Paper>
             </section>

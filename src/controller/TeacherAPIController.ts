@@ -28,6 +28,17 @@ const teacherAPIController = {
             return null;
         }
     },
+    findAllForSchool: async () => {
+        try {
+            const response = await apiClient.get(`/teachers/for-school`);
+            if (response.status === 200 && response.data.state === "OK") {
+                return response.data.data.content;
+            }
+            return null;
+        } catch (error) {
+            return null;
+        }
+    },
 };
 
 export default teacherAPIController;
