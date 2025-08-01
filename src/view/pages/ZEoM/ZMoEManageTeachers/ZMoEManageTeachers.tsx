@@ -8,8 +8,18 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {TransferModal} from "../../../models/Common/TransferModal/TransferModal";
 import teacherAPIController from "../../../../controller/TeacherAPIController";
 
+interface TeacherRow {
+    id: string;
+    teacherName: string;
+    email: string;
+    contact: string;
+    school: string;
+    address: string;
+    originalTeacher: any;
+}
+
 export const ZMoEManageTeachers = () => {
-    const [teachers, setTeachers] = useState([]);
+    const [teachers, setTeachers] = useState<TeacherRow[]>([]);
 
     const columns: GridColDef[] = [
         {
@@ -57,23 +67,26 @@ export const ZMoEManageTeachers = () => {
                 </Tooltip>
             ),
         },
-        {
+      /*  {
             field: 'transfer',
             headerName: 'Transfer',
             width: 100,
             renderCell: (params) => (
                 <TransferModal />
             ),
-        },
+        },*/
         {
             field: 'actions',
             headerName: 'Actions',
             width: 100,
             renderCell: (params) => (
                 <>
-                    <EditTeachersModal teacher={params.row.originalTeacher} />
-                    <button className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
-                        <FontAwesomeIcon icon={faTrash} />
+                    <EditTeachersModal teacher={params.row.originalTeacher}/>
+                    <button
+                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100"
+                        onClick={() => handleDelete(params.row.id)}
+                    >
+                        <FontAwesomeIcon icon={faTrash}/>
                     </button>
                 </>
             ),
@@ -98,6 +111,18 @@ export const ZMoEManageTeachers = () => {
         };
         fetchTeachers();
     }, []);
+
+    const handleDelete = async (id: string) => {
+        const confirm = window.confirm("Are you sure you want to delete this teacher?");
+        if (!confirm) return;
+
+        const success = await teacherAPIController.deleteTeacher(id);
+        if (success) {
+            setTeachers(prev => prev.filter(teacher => teacher.id !== id));
+        } else {
+            alert("Failed to delete the teacher. Please try again.");
+        }
+    };
 
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>

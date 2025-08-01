@@ -9,6 +9,14 @@ const teacherAPIController = {
             return false;
         }
     },
+    deleteTeacher: async (id: string) => {
+        try {
+            const response = await apiClient.delete(`/teachers/${id}`);
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (error) {
+            return false;
+        }
+    },
     findAllForZonalOffice: async () => {
         try {
             const response = await apiClient.get(`/teachers/for-zonal-office`);
