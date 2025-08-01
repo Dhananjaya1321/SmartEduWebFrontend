@@ -71,7 +71,7 @@ export const ZMoEManageTeachers = () => {
             width: 100,
             renderCell: (params) => (
                 <>
-                    <EditTeachersModal />
+                    <EditTeachersModal teacher={params.row.originalTeacher} />
                     <button className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
                         <FontAwesomeIcon icon={faTrash} />
                     </button>

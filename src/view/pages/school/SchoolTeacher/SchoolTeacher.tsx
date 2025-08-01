@@ -114,7 +114,7 @@ export const SchoolTeacher = () => {
             width: 100,
             renderCell: (params) => (
                 <>
-                    <EditTeachersModal/>
+                    {/*<EditTeachersModal/>*/}
                 </>
             ),
         },
