@@ -1,17 +1,18 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import TimeTableModal from "../../../models/School/TimeTableModal/TimeTableModal";
-import {Paper, Tooltip} from "@mui/material";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import { Paper, Tooltip } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import EditUserModal from "../../../models/Common/EditUserModal/EditUserModal";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTrash} from "@fortawesome/free-solid-svg-icons";
-import {Button} from "../../../component/Button/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "../../../component/Button/Button";
 import CreateClassModal from "../../../models/School/CreateClassModal/CreateClassModal";
 import ViewClassModal from "../../../models/School/ViewClassModal/ViewClassModal";
 import EditClassModal from "../../../models/School/EditClassModal/EditClassModal";
 import GradeCreationModal from "../../../models/School/GradeCreationModal/GradeCreationModal";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import gradeAPIController from "../../../../controller/GradeAPIController";
 
-// Simulated Backend Data
+// Interfaces based on API response
 interface Student {
     id: string;
     name: string;
@@ -25,62 +26,19 @@ interface ClassData {
 }
 
 interface ClassGroup {
-    grade: string;
-    classRange: string[];
-    classCount: number;
-    classes: ClassData[];
+    id: string;
+    gradeName: number;
+    classRooms: ClassData[];
+    streamsOfALs: string[] | null;
 }
-
-const classData: ClassGroup[] = [
-    {
-        grade: "Grade 10",
-        classRange: ["A"],
-        classCount: 1,
-        classes: [
-            {
-                className: "10-A",
-                classTeacher: "Ms. Kamani",
-                subject: "Sinhala",
-                students: [
-                    {id: "S1", name: "Nimal Perera"},
-                    {id: "S2", name: "Kamal Fernando"},
-                    {id: "S3", name: "Sunethra Silva"}
-                ]
-            }
-        ]
-    },
-    {
-        grade: "Grade 11",
-        classRange: ["A", "B"],
-        classCount: 2,
-        classes: [
-            {
-                className: "11-A",
-                classTeacher: "Mr. Silva",
-                subject: "Math",
-                students: [
-                    {id: "S4", name: "Ruwan Jayasuriya"},
-                    {id: "S5", name: "Chathurika Weerasinghe"}
-                ]
-            },
-            {
-                className: "11-B",
-                classTeacher: "Mrs. Dilani",
-                subject: "Geography",
-                students: [
-                    {id: "S6", name: "Amal Rajapaksha"},
-                    {id: "S7", name: "Dinesh Kumara"},
-                    {id: "S8", name: "Piumi Nadeesha"}
-                ]
-            }
-        ]
-    }
-];
 
 export const GradesAndClasses = () => {
     const columns: GridColDef[] = [
         {
-            field: 'classTeacher', headerName: 'Class Teacher', width: 200, renderCell: (params) => (
+            field: 'classTeacher',
+            headerName: 'Class Teacher',
+            width: 200,
+            renderCell: (params) => (
                 <Tooltip title={params.value}>
                     <div
                         style={{
@@ -101,7 +59,7 @@ export const GradesAndClasses = () => {
             width: 250,
             valueGetter: (params) => params.row.subject
         },
-        {field: 'className', headerName: 'Class', width: 120},
+        { field: 'className', headerName: 'Class', width: 120 },
         {
             field: 'studentsCount',
             headerName: 'Students Count',
@@ -115,19 +73,53 @@ export const GradesAndClasses = () => {
             renderCell: (params) => (
                 <>
                     <ViewClassModal classData={params.row} />
-                    <EditClassModal/>
+                    <EditClassModal />
                     <button
-                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
-                        <FontAwesomeIcon icon={faTrash}/>
+                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100"
+                    >
+                        <FontAwesomeIcon icon={faTrash} />
                     </button>
                 </>
             ),
         },
     ];
 
+    const [grades, setGrades] = useState<ClassGroup[]>([]);
     const [selectedGrade, setSelectedGrade] = useState<ClassGroup | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    const schoolHasNoClasses = classData.every(group => group.classes.length === 0);
+    useEffect(() => {
+        const fetchGrades = async () => {
+            try {
+                const response = await gradeAPIController.getAllGrades();
+                if (response) {
+                    // Transform API response to match ClassGroup interface
+                    const transformedGrades: ClassGroup[] = response.map((grade: any) => ({
+                        id: grade.id,
+                        gradeName: grade.gradeName,
+                        classRooms: grade.classRooms.map((classRoom: any) => ({
+                            className: classRoom.className || `${grade.gradeName}-${classRoom.section || 'N/A'}`,
+                            classTeacher: classRoom.classTeacher || 'Unassigned',
+                            subject: classRoom.subject || 'N/A',
+                            students: classRoom.students || []
+                        })),
+                        streamsOfALs: grade.streamsOfALs
+                    }));
+                    setGrades(transformedGrades);
+                    // Set default selected grade (first grade with classes or first grade)
+                    setSelectedGrade(transformedGrades.find(g => g.classRooms.length > 0) || transformedGrades[0] || null);
+                }
+            } catch (error) {
+                console.error('Error fetching grades:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGrades();
+    }, []);
+
+    const schoolHasNoClasses = grades.length === 0;
 
     return (
         <>
@@ -141,15 +133,15 @@ export const GradesAndClasses = () => {
                             <h3>Class</h3>
                             <h3>Count</h3>
                         </div>
-                        {classData.map((item, index) => (
+                        {grades.map((item) => (
                             <button
-                                key={index}
+                                key={item.id}
                                 onClick={() => setSelectedGrade(item)}
                                 className="mt-2 flex flex-row justify-between w-full px-6 py-3 bg-[#F0F4F9] text-black hover:bg-blue-950 hover:text-white font-medium border-b rounded-md"
                             >
-                                <h3>{item.grade}</h3>
-                                <h3>{item.classRange[0]} - {item.classRange[item.classRange.length - 1]}</h3>
-                                <h3>{item.classCount}</h3>
+                                <h3>Grade {item.gradeName}</h3>
+                                <h3>{item.classRooms.length > 0 ? item.classRooms[0].className.split('-')[1] : 'N/A'}</h3>
+                                <h3>{item.classRooms.length}</h3>
                             </button>
                         ))}
                     </section>
@@ -158,38 +150,30 @@ export const GradesAndClasses = () => {
                     {selectedGrade && (
                         <section className="w-[900px] bg-white flex flex-col mt-5 p-5 rounded-xl shadow-md">
                             <section className="text-[#005285] flex flex-row justify-between w-full mb-4">
-                                <h3>{selectedGrade.grade} Classes</h3>
-                                <CreateClassModal/>
+                                <h3>Grade {selectedGrade.gradeName} Classes</h3>
+                                <CreateClassModal />
                             </section>
 
                             <section className="flex flex-col w-full gap-3">
-                                <Paper sx={{height: 400, width: '100%'}}>
+                                <Paper sx={{ height: 400, width: '100%' }}>
                                     <DataGrid
-                                        rows={selectedGrade.classes}
+                                        rows={selectedGrade.classRooms}
                                         columns={columns}
                                         getRowId={(row) => row.className}
                                         pagination
                                         pageSizeOptions={[5, 10]}
-                                        // checkboxSelection
                                         sx={{
                                             border: 0,
                                             '& .MuiDataGrid-row:hover': {
-                                                backgroundColor: 'inherit' // Removes hover effect
+                                                backgroundColor: 'inherit'
                                             },
                                             '& .MuiDataGrid-cell:focus-within': {
-                                                outline: 'none', // Removes focus outline on edit mode
+                                                outline: 'none',
                                             }
                                         }}
                                         disableRowSelectionOnClick
                                         disableColumnMenu
-                                        /*paginationModel={paginationModel}
-                                        rowCount={totalElements} // Total number of rows
-                                        paginationMode="server" // Use server-side pagination
-                                        onPaginationModelChange={(newPagination) => {
-                                            setPaginationModel(newPagination);
-                                            fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
-                                            });
-                                        }}*/
+                                        loading={loading}
                                     />
                                 </Paper>
                             </section>

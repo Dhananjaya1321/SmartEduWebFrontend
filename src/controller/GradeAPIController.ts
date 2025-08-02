@@ -20,7 +20,7 @@ const gradeAPIController = {
         try {
             const response = await apiClient.get(`/grades`);
             if (response.status === 200 && response.data.state === "OK") {
-                return response.data.data.content;
+                return response.data.data;
             }
             return null;
         } catch (error) {
