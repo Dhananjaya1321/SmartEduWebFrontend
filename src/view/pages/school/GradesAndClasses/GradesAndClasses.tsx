@@ -12,6 +12,7 @@ import GradeCreationModal from "../../../models/School/GradeCreationModal/GradeC
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import gradeAPIController from "../../../../controller/GradeAPIController";
 
+
 // Interfaces based on API response
 interface Student {
     id: string;
@@ -88,35 +89,39 @@ export const GradesAndClasses = () => {
     const [selectedGrade, setSelectedGrade] = useState<ClassGroup | null>(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchGrades = async () => {
-            try {
-                const response = await gradeAPIController.getAllGrades();
-                if (response) {
-                    // Transform API response to match ClassGroup interface
-                    const transformedGrades: ClassGroup[] = response.map((grade: any) => ({
-                        id: grade.id,
-                        gradeName: grade.gradeName,
-                        classRooms: grade.classRooms.map((classRoom: any) => ({
-                            className: classRoom.className || `${grade.gradeName}-${classRoom.section || 'N/A'}`,
-                            classTeacher: classRoom.classTeacher || 'Unassigned',
-                            subject: classRoom.subject || 'N/A',
-                            students: classRoom.students || []
-                        })),
-                        streamsOfALs: grade.streamsOfALs
-                    }));
-                    setGrades(transformedGrades);
-                    // Set default selected grade (first grade with classes or first grade)
+    const refreshGrades = async () => {
+        try {
+            const response = await gradeAPIController.getAllGrades();
+            if (response) {
+                const transformedGrades: ClassGroup[] = response.map((grade: any) => ({
+                    id: grade.id,
+                    gradeName: grade.gradeName,
+                    classRooms: grade.classRooms.map((classRoom: any) => ({
+                        className: classRoom.className || `${grade.gradeName}-${classRoom.section || 'N/A'}`,
+                        classTeacher: classRoom.classTeacherName || 'Unassigned',
+                        subject: classRoom.classTeacherSubject || 'N/A',
+                        students: classRoom.students || []
+                    })),
+                    streamsOfALs: grade.streamsOfALs
+                }));
+                setGrades(transformedGrades);
+                // Update selected grade if it exists
+                if (selectedGrade) {
+                    const updatedGrade = transformedGrades.find(g => g.id === selectedGrade.id);
+                    setSelectedGrade(updatedGrade || transformedGrades.find(g => g.classRooms.length > 0) || transformedGrades[0] || null);
+                } else {
                     setSelectedGrade(transformedGrades.find(g => g.classRooms.length > 0) || transformedGrades[0] || null);
                 }
-            } catch (error) {
-                console.error('Error fetching grades:', error);
-            } finally {
-                setLoading(false);
             }
-        };
+        } catch (error) {
+            console.error('Error fetching grades:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        fetchGrades();
+    useEffect(() => {
+        refreshGrades();
     }, []);
 
     const schoolHasNoClasses = grades.length === 0;
@@ -140,7 +145,7 @@ export const GradesAndClasses = () => {
                                 className="mt-2 flex flex-row justify-between w-full px-6 py-3 bg-[#F0F4F9] text-black hover:bg-blue-950 hover:text-white font-medium border-b rounded-md"
                             >
                                 <h3>Grade {item.gradeName}</h3>
-                                <h3>{item.classRooms.length > 0 ? item.classRooms[0].className.split('-')[1] : 'N/A'}</h3>
+                                <h3>{item.classRooms.length > 0 ? item.classRooms[0].className.split('-')[1] : '-'}</h3>
                                 <h3>{item.classRooms.length}</h3>
                             </button>
                         ))}
@@ -151,7 +156,7 @@ export const GradesAndClasses = () => {
                         <section className="w-[900px] bg-white flex flex-col mt-5 p-5 rounded-xl shadow-md">
                             <section className="text-[#005285] flex flex-row justify-between w-full mb-4">
                                 <h3>Grade {selectedGrade.gradeName} Classes</h3>
-                                <CreateClassModal />
+                                <CreateClassModal grade={selectedGrade} onClassCreated={refreshGrades} />
                             </section>
 
                             <section className="flex flex-col w-full gap-3">
@@ -184,3 +189,4 @@ export const GradesAndClasses = () => {
         </>
     );
 };
+
