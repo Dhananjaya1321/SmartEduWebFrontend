@@ -16,6 +16,14 @@ const classAPIController = {
             return null;
         }
     },
+    updateClasses: async (payload: any) => {
+        try {
+            const response = await apiClient.put(`/classes/${payload.id}`, payload);
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (error) {
+            return false;
+        }
+    },
 };
 
 export default classAPIController;

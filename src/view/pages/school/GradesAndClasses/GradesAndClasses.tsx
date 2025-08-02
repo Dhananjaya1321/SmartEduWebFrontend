@@ -74,7 +74,7 @@ export const GradesAndClasses = () => {
             renderCell: (params) => (
                 <>
                     <ViewClassModal classData={params.row} />
-                    <EditClassModal />
+                    <EditClassModal classData={params.row} />
                     <button
                         className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100"
                     >
@@ -97,6 +97,7 @@ export const GradesAndClasses = () => {
                     id: grade.id,
                     gradeName: grade.gradeName,
                     classRooms: grade.classRooms.map((classRoom: any) => ({
+                        id:classRoom.id,
                         className: classRoom.className || `${grade.gradeName}-${classRoom.section || 'N/A'}`,
                         classTeacher: classRoom.classTeacherName || 'Unassigned',
                         subject: classRoom.classTeacherSubject || 'N/A',
