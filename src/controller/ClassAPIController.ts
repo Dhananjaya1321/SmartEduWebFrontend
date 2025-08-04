@@ -24,6 +24,14 @@ const classAPIController = {
             return false;
         }
     },
+    deleteClass: async (id: string) => {
+        try {
+            const response = await apiClient.delete(`/classes/${id}`);
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (error) {
+            return false;
+        }
+    },
 };
 
 export default classAPIController;

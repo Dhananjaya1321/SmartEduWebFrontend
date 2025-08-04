@@ -11,6 +11,7 @@ import EditClassModal from "../../../models/School/EditClassModal/EditClassModal
 import GradeCreationModal from "../../../models/School/GradeCreationModal/GradeCreationModal";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import gradeAPIController from "../../../../controller/GradeAPIController";
+import classAPIController from "../../../../controller/ClassAPIController";
 
 
 // Interfaces based on API response
@@ -77,6 +78,7 @@ export const GradesAndClasses = () => {
                     <EditClassModal classData={params.row} />
                     <button
                         className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100"
+                        onClick={() => handleDeleteClass(params.row.id, params.row.className)}
                     >
                         <FontAwesomeIcon icon={faTrash} />
                     </button>
@@ -120,6 +122,20 @@ export const GradesAndClasses = () => {
             setLoading(false);
         }
     };
+
+    const handleDeleteClass = async (classId: string, className: string) => {
+        const confirmed = window.confirm(`Are you sure you want to delete class "${className}"?`);
+        if (!confirmed) return;
+
+        const success = await classAPIController.deleteClass(classId);
+        if (success) {
+            alert("Class deleted successfully.");
+            await refreshGrades();
+        } else {
+            alert("Failed to delete the class. Please try again.");
+        }
+    };
+
 
     useEffect(() => {
         refreshGrades();
