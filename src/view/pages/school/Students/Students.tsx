@@ -1,118 +1,85 @@
-import React, {useState} from "react";
-import {StudentDetailsPanel} from "../StudentDetailsPanel/StudentDetailsPanel";
+import React, { useEffect, useState } from "react";
 import CreateStudentModal from "../../../models/School/CreateStudentModal/CreateStudentModal";
+import studentAPIController from "../../../../controller/StudentAPIController";
+import { StudentDetailsPanel } from "../StudentDetailsPanel/StudentDetailsPanel";
 
-// Simulated Backend Data
 interface Student {
     id: string;
-    name: string;
-}
-
-interface ClassData {
+    fullName: string;
+    fullNameWithInitials: string;
+    registrationNumber: string;
+    dateOfBirth: string;
+    entryDate: string;
+    address: string;
+    motherName: string;
+    motherContact: string;
+    fatherName: string;
+    fatherContact: string;
+    gradeId: string;
+    gradeName: string;
+    classId: string;
     className: string;
-    classTeacher: string;
-    subject: string;
-    students: Student[];
+    schoolId: string;
 }
-
-interface ClassGroup {
-    grade: string;
-    classRange: string[];
-    classCount: number;
-    classes: ClassData[];
-}
-
-const classData: ClassGroup[] = [
-    {
-        grade: "Grade 10",
-        classRange: ["A"],
-        classCount: 1,
-        classes: [
-            {
-                className: "10-A",
-                classTeacher: "Ms. Kamani",
-                subject: "Sinhala",
-                students: [
-                    {id: "S1", name: "Nimal Perera"},
-                    {id: "S2", name: "Kamal Fernando"},
-                    {id: "S3", name: "Sunethra Silva"}
-                ]
-            }
-        ]
-    },
-    {
-        grade: "Grade 11",
-        classRange: ["A", "B"],
-        classCount: 2,
-        classes: [
-            {
-                className: "11-A",
-                classTeacher: "Mr. Silva",
-                subject: "Math",
-                students: [
-                    {id: "S4", name: "Ruwan Jayasuriya"},
-                    {id: "S5", name: "Chathurika Weerasinghe"}
-                ]
-            },
-            {
-                className: "11-B",
-                classTeacher: "Mrs. Dilani",
-                subject: "Geography",
-                students: [
-                    {id: "S6", name: "Amal Rajapaksha"},
-                    {id: "S7", name: "Dinesh Kumara"},
-                    {id: "S8", name: "Piumi Nadeesha"}
-                ]
-            }
-        ]
-    }
-];
 
 export const Students = () => {
-    const [selectedStudent, setSelectedStudent] = useState<ClassGroup | null>(null);
+    const [students, setStudents] = useState<Student[]>([]);
+    const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+
+    const fetchStudents = async () => {
+        const response = await studentAPIController.getAllStudents();
+        if (response) {
+            setStudents(response);
+        }
+    };
+
+    useEffect(() => {
+        fetchStudents();
+    }, []);
 
     return (
-        <>
-            <section className="h-max flex w-[95%] flex-col justify-center">
-                <section className="flex flex-row gap-5">
-                    {/* Sidebar */}
-                    <section className="bg-white flex flex-col items-center mt-5 p-5 rounded-xl shadow-md w-[350px]">
-                        <table className="flex w-full flex-row justify-between font-semibold mb-2">
-                            <tr className="flex w-full flex-row">
-                                <th className="flex justify-start w-[80px]">Photo</th>
-                                <th className="flex justify-start w-[180px]">Name</th>
-                                <th className="flex justify-start w-[20px]">Grade</th>
+        <section className="h-max flex w-[95%] flex-col justify-center">
+            <section className="flex flex-row gap-5">
+                {/* Sidebar */}
+                <section className="bg-white flex flex-col items-center mt-5 p-5 rounded-xl shadow-md w-[350px]">
+                    <table className="flex w-full flex-row justify-between font-semibold mb-2">
+                        <tr className="flex w-full flex-row">
+                            <th className="flex justify-start w-[80px]">Photo</th>
+                            <th className="flex justify-start w-[180px]">Name</th>
+                            <th className="flex justify-start w-[20px]">Class</th>
+                        </tr>
+                    </table>
+                    {students.map((student) => (
+                        <button
+                            key={student.id}
+                            onClick={() => setSelectedStudent(student)}
+                            className="mt-2 flex flex-row justify-between w-full px-3 py-3 bg-[#F0F4F9] text-black hover:bg-blue-950 hover:text-white font-medium border-b rounded-md"
+                        >
+                            <tr className="flex w-full flex-row justify-between">
+                                <td className="flex items-center justify-start text-start h-[50px] w-[50px]">
+                                    <div className="w-[40px] h-[40px] bg-yellow-600 rounded-full" />
+                                </td>
+                                <td className="flex items-center justify-start text-start h-[50px] overflow-hidden w-[170px]">
+                                    {student.fullName}
+                                </td>
+                                <td className="flex items-center justify-start text-start h-[50px] w-[40px]">
+                                    {student.className}
+                                </td>
                             </tr>
-                        </table>
-                        {classData.map((item, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setSelectedStudent(item)}
-                                className="mt-2 flex flex-row justify-between w-full px-3 py-3 bg-[#F0F4F9] text-black hover:bg-blue-950 hover:text-white font-medium border-b rounded-md"
-                            >
-                                <tr className="flex w-full flex-row justify-between">
-                                    <td className="flex items-center justify-start text-start h-[50px] w-[50px]">
-                                        <div className="w-[40px] h-[40px] bg-yellow-600"></div>
-                                    </td>
-                                    <td className="flex items-center justify-start  text-start h-[50px] overflow-hidden w-[170px]">Kamal
-                                        sadaruwan
-                                    </td>
-                                    <td className="flex items-center justify-start text-start h-[50px] w-[40px]">10-A</td>
-                                </tr>
-                            </button>
-                        ))}
-                    </section>
+                        </button>
+                    ))}
+                </section>
 
-                    <section className="w-[750px] bg-white flex flex-col mt-5 p-5 rounded-xl shadow-md">
-                        <section className="text-[#005285] flex flex-row justify-end w-full mb-4">
-                            <CreateStudentModal/>
-                        </section>
-                        {selectedStudent && (
-                            <StudentDetailsPanel/>
-                        )}
+                {/* Details Panel */}
+                <section className="w-[750px] bg-white flex flex-col mt-5 p-5 rounded-xl shadow-md">
+                    <section className="text-[#005285] flex flex-row justify-end w-full mb-4">
+                        <CreateStudentModal />
                     </section>
+                    {selectedStudent && (
+                        <StudentDetailsPanel student={selectedStudent}/>
+                    )}
                 </section>
             </section>
-        </>
+        </section>
     );
-}
+};

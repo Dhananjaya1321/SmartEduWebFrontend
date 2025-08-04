@@ -1,23 +1,34 @@
-import React, { useState } from "react";
-import { Button } from "../../../component/Button/Button"; // If you're using your button component
+import React, {useState} from "react";
+import {Button} from "../../../component/Button/Button";
 
-export const StudentDetailsPanel = () => {
+interface Student {
+    id: string;
+    fullName: string;
+    fullNameWithInitials: string;
+    registrationNumber: string;
+    dateOfBirth: string;
+    entryDate: string;
+    address: string;
+    motherName: string;
+    motherContact: string;
+    fatherName: string;
+    fatherContact: string;
+    gradeId: string;
+    gradeName: string;
+    classId: string;
+    className: string;
+    schoolId: string;
+}
+
+interface StudentDetailsPanelProps {
+    student: Student;
+}
+
+export const StudentDetailsPanel = ({student}: StudentDetailsPanelProps) => {
     const [activeTab, setActiveTab] = useState("progress");
-
-    const student = {
-        name: "J. P. Isuru Dhananjaya",
-        grade: "10 - A",
-        index: "5003-56-11",
-        enteredDate: "2025/01/12",
-        dob: "2025/01/12",
-        address: "Address",
-        mother: { name: "Mother’s Name", phone: "075 1202 550" },
-        father: { name: "Father’s Name", phone: "075 1202 550" }
-    };
 
     return (
         <div className="w-full bg-white rounded-xl shadow-md p-4">
-
             {/* Student Header Card */}
             <div className="flex items-center justify-between bg-[#005285] text-white p-4 rounded-xl">
                 <div className="flex items-center">
@@ -27,8 +38,8 @@ export const StudentDetailsPanel = () => {
                         className="w-[80px] h-[80px] rounded-lg mr-4 border-2 border-white"
                     />
                     <div className="flex flex-col items-start">
-                        <h2 className="text-xl font-bold">{student.name}</h2>
-                        <p className="text-sm">{student.grade} | Index No. :- {student.index}</p>
+                        <h2 className="text-xl font-bold">{student.fullNameWithInitials}</h2>
+                        <p className="text-sm">{student.className} | Index No.: {student.registrationNumber}</p>
                     </div>
                 </div>
                 <Button
@@ -44,11 +55,11 @@ export const StudentDetailsPanel = () => {
                     <div className="flex flex-row gap-12">
                         <div className="flex flex-col items-start">
                             <strong>Entered date:</strong>
-                            <p>{student.enteredDate}</p>
+                            <p>{student.entryDate}</p>
                         </div>
                         <div className="flex flex-col items-start">
-                            <strong>Birth of Date:</strong>
-                            <p>{student.dob}</p>
+                            <strong>Date of Birth:</strong>
+                            <p>{student.dateOfBirth}</p>
                         </div>
                     </div>
                     <div className="flex flex-row gap-12">
@@ -58,11 +69,11 @@ export const StudentDetailsPanel = () => {
                         </div>
                         <div className="flex flex-col items-start">
                             <strong>Mother:</strong>
-                            <p>{student.mother.name} | {student.mother.phone}</p>
+                            <p>{student.motherName} | {student.motherContact}</p>
                         </div>
                         <div className="flex flex-col items-start">
                             <strong>Father:</strong>
-                            <p>{student.father.name} | {student.father.phone}</p>
+                            <p>{student.fatherName} | {student.fatherContact}</p>
                         </div>
                     </div>
                 </div>
@@ -83,9 +94,21 @@ export const StudentDetailsPanel = () => {
 
             {/* Tab Content */}
             <div className="mt-4 h-[220px] flex items-center justify-center bg-white rounded-lg border">
-                {activeTab === "progress" && <p className="text-gray-500">Progress Chart goes here (Test 1-6)</p>}
-                {activeTab === "attendance" && <p className="text-gray-500">Attendance Chart / Table goes here</p>}
-                {activeTab === "achievements" && <p className="text-gray-500">Achievements List goes here</p>}
+                {activeTab === "progress" && (
+                    <div className="w-full p-4 overflow-y-auto">
+                        <p className="text-gray-500">No progress recorded</p>
+                    </div>
+                )}
+                {activeTab === "attendance" && (
+                    <div className="w-full p-4 overflow-y-auto">
+                        <p className="text-gray-500">No attendance recorded</p>
+                    </div>
+                )}
+                {activeTab === "achievements" && (
+                    <div className="w-full p-4 overflow-y-auto">
+                        <p className="text-gray-500">No achievements recorded</p>
+                    </div>
+                )}
             </div>
         </div>
     );
