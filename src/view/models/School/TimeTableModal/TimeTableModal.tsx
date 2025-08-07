@@ -4,9 +4,11 @@ import Modal from '@mui/material/Modal';
 import { Button } from '../../../component/Button/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { DropdownField } from '../../../component/DropdownField/DropdownField';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { gradeSubjectMap } from '../../../context/Arrays';
+import teacherAPIController from '../../../../controller/TeacherAPIController';
+import Typography from '@mui/material/Typography';
+import classTimetableAPIController from "../../../../controller/ClassTimetableAPIController";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -27,21 +29,29 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 const emptyTimetable = Array.from({ length: 8 }, (_, periodIndex) => ({
     period: periodIndex + 1,
-    slots: days.map(() => ({ subject: '', teacher: '' })),
+    slots: days.map(() => ({ subject: '', teacherId: '', teacherName: '' })),
 }));
 
 interface TimeTableModalProps {
-    classOptions: string[];
-    grade: string; // like "grade_10"
+    classOptions: { classId: string; className: string }[];
+    grade: string;
 }
 
 export default function TimeTableModal({ classOptions = [], grade }: TimeTableModalProps) {
     const [open, setOpen] = useState(false);
     const [selectedClass, setSelectedClass] = useState('');
     const [timetable, setTimetable] = useState(emptyTimetable);
+    const [teachers, setTeachers] = useState<{ id: string; fullName: string }[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false);
+        setSelectedClass('');
+        setTimetable(emptyTimetable);
+        setError(null);
+    };
 
     const handleSubjectChange = (periodIndex: number, dayIndex: number, value: string) => {
         const updated = [...timetable];
@@ -49,14 +59,88 @@ export default function TimeTableModal({ classOptions = [], grade }: TimeTableMo
         setTimetable(updated);
     };
 
-    const handleTeacherChange = (periodIndex: number, dayIndex: number, value: string) => {
+    const handleTeacherChange = (periodIndex: number, dayIndex: number, selectedId: string) => {
+        const selectedTeacher = teachers.find(t => t.id === selectedId);
+
         const updated = [...timetable];
-        updated[periodIndex].slots[dayIndex].teacher = value;
+        updated[periodIndex].slots[dayIndex].teacherId = selectedId;
+        updated[periodIndex].slots[dayIndex].teacherName = selectedTeacher?.fullName || '';
+
         setTimetable(updated);
     };
 
+
+
     const normalizedGrade = grade.toLowerCase().replace(" ", "_");
     const subjects = gradeSubjectMap[normalizedGrade] || [];
+
+    useEffect(() => {
+        const fetchTeachers = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const response = await teacherAPIController.findAllForSchool();
+                if (response) {
+                    setTeachers(response);
+                } else {
+                    setError('Failed to load teachers');
+                }
+            } catch (err) {
+                setError('Error fetching teachers');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchTeachers();
+    }, []);
+
+    const handleSave = async () => {
+        if (!selectedClass || !grade) {
+            setError('Please select a class and fill the timetable');
+            return;
+        }
+
+        const classObj = classOptions.find(cls => cls.className === selectedClass);
+        if (!classObj) {
+            setError('Invalid class selected');
+            return;
+        }
+
+        const classId = classObj.classId;
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            // ✅ Transform frontend timetable to backend format
+            const transformedTimetable = {
+                classId: classId,
+                timetablePeriods: timetable.map(periodObj => ({
+                    period: periodObj.period,
+                    slots: periodObj.slots.map(slot => ({
+                        subject: slot.subject,
+                        teacherId: slot.teacherId || "",      // You must ensure this is present
+                        teacherName: slot.teacherName || ""       // Rename from "teacher" to "teacherName"
+                    }))
+                }))
+            };
+
+            const success = await classTimetableAPIController.saveClassTimetable(transformedTimetable);
+
+            if (success) {
+                alert('Timetable saved successfully');
+                handleClose();
+            } else {
+                setError('Failed to save timetable');
+            }
+        } catch (err) {
+            console.error(err);
+            setError('Error saving timetable');
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return (
         <div>
@@ -77,15 +161,22 @@ export default function TimeTableModal({ classOptions = [], grade }: TimeTableMo
                     <section className="bg-white w-full mt-5 p-5 rounded-xl shadow-md">
                         <h3 className="text-lg font-semibold mb-3">Create Time Table</h3>
 
-                        <DropdownField
-                            label="Select Class"
-                            important="*"
-                            options={classOptions.map((c) => ({ label: c, value: c }))}
+                        {error && <Typography color="error" sx={{ mb: 2 }}>{error}</Typography>}
+                        {loading && <Typography>Loading...</Typography>}
+
+                        <label className="block mb-2 text-sm font-medium">Select Class <span className="text-red-500">*</span></label>
+                        <select
+                            className="border rounded px-2 py-2 w-full mb-4"
                             value={selectedClass}
-                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                                setSelectedClass(e.target.value)
-                            }
-                        />
+                            onChange={(e) => setSelectedClass(e.target.value)}
+                        >
+                            <option value="">-- Select Class --</option>
+                            {classOptions.map((cls, idx) => (
+                                <option key={idx} value={cls.className}>
+                                    {cls.className}
+                                </option>
+                            ))}
+                        </select>
 
                         {/* Timetable Grid */}
                         <div className="w-full mt-6">
@@ -109,7 +200,7 @@ export default function TimeTableModal({ classOptions = [], grade }: TimeTableMo
                                                 className="w-[209px] p-2 border flex flex-col gap-1"
                                             >
                                                 <select
-                                                    className=" border rounded px-2 py-1"
+                                                    className="border rounded px-2 py-1"
                                                     value={slot.subject}
                                                     onChange={(e) =>
                                                         handleSubjectChange(
@@ -128,19 +219,21 @@ export default function TimeTableModal({ classOptions = [], grade }: TimeTableMo
                                                 </select>
                                                 <select
                                                     className="border rounded px-2 py-1"
-                                                    value={slot.teacher}
+                                                    value={slot.teacherId}
                                                     onChange={(e) =>
                                                         handleTeacherChange(
                                                             periodIndex,
                                                             dayIndex,
-                                                            e.target.value
+                                                            e.target.value // teacherId is passed
                                                         )
                                                     }
                                                 >
                                                     <option value="">Teacher</option>
-                                                    <option value="Mr. Silva">Mr. Silva</option>
-                                                    <option value="Ms. Perera">Ms. Perera</option>
-                                                    <option value="Mr. Dinesh">Mr. Dinesh</option>
+                                                    {teachers.map((teacher, idx) => (
+                                                        <option key={idx} value={teacher.id}>
+                                                            {teacher.fullName}
+                                                        </option>
+                                                    ))}
                                                 </select>
                                             </div>
                                         ))}
@@ -155,7 +248,11 @@ export default function TimeTableModal({ classOptions = [], grade }: TimeTableMo
                         </div>
 
                         <div className="w-full flex justify-end mt-5">
-                            <Button name={'Create'} color={'bg-green-600'} />
+                            <Button
+                                name={loading ? 'Saving...' : 'Create'}
+                                color={'bg-green-600'}
+                                onClick={handleSave}
+                            />
                         </div>
                     </section>
                 </Box>
