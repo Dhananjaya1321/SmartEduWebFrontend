@@ -112,7 +112,6 @@ export default function TimeTableModal({ classOptions = [], grade }: TimeTableMo
         setError(null);
 
         try {
-            // ✅ Transform frontend timetable to backend format
             const transformedTimetable = {
                 classId: classId,
                 timetablePeriods: timetable.map(periodObj => ({

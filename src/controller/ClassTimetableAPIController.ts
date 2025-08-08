@@ -16,6 +16,17 @@ const classTimetableAPIController = {
             return null;
         }
     },
+    findAllTimetablesByGradeId: async (gradeId:string) => {
+        try {
+            const response = await apiClient.get(`/timetables/by-gradeId/${gradeId}`);
+            if (response.status === 200 && response.data.state === "OK") {
+                return response.data.data;
+            }
+            return null;
+        } catch (error) {
+            return null;
+        }
+    },
 };
 
 export default classTimetableAPIController;
