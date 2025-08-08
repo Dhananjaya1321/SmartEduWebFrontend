@@ -27,6 +27,17 @@ const studentAPIController = {
             return null;
         }
     },
+    searchStudentsByName: async (inputValue: string, selectedApplication: string) => {
+        try {
+            const response = await apiClient.get(`/students/search/${inputValue}/${selectedApplication}`);
+            if (response.status === 200 && response.data.state === "OK") {
+                return response.data.data;
+            }
+            return null;
+        } catch (error) {
+            return null;
+        }
+    },
     generateRegistrationNumber: async () => {
         try {
             const response = await apiClient.get(`/students/registration-number`);
