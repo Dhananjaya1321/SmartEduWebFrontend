@@ -20,30 +20,22 @@ interface PrincipleData {
 }
 
 interface SchoolLeavingCertificateProps {
-    schoolName: string;
-    schoolLogoUrl: string;
     studentName: string;
     studentId: string;
     lastGrade: string;
     description: string;
     requestedDate: string;
     issuedDate?: string;
-    principalName: string;
-    principalSignatureUrl: string;
     setSignatureFile?: (file: File | null) => void; // Prop to update signature file
 }
 
 export const SchoolLeavingCertificate: React.FC<SchoolLeavingCertificateProps> = ({
-                                                                                      schoolName,
-                                                                                      schoolLogoUrl,
                                                                                       studentName,
                                                                                       studentId,
                                                                                       lastGrade,
                                                                                       description,
                                                                                       requestedDate,
                                                                                       issuedDate,
-                                                                                      principalName,
-                                                                                      principalSignatureUrl,
                                                                                       setSignatureFile,
                                                                                   }) => {
     const [studentData, setStudentData] = useState<StudentData>({});
@@ -93,7 +85,7 @@ export const SchoolLeavingCertificate: React.FC<SchoolLeavingCertificateProps> =
             {/* Header */}
             <div className='flex items-center justify-between border-b border-gray-400 pb-4 mb-6'>
                 <div className='text-center flex-grow'>
-                    <h1 className='text-2xl font-bold uppercase'>{principleData.schoolName || schoolName}</h1>
+                    <h1 className='text-2xl font-bold uppercase'>{principleData.schoolName}</h1>
                     <h2 className='text-lg font-medium'>School Leaving Certificate</h2>
                 </div>
             </div>
@@ -136,7 +128,7 @@ export const SchoolLeavingCertificate: React.FC<SchoolLeavingCertificateProps> =
                         <input type='file' accept='image/*' onChange={handleFileChange} />
                     </div>
 
-                    <p className='font-semibold'>{principleData.fullName || principalName}</p>
+                    <p className='font-semibold'>{principleData.fullName}</p>
                     <p className='text-sm text-gray-600'>Principal</p>
                 </div>
             </div>
