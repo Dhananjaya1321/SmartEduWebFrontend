@@ -60,6 +60,7 @@ export const ExamsAndNICApplication = () => {
             const res = await examsAndApplicationsAPIController.save(payload);
             if (res) {
                 alert("Application submitted successfully!");
+                setSelectedStudent(null)
             } else {
                 alert("Failed to submit application");
             }
@@ -87,7 +88,7 @@ export const ExamsAndNICApplication = () => {
             const res = await examsAndApplicationsAPIController.save(payload);
             if (res) {
                 alert("Application submitted successfully!");
-                // Optionally reset the form
+                setSelectedStudent(null)
             } else {
                 alert("Failed to submit application");
             }
@@ -113,7 +114,7 @@ export const ExamsAndNICApplication = () => {
             const res = await examsAndApplicationsAPIController.save(payload);
             if (res) {
                 alert("Application submitted successfully!");
-                // Optionally reset the form
+                setSelectedStudent(null)
             } else {
                 alert("Failed to submit application");
             }
@@ -139,7 +140,7 @@ export const ExamsAndNICApplication = () => {
             const res = await examsAndApplicationsAPIController.save(payload);
             if (res) {
                 alert("Application submitted successfully!");
-                // Optionally reset the form
+                setSelectedStudent(null)
             } else {
                 alert("Failed to submit application");
             }

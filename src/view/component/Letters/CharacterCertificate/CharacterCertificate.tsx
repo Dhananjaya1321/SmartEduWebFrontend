@@ -1,14 +1,13 @@
-import React from 'react';
+import React from "react";
 
 interface CharacterCertificateProps {
     schoolName: string;
     schoolLogoUrl: string;
     studentName: string;
-    admissionNo: string;
-    gradeOrClass: string;
-    duration: string;
-    characterDescription: string;
-    issueDate: string;
+    lastGrade: string;
+    description: string;
+    requestedDate: string;
+    issuedDate?: string;
     principalName: string;
     principalSignatureUrl: string;
 }
@@ -17,11 +16,10 @@ export const CharacterCertificate: React.FC<CharacterCertificateProps> = ({
                                                                               schoolName,
                                                                               schoolLogoUrl,
                                                                               studentName,
-                                                                              admissionNo,
-                                                                              gradeOrClass,
-                                                                              duration,
-                                                                              characterDescription,
-                                                                              issueDate,
+                                                                              lastGrade,
+                                                                              description,
+                                                                              requestedDate,
+                                                                              issuedDate,
                                                                               principalName,
                                                                               principalSignatureUrl,
                                                                           }) => {
@@ -38,16 +36,25 @@ export const CharacterCertificate: React.FC<CharacterCertificateProps> = ({
 
             {/* Content */}
             <div className="text-[17px] text-gray-800 space-y-4 leading-8">
-                <p>This is to certify that <strong>{studentName}</strong> (Admission No: <strong>{admissionNo}</strong>) was a student of class <strong>{gradeOrClass}</strong> at our school during the period <strong>{duration}</strong>.</p>
-                <p>To the best of our knowledge and belief, their character and conduct during their stay at the school has been: <strong>{characterDescription}</strong>.</p>
-                <p>This certificate is being issued upon the student’s request for future academic or personal use.</p>
+                <p>
+                    This is to certify that <strong>{studentName}</strong>, who studied up to{" "}
+                    <strong>{lastGrade}</strong> in this institution, has maintained good character during
+                    the period of their education.
+                </p>
+                <p>
+                    Remarks on conduct: <strong>{description}</strong>
+                </p>
+                <p>
+                    This certificate is issued upon the student’s request on{" "}
+                    <strong>{requestedDate}</strong>.
+                </p>
             </div>
 
             {/* Footer */}
             <div className="flex justify-between items-end mt-10 pt-6 border-t border-gray-400">
                 <div>
                     <p className="text-sm text-gray-600">Date of Issue:</p>
-                    <p className="font-semibold">{issueDate}</p>
+                    <p className="font-semibold">{issuedDate || "Pending"}</p>
                 </div>
                 <div className="text-right">
                     <img

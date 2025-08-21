@@ -13,6 +13,18 @@ const principalAPIController = {
             return [];
         }
     },
+    getPrincipalById: async () => {
+        try {
+            const response = await apiClient.get(`/principals/by-id`);
+
+            if (response.status === 200 && response.data.state === 'OK') {
+                return response.data.data;
+            }
+            return [];
+        } catch (error) {
+            return [];
+        }
+    },
     update: async (payload: any) => {
         try {
             const response = await apiClient.put(`/principals/${payload.id}`, payload);
