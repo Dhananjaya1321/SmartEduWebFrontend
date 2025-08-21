@@ -20,6 +20,14 @@ const letterAPIController = {
             return null;
         }
     },
+    update: async (id: any) => {
+        try {
+            const response = await apiClient.put(`/letters/reject/${id}`);
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (error) {
+            return false;
+        }
+    },
     getAllLetters: async () => {
         try {
             const response = await apiClient.get(`/letters/pending`);

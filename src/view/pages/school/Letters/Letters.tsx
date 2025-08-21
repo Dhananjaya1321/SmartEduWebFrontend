@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { FooterSpace } from "../../../component/FooterSpace/FooterSpace";
-import { Paper } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import React, {useEffect, useState} from "react";
+import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
+import {Paper} from "@mui/material";
+import {DataGrid, GridColDef} from "@mui/x-data-grid";
 import ViewLetterModal from "../../../models/School/ViewLetterModal/ViewLetterModal";
 import letterAPIController from "../../../../controller/LetterAPIController";
 
@@ -47,22 +47,28 @@ export const Letters = () => {
         }
     };
 
-    const handleReject = async (letter: any) => {
+    const handleReject = async (data: any) => {
         try {
-            // await letterAPIController.updateStatus(letter.id, "REJECTED");
+            const response = await letterAPIController.update(
+                data.id,
+            );
+            if(response){
+                console.log("dsds")
+            }
             fetchLetters();
         } catch (err) {
             console.error("Failed to reject letter:", err);
         }
     };
 
+
     const columns: GridColDef[] = [
-        { field: "studentName", headerName: "Student name", width: 200 },
-        { field: "letterType", headerName: "Letter type", width: 200 },
-        { field: "lastGrade", headerName: "Last grade", width: 200 },
-        { field: "requestedDate", headerName: "Requested date", width: 200 },
-        { field: "description", headerName: "Description", width: 250 },
-        { field: "status", headerName: "Status", width: 150 },
+        {field: "studentName", headerName: "Student name", width: 200},
+        {field: "letterType", headerName: "Letter type", width: 200},
+        {field: "lastGrade", headerName: "Last grade", width: 200},
+        {field: "requestedDate", headerName: "Requested date", width: 200},
+        {field: "description", headerName: "Description", width: 250},
+        {field: "status", headerName: "Status", width: 150},
         {
             field: "actions",
             headerName: "Actions",
@@ -74,13 +80,6 @@ export const Letters = () => {
                         onClick={() => handleView(params.row)}
                     >
                         View
-                    </button>
-                    <button
-                        className="rounded-xl w-max h-max p-2 bg-green-600 text-white hover:bg-green-700"
-                        onClick={() => handleApprove(params.row)}
-                        disabled={params.row.status !== "PENDING"}
-                    >
-                        Approve
                     </button>
                     <button
                         className="rounded-xl w-max h-max p-2 bg-red-600 text-white hover:bg-red-700"
@@ -100,8 +99,9 @@ export const Letters = () => {
                 <h3>Manage Letters</h3>
             </section>
 
-            <section className="bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md">
-                <Paper sx={{ height: 500, width: "100%" }}>
+            <section
+                className="bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md">
+                <Paper sx={{height: 500, width: "100%"}}>
                     <DataGrid
                         rows={letters}
                         columns={columns}
@@ -124,7 +124,7 @@ export const Letters = () => {
                 </Paper>
             </section>
 
-            <FooterSpace />
+            <FooterSpace/>
 
             {selectedLetter && (
                 <ViewLetterModal
