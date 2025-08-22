@@ -48,6 +48,7 @@ export const ExamsAndNICApplication = () => {
         }
 
         const payload = {
+            type:selectedApplication,
             studentId: selectedStudent.id,
             nicFrontImageUrl: nicFrontAL,
             nicBackImageUrl: nicBackAL,
@@ -77,6 +78,7 @@ export const ExamsAndNICApplication = () => {
         }
 
         const payload = {
+            type:selectedApplication,
             studentId: selectedStudent.id,
             nicFrontImageUrl: nicFrontOL,
             nicBackImageUrl: nicBackOL,
@@ -105,6 +107,7 @@ export const ExamsAndNICApplication = () => {
         }
 
         const payload = {
+            type:selectedApplication,
             studentId: selectedStudent.id,
             birthCertificateFrontImageUrl: birthCertificateFrontG5,
             birthCertificateBackImageUrl: birthCertificateBackG5
@@ -131,6 +134,7 @@ export const ExamsAndNICApplication = () => {
         }
 
         const payload = {
+            type:selectedApplication,
             studentId: selectedStudent.id,
             birthCertificateFrontImageUrl: birthCertificateFrontNIC,
             birthCertificateBackImageUrl: birthCertificateBackNIC
