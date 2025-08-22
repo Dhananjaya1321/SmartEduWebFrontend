@@ -27,6 +27,22 @@ const examsAndApplicationsAPIController = {
             return null;
         }
     },
+    update: async (payload: any) => {
+        try {
+            const response = await apiClient.put(`/exams/${payload.id}`, payload);
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (error) {
+            return false;
+        }
+    },
+    delete: async (id: string) => {
+        try {
+            const response = await apiClient.delete(`/exams/${id}`);
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (error) {
+            return false;
+        }
+    },
 };
 
 export default examsAndApplicationsAPIController;

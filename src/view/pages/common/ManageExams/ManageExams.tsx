@@ -49,8 +49,8 @@ export const ManageExams = () => {
             width: 160,
             renderCell: (params) => (
                 <div className="flex flex-row gap-2">
-                    <ViewExamModal />
-                    <EditExamModal />
+                    <ViewExamModal examData={params.row} />
+                    {/*<EditExamModal exam={params.row}/>*/}
                     <button
                         onClick={() => handleDelete(params.row.id)}
                         className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
@@ -82,7 +82,7 @@ export const ManageExams = () => {
     const handleDelete = async (id: string) => {
         if (window.confirm("Are you sure you want to delete this exam?")) {
             try {
-                // await examsAPIController.deleteExam(id);
+                await examsAPIController.delete(id);
                 setRows((prev) => prev.filter((exam) => exam.id !== id));
             } catch (error) {
                 console.error("Delete failed:", error);
