@@ -1,12 +1,9 @@
 import * as React from 'react';
 import {
-    Box, Typography, Modal,
-    Table, TableBody, TableCell, TableHead, TableRow,
-    IconButton, Tooltip
+    Box, Typography, Modal
 } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { TextArea } from '../../../component/TextArea/TextArea';
 import { Button } from '../../../component/Button/Button';
 import { TextField } from '../../../component/TextField/TextField';
 import { DropdownField } from '../../../component/DropdownField/DropdownField';
@@ -56,10 +53,13 @@ export default function CreateStudentModal({ onStudentSaved }: { onStudentSaved?
     }, []);
 
     const handleChange = (name: string, value: string) => {
-        setFormData((prev: any) => ({
-            ...prev,
-            [name]: value
-        }));
+        setFormData((prev: any) => {
+            // reset class if grade changes
+            if (name === "gradeId") {
+                return { ...prev, gradeId: value, classId: "" };
+            }
+            return { ...prev, [name]: value };
+        });
     };
 
     const handleSubmit = async () => {
@@ -76,11 +76,13 @@ export default function CreateStudentModal({ onStudentSaved }: { onStudentSaved?
             address: formData.address,
 
             registrationNumber: formData.regNumber,
-            gradeId: formData.gradeId || formData.grade,
-            classId: formData.classId || formData.classRoom,
+            gradeId: formData.gradeId,
+            classId: formData.classId,
         };
 
-        console.log(adjustedStudentPayload)
+        // console.log("formData:", formData);
+        // console.log("payload:", adjustedStudentPayload);
+
         const response = await studentAPIController.saveStudent(adjustedStudentPayload);
         if (response && response.state === 'OK') {
             alert('Student created successfully!');
@@ -97,7 +99,7 @@ export default function CreateStudentModal({ onStudentSaved }: { onStudentSaved?
         value: g.id
     }));
 
-    const selectedGrade = grades.find((g) => g.id === formData.grade);
+    const selectedGrade = grades.find((g) => g.id === formData.gradeId);
     const classOptions = selectedGrade?.classRooms?.map((cls: any) => ({
         label: cls.className,
         value: cls.id
@@ -157,8 +159,23 @@ export default function CreateStudentModal({ onStudentSaved }: { onStudentSaved?
                                 onChange={(e) => handleChange("regNumber", e.target.value)}
                                 disabled={true}
                             />
-                            <DropdownField label="Grade" options={gradeOptions} value={formData.grade} onChange={(e) => handleChange("grade", e.target.value)} important="*" />
-                            <DropdownField label="Class" options={classOptions} value={formData.classRoom} onChange={(e) => handleChange("classRoom", e.target.value)} important="*" />
+                            <DropdownField
+                                label="Grade"
+                                options={gradeOptions}
+                                value={formData.gradeId || ''}
+                                onChange={(e) => handleChange("gradeId", e.target.value)}
+                                important="*"
+                            />
+                            <DropdownField
+                                label="Class"
+                                options={[
+                                    { label: "Select Class", value: "" }, // 👈 default option
+                                    ...(classOptions || [])
+                                ]}
+                                value={formData.classId || ''}
+                                onChange={(e) => handleChange("classId", e.target.value)}
+                                important="*"
+                            />
                         </div>
                     </section>
 
@@ -170,3 +187,4 @@ export default function CreateStudentModal({ onStudentSaved }: { onStudentSaved?
         </div>
     );
 }
+
