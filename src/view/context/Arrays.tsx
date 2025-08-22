@@ -198,6 +198,8 @@ export const paperType = [
     { label: 'Part 1', value: 'part_1' },
     { label: 'Part 2', value: 'part_2' },
     { label: 'Part 3', value: 'part_3' },
+    { label: 'Part 4', value: 'part_4' },
+    { label: 'Part 5', value: 'part_5' },
 
 ];
 
