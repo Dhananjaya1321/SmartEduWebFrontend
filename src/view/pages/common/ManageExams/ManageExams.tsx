@@ -50,7 +50,7 @@ export const ManageExams = () => {
             renderCell: (params) => (
                 <div className="flex flex-row gap-2">
                     <ViewExamModal examData={params.row} />
-                    {/*<EditExamModal exam={params.row}/>*/}
+                    <EditExamModal examData={params.row}/>
                     <button
                         onClick={() => handleDelete(params.row.id)}
                         className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
