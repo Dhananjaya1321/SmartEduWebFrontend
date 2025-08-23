@@ -173,7 +173,7 @@ export const gradeSubjectMap: Record<string, string[]> = {
     grade_2: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
     grade_3: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
     grade_4: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
-    grade_5: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
+    grade_5: ["Other","Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
 
     grade_6: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Geography", "Health & PE", "ICT", "Aesthetics", "Civic Education"],
     grade_7: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Geography", "Health & PE", "ICT", "Aesthetics", "Civic Education"],
