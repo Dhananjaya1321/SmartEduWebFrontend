@@ -250,3 +250,15 @@ export const examsAndNICApplicationOptions = [
     { label: 'NIC Application', value: 'nic' },
 
 ];
+
+export const examsOptions = [
+    { label: 'Select...', value: '' },
+    { label: 'G.C.E. (O/L) Examination', value: 'G.C.E. (O/L) Examination' },
+    { label: 'G.C.E. (A/L) Examination', value: 'G.C.E. (A/L) Examination' },
+    { label: 'Grade 5 Scholarship Examination', value: 'Grade 5 Scholarship Examination' },
+    { label: 'First Term Exam', value: 'First Term Exam' },
+    { label: 'Mid-Term Exam', value: 'Mid-Term Exam' },
+    { label: 'Final Term Exam', value: 'Final Term Exam' },
+    { label: 'Other Exam', value: 'Other Exam' },
+
+];

@@ -9,7 +9,7 @@ import {Button} from "../../../component/Button/Button";
 import {DropdownField} from "../../../component/DropdownField/DropdownField";
 import {
     alStreams,
-    alStreamSubjects,
+    alStreamSubjects, examsOptions,
     gradeOptions,
     gradeSpanOptions,
     gradeSubjectMap,
@@ -41,6 +41,7 @@ export const CreateExamModal = () => {
 
     // Form fields
     const [selectedGrade, setSelectedGrade] = useState('');
+    const [selectedExam, setSelectedExam] = useState('');
     const [selectedStream, setSelectedStream] = useState('');
     const [subjects, setSubjects] = useState<string[]>([]);
     const [selectedSubject, setSelectedSubject] = useState('');
@@ -103,7 +104,7 @@ export const CreateExamModal = () => {
 
     const handleCreateExam = async () => {
         const payload = {
-            examName,
+            examName:selectedExam,
             year:examYear,
             grade: selectedGrade,
             timetable: examSubjects
@@ -158,12 +159,16 @@ export const CreateExamModal = () => {
                                     value={selectedGrade}
                                     onChange={(e) => setSelectedGrade(e.target.value)}
                                 />
-                                <TextField
-                                    name="examName"
-                                    placeholder={'ex- First Term Exam'}
-                                    label={'Exam name'}
-                                    important={"*"}
-                                    onChange={(e) => setExamName(e.target.value)}
+                                <DropdownField
+                                    label="Select Exam"
+                                    important="*"
+                                    mt={"12px"}
+                                    mb={"12px"}
+                                    ml={"12px"}
+                                    mr={"12px"}
+                                    options={examsOptions}
+                                    value={selectedExam}
+                                    onChange={(e) => setSelectedExam(e.target.value)}
                                 />
                                 <TextField
                                     name="year"
