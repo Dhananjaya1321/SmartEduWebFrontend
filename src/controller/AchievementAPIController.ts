@@ -16,15 +16,23 @@ const studentAPIController = {
             return null;
         }
     },
-    getAchievementsByStudentId: async (id:any) => {
+    getAchievementsByStudentId: async (id: any) => {
         try {
-            const response = await apiClient.get(`/achievements/by-studentId/${id}`);
+            const response = await apiClient.get(`/achievements/student/${id}`);
             if (response.status === 200 && response.data.state === "OK") {
                 return response.data.data;
             }
             return null;
         } catch (error) {
             return null;
+        }
+    },
+    deleteAchievementsByStudentId: async (id: string) => {
+        try {
+            const response = await apiClient.delete(`/achievements/${id}`);
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (error) {
+            return false;
         }
     },
 };

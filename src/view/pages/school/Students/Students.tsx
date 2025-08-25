@@ -43,10 +43,9 @@ export const Students = () => {
                 {/* Sidebar */}
                 <section className="bg-white flex flex-col items-center mt-5 p-5 rounded-xl shadow-md w-[350px]">
                     <table className="flex w-full flex-row justify-between font-semibold mb-2">
-                        <tr className="flex w-full flex-row">
-                            <th className="flex justify-start w-[80px]">Photo</th>
+                        <tr className="flex w-full flex-row justify-between">
                             <th className="flex justify-start w-[180px]">Name</th>
-                            <th className="flex justify-start w-[20px]">Class</th>
+                            <th className="flex justify-start w-[20px] mr-8">Class</th>
                         </tr>
                     </table>
                     {students.map((student) => (
@@ -56,9 +55,6 @@ export const Students = () => {
                             className="mt-2 flex flex-row justify-between w-full px-3 py-3 bg-[#F0F4F9] text-black hover:bg-blue-950 hover:text-white font-medium border-b rounded-md"
                         >
                             <tr className="flex w-full flex-row justify-between">
-                                <td className="flex items-center justify-start text-start h-[50px] w-[50px]">
-                                    <div className="w-[40px] h-[40px] bg-yellow-600 rounded-full" />
-                                </td>
                                 <td className="flex items-center justify-start text-start h-[50px] overflow-hidden w-[170px]">
                                     {student.fullName}
                                 </td>
