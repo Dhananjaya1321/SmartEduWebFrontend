@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Button} from "../../../component/Button/Button";
+import CreateAchievementModal from "../../../models/School/CreateAchievementModal/CreateAchievementModal";
 
 interface Student {
     id: string;
@@ -26,7 +27,7 @@ interface StudentDetailsPanelProps {
 
 export const StudentDetailsPanel = ({student}: StudentDetailsPanelProps) => {
     const [activeTab, setActiveTab] = useState("progress");
-
+    console.log(student)
     return (
         <div className="w-full bg-white rounded-xl shadow-md p-4">
             {/* Student Header Card */}
@@ -42,10 +43,7 @@ export const StudentDetailsPanel = ({student}: StudentDetailsPanelProps) => {
                         <p className="text-sm">{student.className} | Index No.: {student.registrationNumber}</p>
                     </div>
                 </div>
-                <Button
-                    name="+ Achievement"
-                    color="bg-[#2FEB00]"
-                />
+                <CreateAchievementModal studentId={student.id} />
             </div>
 
             {/* Basic Info */}
