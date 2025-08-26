@@ -16,6 +16,14 @@ const studentAPIController = {
             return null;
         }
     },
+    classesReshuffle: async () => {
+        try {
+            const response = await apiClient.put(`/classes/classes-reshuffle`);
+            return response.status === 200 && response.data.state === 'OK';
+        } catch (error) {
+            return false;
+        }
+    },
     getAllStudents: async () => {
         try {
             const response = await apiClient.get(`/students`);

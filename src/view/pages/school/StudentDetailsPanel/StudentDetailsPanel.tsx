@@ -65,7 +65,7 @@ export const StudentDetailsPanel = ({student}: StudentDetailsPanelProps) => {
     useEffect(() => {
         fetchAchievements();
         fetchAttendance();
-    }, []);
+    }, [student]);
 
     return (
         <div className="w-full bg-white rounded-xl shadow-md p-4">

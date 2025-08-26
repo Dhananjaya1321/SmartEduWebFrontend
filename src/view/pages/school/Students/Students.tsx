@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import CreateStudentModal from "../../../models/School/CreateStudentModal/CreateStudentModal";
 import studentAPIController from "../../../../controller/StudentAPIController";
-import { StudentDetailsPanel } from "../StudentDetailsPanel/StudentDetailsPanel";
+import {StudentDetailsPanel} from "../StudentDetailsPanel/StudentDetailsPanel";
+import {Alert} from "@mui/material";
 
 interface Student {
     id: string;
@@ -30,6 +31,12 @@ export const Students = () => {
         const response = await studentAPIController.getAllStudents();
         if (response) {
             setStudents(response);
+        }
+    };
+    const handleClassesReshuffle = async () => {
+        const response = await studentAPIController.classesReshuffle();
+        if (response) {
+            alert('Classes Reshuffle Successfully')
         }
     };
 
@@ -69,7 +76,14 @@ export const Students = () => {
                 {/* Details Panel */}
                 <section className="w-[750px] bg-white flex flex-col mt-5 p-5 rounded-xl shadow-md">
                     <section className="text-[#005285] flex flex-row justify-end w-full mb-4">
-                        <CreateStudentModal />
+                        <button
+                            className={`h-[46px] bg-green-600 px-6 py-3 rounded-md text-white font-medium mx-3 mt-2`}
+                            onClick={handleClassesReshuffle}
+                        >
+                            Reshuffle Classes
+                        </button>
+
+                        <CreateStudentModal/>
                     </section>
                     {selectedStudent && (
                         <StudentDetailsPanel student={selectedStudent}/>
