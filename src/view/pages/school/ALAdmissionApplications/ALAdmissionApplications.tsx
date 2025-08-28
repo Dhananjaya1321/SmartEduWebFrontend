@@ -1,176 +1,108 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
 import {Paper, Tooltip} from "@mui/material";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
-
-const admissionApplications = [
-    {
-        streamName: "Maths",
-        applicants: [
-            {
-                id: 1,
-                name: "Nimal",
-                previousSchool: "Royal College",
-                stream: "Maths",
-                score: 240,
-                contact: "075113254",
-                stats: "Available"
-            },
-            {
-                id: 2,
-                name: "Kamal",
-                previousSchool: "Ananda",
-                stream: "Maths",
-                score: 230,
-                contact: "075113254",
-                stats: "Available"
-            }
-        ]
-    },
-    {
-        streamName: "Bio",
-        applicants: [
-            {
-                id: 3,
-                name: "Sunil",
-                previousSchool: "Dharmapala",
-                stream: "Bio",
-                score: 250,
-                contact: "075113254",
-                stats: "Selected"
-            }
-        ]
-    }
-];
+import schoolAPIController from "../../../../controller/SchoolAPIController";
 
 export const ALAdmissionApplications = () => {
+    const [groupedApplications, setGroupedApplications] = useState<{ [key: string]: any[] }>({});
+
     const columns: GridColDef[] = [
+        {field: 'studentName', headerName: 'Student Name', width: 180},
+        {field: 'status', headerName: 'Status', width: 120},
+
+        {field: 'olResultsScore', headerName: 'O/L Results Score', width: 160},
+        {field: 'residenceScore', headerName: 'Residence Score', width: 140},
+        {field: 'nationalLevelAchievementsScore', headerName: 'National Level Score', width: 170},
+        {field: 'provincialLevelAchievementsScore', headerName: 'Provincial Level Score', width: 180},
+        {field: 'zonalLevelAchievementsScore', headerName: 'Zonal Level Score', width: 160},
+
+        {field: 'totalScore', headerName: 'Total Score', width: 140},
+
         {
-            field: 'name', headerName: 'Name', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
+            field: 'olResults',
+            headerName: 'O/L Results',
+            width: 250,
+            renderCell: (params) => (
+                <Tooltip title={params.value?.join(", ")}>
+                    <div style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'start'
+                    }}>
+                        {params.value?.join(", ")}
                     </div>
                 </Tooltip>
-            ),
-        },
-        {
-            field: 'previousSchool', headerName: 'Previous School', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
-                    </div>
-                </Tooltip>
-            ),
-        },
-        {
-            field: 'stream', headerName: 'Stream', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
-                    </div>
-                </Tooltip>
-            ),
-        },
-        {
-            field: 'score', headerName: 'Score', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
-                    </div>
-                </Tooltip>
-            ),
-        },
-        {
-            field: 'contact', headerName: 'Contact', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
-                    </div>
-                </Tooltip>
-            ),
-        },
-        {
-            field: 'stats', headerName: 'Stats', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
-                    </div>
-                </Tooltip>
-            ),
+            )
         },
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 100,
+            width: 120,
             renderCell: (params) => (
-                <>
-                    <button
-                        className="bg-yellow-600 w-full px-2 py-3 rounded-md text-white hover:bg-yellow-950 hover:text-white font-medium">
-                        Accept
-                    </button>
-                </>
+                <button
+                    className="bg-yellow-600 w-full px-2 py-2 rounded-md text-white hover:bg-yellow-950 hover:text-white font-medium"
+                    onClick={() => handleAccept(params.row.id)}
+                >
+                    Accept
+                </button>
             ),
         },
     ];
+
+    const handleAccept = async (id: string) => {
+        const response = await schoolAPIController.acceptTheALApplication(id);
+        if (response) {
+            fetchApplications();
+        }
+    }
+    const fetchApplications = async () => {
+        try {
+            const response = await schoolAPIController.getAllALAdmissionsToSchools();
+            if (response) {
+                // group by subjectStream
+                const grouped: { [key: string]: any[] } = {};
+
+                response.forEach((app: any) => {
+                    if (!grouped[app.subjectStream]) {
+                        grouped[app.subjectStream] = [];
+                    }
+                    grouped[app.subjectStream].push(app);
+                });
+
+                // sort each stream's applicants by totalScore (descending)
+                Object.keys(grouped).forEach((stream) => {
+                    grouped[stream].sort((a, b) => b.totalScore - a.totalScore);
+                });
+
+                setGroupedApplications(grouped);
+            }
+        } catch (error) {
+            console.error("Error fetching applications", error);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchApplications();
+    }, []);
 
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
                 <h3>A/L Admission &gt; Manage Applications</h3>
             </section>
-            {/*url display section*/}
+
             <section className="flex flex-col justify-between items-start mt-5 w-full mb-5">
-                {admissionApplications.map((streamData, streamIdx) => (
-                    <div key={streamIdx} className="w-full mb-6">
+                {Object.entries(groupedApplications).map(([streamName, applicants]) => (
+                    <div key={streamName} className="w-full mb-6">
                         <div className='flex flex-row'>
-                            <label className='text-black flex justify-start mb-2'>{streamData.streamName} Stream</label>
+                            <label className='text-black flex justify-start mb-2'>{streamName} Stream</label>
                         </div>
-                        <Paper sx={{height: 400, width: '100%'}}>
+                        <Paper sx={{height: 500, width: '100%'}}>
                             <DataGrid
-                                rows={streamData.applicants}
+                                rows={applicants}
                                 columns={columns}
                                 pagination
                                 pageSizeOptions={[5, 10]}
@@ -191,6 +123,7 @@ export const ALAdmissionApplications = () => {
                     </div>
                 ))}
             </section>
+
             <FooterSpace/>
         </section>
     );

@@ -152,7 +152,6 @@ export const GradesAndClasses = () => {
                     <section className="bg-white flex flex-col items-center mt-5 p-5 rounded-xl shadow-md w-[250px]">
                         <div className="flex w-full flex-row justify-between font-semibold mb-2">
                             <h3>Grade</h3>
-                            <h3>Class</h3>
                             <h3>Count</h3>
                         </div>
                         {grades.map((item) => (
@@ -162,7 +161,6 @@ export const GradesAndClasses = () => {
                                 className="mt-2 flex flex-row justify-between w-full px-6 py-3 bg-[#F0F4F9] text-black hover:bg-blue-950 hover:text-white font-medium border-b rounded-md"
                             >
                                 <h3>Grade {item.gradeName}</h3>
-                                <h3>{item.classRooms.length > 0 ? item.classRooms[0].className.split('-')[1] : '-'}</h3>
                                 <h3>{item.classRooms.length}</h3>
                             </button>
                         ))}

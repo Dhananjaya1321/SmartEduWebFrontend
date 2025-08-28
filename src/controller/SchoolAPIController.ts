@@ -69,6 +69,40 @@ const schoolAPIController = {
             return [];
         }
     },
+    getAllALAdmissionsToSchools: async () => {
+        try {
+            const response = await apiClient.get(`/schools/view-al-admissions/to-school`);
+            if (response.status === 200 && response.data.state === 'OK') {
+                return response.data.data;
+            }
+            return [];
+        } catch (error) {
+            return [];
+        }
+    },
+
+    acceptTheALApplication: async (id: any) => {
+        try {
+            const response = await apiClient.put(`/schools/accept-al-admissions/to-school/${id}`);
+            if (response.status === 200 && response.data.state === 'OK') {
+                return response.data.data;
+            }
+            return [];
+        } catch (error) {
+            return [];
+        }
+    },
+    getAllALAdmissionsAcceptedByStudentToSchools: async () => {
+        try {
+            const response = await apiClient.get(`/schools/student-accepted/al-apply-admission/to-school`);
+            if (response.status === 200 && response.data.state === 'OK') {
+                return response.data.data;
+            }
+            return [];
+        } catch (error) {
+            return [];
+        }
+    },
 };
 
 export default schoolAPIController;
