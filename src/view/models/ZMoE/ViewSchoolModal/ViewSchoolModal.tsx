@@ -61,7 +61,6 @@ export default function ViewSchoolModal() {
                                     placeholder={'School name'}
                                     important={"*"}
                                     label={'School name'}
-                                    type="password"
                                     disabled={true}
 
                                 />
@@ -312,6 +311,7 @@ export default function ViewSchoolModal() {
                             <Button
                                 name={'Done'}
                                 color={'bg-blue-600'}
+                                onClick={handleClose}
                             />
                         </div>
                     </section>

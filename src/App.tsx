@@ -30,6 +30,10 @@ import {ZMoETeachersAndPrinciples} from "./view/pages/ZEoM/ZMoETeachersAndPrinci
 import {ZMoEManagePrinciples} from "./view/pages/ZEoM/ZMoEManagePrinciples/ZMoEManagePrinciples";
 import {ZMoEManageTeachers} from "./view/pages/ZEoM/ZMoEManageTeachers/ZMoEManageTeachers";
 import {ManageExams} from "./view/pages/common/ManageExams/ManageExams";
+import {ZMoEALAdmission} from "./view/pages/ZEoM/ZMoEALAdmission/ZMoEALAdmission";
+import {ALAdmission} from "./view/pages/school/ALAdmission/ALAdmission";
+import {ALAdmissionApplications} from "./view/pages/school/ALAdmissionApplications/ALAdmissionApplications";
+import {ALSelectedApplications} from "./view/pages/school/ALSelectedApplications/ALSelectedApplications";
 
 
 function AppContent() {
@@ -50,7 +54,13 @@ function AppContent() {
                     <Route path="manage-teachers" element={<SchoolTeacher/>}/>
                 </Route>
                 <Route path="manage-exam" element={<ManageExams/>}/>
+                <Route path="manage-al-admission" element={<ALAdmission/>}>
+                    <Route index path="manage-applications" element={<ALAdmissionApplications/>}/>
+                    <Route path="manage-enrolled-students" element={<ALSelectedApplications/>}/>
+                </Route>
             </Route>
+            {/*school*/}
+
             <Route path="/zonal-education-offices-admin" element={<ZMoEAdminPage/>}>
                 <Route index element={<ZMoEAdminDashboard/>}/>
                 <Route path="manage-users" element={<ZMoEUser/>}/>
@@ -60,19 +70,25 @@ function AppContent() {
                     <Route index path="manage-teachers" element={<ZMoEManageTeachers/>}/>
                 </Route>
                 <Route path="manage-exam" element={<ManageExams/>}/>
+                <Route path="manage-al-admission" element={<ZMoEALAdmission/>}/>
             </Route>
+            {/*zonal education offices*/}
+
             <Route path="/provincial-education-offices-admin" element={<PEoMAdminPage/>}>
                 <Route index element={<PEoMAdminDashboard/>}/>
                 <Route path="manage-users" element={<PMoEUser/>}/>
                 <Route path="manage-zonal-education-offices" element={<PMoEZonalEducationOffice/>}/>
                 <Route path="manage-exam" element={<ManageExams/>}/>
             </Route>
+            {/*provincial education offices*/}
+
             <Route path="/ministry-education-offices-admin" element={<MEoMAdminPage/>}>
                 <Route index element={<MEoMAdminDashboard/>}/>
                 <Route path="manage-users" element={<MoEUser/>}/>
                 <Route path="manage-provincial-education-offices" element={<MoEProvincialEducationOffice/>}/>
                 <Route path="manage-exam" element={<ManageExams/>}/>
             </Route>
+            {/*ministry education offices*/}
         </Routes>
     );
 }
