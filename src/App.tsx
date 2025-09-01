@@ -34,6 +34,7 @@ import {ZMoEALAdmission} from "./view/pages/ZEoM/ZMoEALAdmission/ZMoEALAdmission
 import {ALAdmission} from "./view/pages/school/ALAdmission/ALAdmission";
 import {ALAdmissionApplications} from "./view/pages/school/ALAdmissionApplications/ALAdmissionApplications";
 import {ALSelectedApplications} from "./view/pages/school/ALSelectedApplications/ALSelectedApplications";
+import {Events} from "./view/pages/school/Events/Events";
 
 
 function AppContent() {
@@ -58,6 +59,7 @@ function AppContent() {
                     <Route index path="manage-applications" element={<ALAdmissionApplications/>}/>
                     <Route path="manage-enrolled-students" element={<ALSelectedApplications/>}/>
                 </Route>
+                <Route path="manage-events" element={<Events/>}/>
             </Route>
             {/*school*/}
 
