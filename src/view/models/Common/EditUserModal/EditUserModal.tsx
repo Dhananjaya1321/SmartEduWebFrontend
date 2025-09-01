@@ -7,6 +7,8 @@ import {faEye, faPen, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {TextField} from "../../../component/TextField/TextField";
 
 import {TextArea} from "../../../component/TextArea/TextArea";
+import {useEffect, useState} from "react";
+import userAPIController from "../../../../controller/UserAPIController";
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -22,11 +24,66 @@ const style = {
     overflowY: 'auto' // Enable scrolling if content overflows
 };
 
+interface EditUserModalProps {
+    rowData: {
+        id: string;
+        name: string;
+        contact: string;
+        nic: string;
+        username: string;
+        email: string;
+        address: string;
+        role?: string;
+    };
+    onUpdateUser: (updatedUser: {
+        id: string;
+        name: string;
+        contact: string;
+        nic: string;
+        username: string;
+        email: string;
+        address: string;
+        role?: string;
+    }) => void;
+}
 
-export default function EditUserModal() {
-    const [open, setOpen] = React.useState(false);
+export default function EditUserModal({ rowData, onUpdateUser }: EditUserModalProps) {
+    const [open, setOpen] = useState(false);
+    const [userData, setUserData] = useState(rowData);
+
+    useEffect(() => {
+        setUserData(rowData);
+    }, [rowData]);
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setUserData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleUserUpdate = async () => {
+        if (!userData.name || userData.name.trim().length < 2) {
+            alert("Name is required");
+            return;
+        }
+
+        try {
+            const response = await userAPIController.updateUser(userData);
+            if (response) {
+                onUpdateUser(userData);
+                alert("User updated successfully!");
+                handleClose();
+            } else {
+                alert(response?.message || "Failed to update user.");
+            }
+        } catch (error) {
+            console.error("Error updating user:", error);
+            alert("Unexpected error occurred.");
+        }
+    };
+
 
     return (
         <div>
@@ -57,19 +114,24 @@ export default function EditUserModal() {
                                     placeholder={'ex- Nimal'}
                                     label={'Name'}
                                     important={"*"}
+                                    value={userData.name}
+                                    onChange={handleChange}
                                 />
                                 <TextField
                                     name="contact"
                                     placeholder={'ex- 070 000 0000'}
                                     label={'Contact'}
                                     important={"*"}
+                                    value={userData.contact}
+                                    onChange={handleChange}
                                 />
                                 <TextField
                                     name="nic"
                                     placeholder={'ex- 000000000000 or 000000000v'}
                                     label={'NIC'}
                                     important={"*"}
-
+                                    value={userData.nic}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
@@ -78,14 +140,16 @@ export default function EditUserModal() {
                                     placeholder={'ex- Isuru123'}
                                     label={'Username'}
                                     important={"*"}
-
+                                    value={userData.username}
+                                    onChange={handleChange}
                                 />
                                 <TextField
                                     name="email"
                                     placeholder={'ex- example@gmail.com'}
                                     label={'Email'}
                                     important={"*"}
-
+                                    value={userData.email}
+                                    onChange={handleChange}
                                 />
                                 <div className='grow w-[220px] mx-3 my-3 gap-1 flex flex-col justify-start'>
                                     <div className='flex flex-row'>
@@ -110,7 +174,8 @@ export default function EditUserModal() {
                                     name="address"
                                     placeholder={'ex- ABC Road, Galle'}
                                     label={'Address'}
-
+                                    value={userData.address}
+                                    onChange={handleChange}
                                 />
                             </div>
                         </section>
@@ -118,6 +183,7 @@ export default function EditUserModal() {
                             <Button
                                 name={'Update'}
                                 color={'bg-green-600'}
+                                onClick={handleUserUpdate}
                             />
                         </div>
                     </section>

@@ -44,70 +44,88 @@ import {Letters} from "./view/pages/school/Letters/Letters";
 import {TimeTable} from "./view/pages/school/TimeTable/TimeTable";
 import {GradesAndClasses} from "./view/pages/school/GradesAndClasses/GradesAndClasses";
 import {Students} from "./view/pages/school/Students/Students";
+import PrivateRoute from './view/context/PrivateRoute';
 
 
 function AppContent() {
     return (
         <Routes>
-            <Route path="/" element={<LandingPage/>}/>
-            <Route path="/login" element={<LoginPage/>}/>
-            <Route path="/register" element={<RegisterPage/>}/>
-            <Route path="/forgot-password" element={<ForgotPassword/>}/>
-            <Route path="/verify-code" element={<VerifyCodePage/>}/>
-            <Route path="/change-password" element={<ChangePasswordPage/>}/>
-            <Route path="/verify-principal" element={<PrincipalVerifyPage/>}/>
-            <Route path="/verify-school" element={<SchoolVerifyPage/>}/>
-            <Route path="/school-admin" element={<AdminPage/>}>
-                <Route index element={<AdminDashboard/>}/>
-                <Route path="manage-teachers-and-users" element={<TeachersAndUsers/>}>
-                    <Route index path="manage-users" element={<SchoolUser/>}/>
-                    <Route path="manage-teachers" element={<SchoolTeacher/>}/>
-                </Route>
-                <Route path="manage-students" element={<Students/>}/>
-                <Route path="manage-grades-and-classes" element={<GradesAndClasses/>}/>
-                <Route path="manage-time-table" element={<TimeTable/>}/>
-                <Route path="manage-exam" element={<ManageExams/>}/>
-                <Route path="manage-events" element={<Events/>}/>
-                <Route path="manage-letter" element={<Letters/>}/>
-                <Route path="manage-exam-and-nic-application" element={<ExamsAndNIC/>}>
-                    <Route index path="manage-applications" element={<ExamsAndNICApplication/>}/>
-                    <Route index path="view-applications" element={<ViewExamsAndNICApplicationStatus/>}/>
-                </Route>
-                <Route path="manage-al-admission" element={<ALAdmission/>}>
-                    <Route index path="manage-applications" element={<ALAdmissionApplications/>}/>
-                    <Route path="manage-enrolled-students" element={<ALSelectedApplications/>}/>
-                </Route>
-            </Route>
-            {/*school*/}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/verify-code" element={<VerifyCodePage />} />
+            <Route path="/change-password" element={<ChangePasswordPage />} />
+            <Route path="/verify-principal" element={<PrincipalVerifyPage />} />
+            <Route path="/verify-school" element={<SchoolVerifyPage />} />
 
-            <Route path="/zonal-education-offices-admin" element={<ZMoEAdminPage/>}>
-                <Route index element={<ZMoEAdminDashboard/>}/>
-                <Route path="manage-users" element={<ZMoEUser/>}/>
-                <Route path="manage-schools" element={<ZMoESchools/>}/>
-                <Route path="manage-teachers-and-principles" element={<ZMoETeachersAndPrinciples/>}>
-                    <Route index path="manage-principles" element={<ZMoEManagePrinciples/>}/>
-                    <Route index path="manage-teachers" element={<ZMoEManageTeachers/>}/>
+            {/* SCHOOL ADMIN/EMPLOYEE */}
+            <Route path="/school-admin" element={
+                <PrivateRoute allowedRoles={["SCHOOL_ADMIN", "SCHOOL_EMPLOYEE"]}>
+                    <AdminPage />
+                </PrivateRoute>
+            }>
+                <Route index element={<AdminDashboard />} />
+                <Route path="manage-teachers-and-users" element={<TeachersAndUsers />}>
+                    <Route index path="manage-users" element={<SchoolUser />} />
+                    <Route path="manage-teachers" element={<SchoolTeacher />} />
                 </Route>
-                <Route path="manage-exam" element={<ManageExams/>}/>
-                <Route path="manage-al-admission" element={<ZMoEALAdmission/>}/>
+                <Route path="manage-students" element={<Students />} />
+                <Route path="manage-grades-and-classes" element={<GradesAndClasses />} />
+                <Route path="manage-time-table" element={<TimeTable />} />
+                <Route path="manage-exam" element={<ManageExams />} />
+                <Route path="manage-events" element={<Events />} />
+                <Route path="manage-letter" element={<Letters />} />
+                <Route path="manage-exam-and-nic-application" element={<ExamsAndNIC />}>
+                    <Route index path="manage-applications" element={<ExamsAndNICApplication />} />
+                    <Route index path="view-applications" element={<ViewExamsAndNICApplicationStatus />} />
+                </Route>
+                <Route path="manage-al-admission" element={<ALAdmission />}>
+                    <Route index path="manage-applications" element={<ALAdmissionApplications />} />
+                    <Route path="manage-enrolled-students" element={<ALSelectedApplications />} />
+                </Route>
             </Route>
-            {/*zonal education offices*/}
 
-            <Route path="/provincial-education-offices-admin" element={<PEoMAdminPage/>}>
-                <Route index element={<PEoMAdminDashboard/>}/>
-                <Route path="manage-users" element={<PMoEUser/>}/>
-                <Route path="manage-zonal-education-offices" element={<PMoEZonalEducationOffice/>}/>
-                <Route path="manage-exam" element={<ManageExams/>}/>
+            {/* ZMOE ADMIN/EMPLOYEE */}
+            <Route path="/zonal-education-offices-admin" element={
+                <PrivateRoute allowedRoles={["ZMOE_ADMIN", "ZMOE_EMPLOYEE"]}>
+                    <ZMoEAdminPage />
+                </PrivateRoute>
+            }>
+                <Route index element={<ZMoEAdminDashboard />} />
+                <Route path="manage-users" element={<ZMoEUser />} />
+                <Route path="manage-schools" element={<ZMoESchools />} />
+                <Route path="manage-teachers-and-principles" element={<ZMoETeachersAndPrinciples />}>
+                    <Route index path="manage-principles" element={<ZMoEManagePrinciples />} />
+                    <Route index path="manage-teachers" element={<ZMoEManageTeachers />} />
+                </Route>
+                <Route path="manage-exam" element={<ManageExams />} />
+                <Route path="manage-al-admission" element={<ZMoEALAdmission />} />
             </Route>
-            {/*provincial education offices*/}
 
-            <Route path="/ministry-education-offices-admin" element={<MEoMAdminPage/>}>
-                <Route index element={<MEoMAdminDashboard/>}/>
-                <Route path="manage-users" element={<MoEUser/>}/>
-                <Route path="manage-provincial-education-offices" element={<MoEProvincialEducationOffice/>}/>
-                <Route path="manage-exam" element={<ManageExams/>}/>
+            {/* PMOE ADMIN/EMPLOYEE */}
+            <Route path="/provincial-education-offices-admin" element={
+                <PrivateRoute allowedRoles={["PMOE_ADMIN", "PMOE_EMPLOYEE"]}>
+                    <PEoMAdminPage />
+                </PrivateRoute>
+            }>
+                <Route index element={<PEoMAdminDashboard />} />
+                <Route path="manage-users" element={<PMoEUser />} />
+                <Route path="manage-zonal-education-offices" element={<PMoEZonalEducationOffice />} />
+                <Route path="manage-exam" element={<ManageExams />} />
             </Route>
-            {/*ministry education offices*/}
+
+            {/* MOE ADMIN/EMPLOYEE */}
+            <Route path="/ministry-education-offices-admin" element={
+                <PrivateRoute allowedRoles={["MOE_ADMIN", "MOE_EMPLOYEE"]}>
+                    <MEoMAdminPage />
+                </PrivateRoute>
+            }>
+                <Route index element={<MEoMAdminDashboard />} />
+                <Route path="manage-users" element={<MoEUser />} />
+                <Route path="manage-provincial-education-offices" element={<MoEProvincialEducationOffice />} />
+                <Route path="manage-exam" element={<ManageExams />} />
+            </Route>
         </Routes>
     );
 }

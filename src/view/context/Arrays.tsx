@@ -173,7 +173,7 @@ export const gradeSubjectMap: Record<string, string[]> = {
     grade_2: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
     grade_3: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
     grade_4: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
-    grade_5: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
+    grade_5: ["Other","Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
 
     grade_6: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Geography", "Health & PE", "ICT", "Aesthetics", "Civic Education"],
     grade_7: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Geography", "Health & PE", "ICT", "Aesthetics", "Civic Education"],
@@ -198,6 +198,8 @@ export const paperType = [
     { label: 'Part 1', value: 'part_1' },
     { label: 'Part 2', value: 'part_2' },
     { label: 'Part 3', value: 'part_3' },
+    { label: 'Part 4', value: 'part_4' },
+    { label: 'Part 5', value: 'part_5' },
 
 ];
 
@@ -246,5 +248,17 @@ export const examsAndNICApplicationOptions = [
     { label: 'G.C.E. (A/L) Examination', value: 'al' },
     { label: 'Grade 5 Scholarship Examination', value: 'g5' },
     { label: 'NIC Application', value: 'nic' },
+
+];
+
+export const examsOptions = [
+    { label: 'Select...', value: '' },
+    { label: 'G.C.E. (O/L) Examination', value: 'G.C.E. (O/L) Examination' },
+    { label: 'G.C.E. (A/L) Examination', value: 'G.C.E. (A/L) Examination' },
+    { label: 'Grade 5 Scholarship Examination', value: 'Grade 5 Scholarship Examination' },
+    { label: 'First Term Exam', value: 'First Term Exam' },
+    { label: 'Mid-Term Exam', value: 'Mid-Term Exam' },
+    { label: 'Final Term Exam', value: 'Final Term Exam' },
+    { label: 'Other Exam', value: 'Other Exam' },
 
 ];

@@ -1,13 +1,11 @@
-import React, {useState, useEffect} from "react";
-import {Button} from "../../../component/Button/Button";
-import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
-import {DropdownField} from "../../../component/DropdownField/DropdownField";
-import {examsAndNICApplicationOptions} from "../../../context/Arrays";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
-import {Paper} from "@mui/material";
-import EditEventModal from "../../../models/School/EditEventModal/EditEventModal";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEye, faTrash} from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from "react";
+import { Paper } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DropdownField } from "../../../component/DropdownField/DropdownField";
+import { examsAndNICApplicationOptions } from "../../../context/Arrays";
+import { FooterSpace } from "../../../component/FooterSpace/FooterSpace";
+
+// Modals
 import EditOLApplicationModal from "../../../models/School/EditOLApplicationModal/EditOLApplicationModal";
 import EditALApplicationModal from "../../../models/School/EditALApplicationModal/EditALApplicationModal";
 import EditGrade5ApplicationModal from "../../../models/School/EditGrade5ApplicationModal/EditGrade5ApplicationModal";
@@ -16,206 +14,228 @@ import ViewALApplicationModal from "../../../models/School/ViewALApplicationModa
 import ViewG5ApplicationModal from "../../../models/School/ViewG5ApplicationModal/ViewG5ApplicationModal";
 import ViewNICApplicationModal from "../../../models/School/ViewNICApplicationModal/ViewNICApplicationModal";
 import ViewOLApplicationModal from "../../../models/School/ViewOLApplicationModal/ViewOLApplicationModal";
+import examsAndApplicationsAPIController from "../../../../controller/ExamsAndApplicationsAPIController";
+
 
 interface StudentApplication {
-    id: number;
+    id: string;
     name: string;
     index: string;
     applicationType: string;
     birthCertificate: boolean;
-    nicFront: boolean;
-    nicBack: boolean;
+    nicFront?: boolean;
+    nicBack?: boolean;
     status: string;
 }
 
 export const ViewExamsAndNICApplicationStatus = () => {
-    const [selectedApplication, setSelectedApplication] = useState('');
+    const [selectedApplication, setSelectedApplication] = useState("");
     const [applicationData, setApplicationData] = useState<StudentApplication[]>([]);
+    const [loading, setLoading] = useState(false);
 
-    // Dummy data – replace this with API data fetching
+    // Fetch applications when selectedApplication changes
     useEffect(() => {
-        const dummyData: StudentApplication[] = [
-            {
-                id: 1,
-                name: "Kamal Perera",
-                index: "123456",
-                applicationType: "ol",
-                birthCertificate: true,
-                nicFront: false,
-                nicBack: false,
-                status: "Pending"
-            },
-            {
-                id: 2,
-                name: "Nadeesha Silva",
-                index: "789012",
-                applicationType: "al",
-                birthCertificate: true,
-                nicFront: true,
-                nicBack: true,
-                status: "Approved"
-            },
-            {
-                id: 3,
-                name: "Sajith Kumar",
-                index: "345678",
-                applicationType: "g5",
-                birthCertificate: true,
-                nicFront: false,
-                nicBack: false,
-                status: "Submitted"
-            },
-            {
-                id: 4,
-                name: "Dilani Fernando",
-                index: "654321",
-                applicationType: "nic",
-                birthCertificate: true,
-                nicFront: true,
-                nicBack: true,
-                status: "Rejected"
-            }
-        ];
-        setApplicationData(dummyData);
-    }, []);
+        if (!selectedApplication) return;
 
-    const columns_ol: GridColDef[] = [
-            {field: "name", headerName: "Student Name", width: 200},
-            {field: "index", headerName: "Index Number", width: 150},
-            {
-                field: "applicationType",
-                headerName: "G.C.E. (O/L) Examination",
-                width: 250,
-                valueFormatter: (params) => params.value.toUpperCase()
-            },
-            {
-                field: "birthCertificate",
-                headerName: "Birth Cert",
-                width: 120,
-                renderCell: (params) => (params.value ? "✅" : "❌")
-            },
-            {
-                field: "nicFront",
-                headerName: "NIC Front",
-                width: 120,
-                renderCell: (params) => (params.value ? "✅" : "❌")
-            },
-            {
-                field: "nicBack",
-                headerName: "NIC Back",
-                width: 120,
-                renderCell: (params) => (params.value ? "✅" : "❌")
-            },
-            {field: "status", headerName: "Status", width: 130},
-            {
-                field: "actions",
-                headerName: "Actions",
-                width: 150,
-                renderCell: () => (
-                    <>
-                        <EditOLApplicationModal/>
-                        <ViewOLApplicationModal/>
-                    </>
-                )
+        const fetchData = async () => {
+            setLoading(true);
+            const result = await examsAndApplicationsAPIController.getAll(selectedApplication);
+            if (result) {
+                console.log(result)
+                setApplicationData(result);
+            } else {
+                setApplicationData([]); // Clear if API fails
             }
-        ]
-    ;
-    const columns_al: GridColDef[] = [
-        {field: "name", headerName: "Student Name", width: 200},
-        {field: "index", headerName: "Index Number", width: 150},
+            setLoading(false);
+        };
+
+        fetchData();
+    }, [selectedApplication]);
+
+    // ================== COLUMNS ==================
+// ================== COLUMNS ==================
+    const columns_ol: GridColDef[] = [
+        { field: "studentName", headerName: "Student Name", width: 200 },
+        { field: "registrationNumber", headerName: "registration Number", width: 250 },
         {
-            field: "applicationType",
-            headerName: "G.C.E. (A/L) Examination",
-            width: 250,
-            valueFormatter: (params) => params.value.toUpperCase()
+            field: "birthCertificateFrontImageUrl",
+            headerName: "Birth Cert Front",
+            width: 160,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
         },
         {
-            field: "birthCertificate",
-            headerName: "Birth Cert",
-            width: 120,
-            renderCell: (params) => (params.value ? "✅" : "❌")
+            field: "birthCertificateBackImageUrl",
+            headerName: "Birth Cert Back",
+            width: 160,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
         },
         {
-            field: "nicFront",
+            field: "nicFrontImageUrl",
             headerName: "NIC Front",
-            width: 120,
-            renderCell: (params) => (params.value ? "✅" : "❌")
+            width: 140,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
         },
         {
-            field: "nicBack",
+            field: "nicBackImageUrl",
             headerName: "NIC Back",
-            width: 120,
-            renderCell: (params) => (params.value ? "✅" : "❌")
+            width: 140,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
         },
-        {field: "status", headerName: "Status", width: 130},
+        { field: "status", headerName: "Status", width: 130 },
         {
             field: "actions",
             headerName: "Actions",
             width: 150,
             renderCell: () => (
                 <>
-                    <EditALApplicationModal/>
-                    <ViewALApplicationModal/>
+                    <EditOLApplicationModal />
+                    <ViewOLApplicationModal />
                 </>
-            )
-        }
+            ),
+        },
     ];
+
+    const columns_al: GridColDef[] = [
+        { field: "studentName", headerName: "Student Name", width: 200 },
+        { field: "registrationNumber", headerName: "registration Number", width: 250 },
+        {
+            field: "birthCertificateFrontImageUrl",
+            headerName: "Birth Cert Front",
+            width: 160,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
+        },
+        {
+            field: "birthCertificateBackImageUrl",
+            headerName: "Birth Cert Back",
+            width: 160,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
+        },
+        {
+            field: "nicFrontImageUrl",
+            headerName: "NIC Front",
+            width: 140,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
+        },
+        {
+            field: "nicBackImageUrl",
+            headerName: "NIC Back",
+            width: 140,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
+        },
+        { field: "status", headerName: "Status", width: 130 },
+        {
+            field: "actions",
+            headerName: "Actions",
+            width: 150,
+            renderCell: () => (
+                <>
+                    <EditALApplicationModal />
+                    <ViewALApplicationModal />
+                </>
+            ),
+        },
+    ];
+
     const columns_g5: GridColDef[] = [
-        {field: "name", headerName: "Student Name", width: 200},
-        {field: "index", headerName: "Index Number", width: 150},
+        { field: "studentName", headerName: "Student Name", width: 200 },
+        { field: "registrationNumber", headerName: "registration Number", width: 250 },
         {
-            field: "applicationType",
-            headerName: "Grade 5 Scholarship Examination",
-            width: 250,
-            valueFormatter: (params) => params.value.toUpperCase()
+            field: "birthCertificateFrontImageUrl",
+            headerName: "Birth Cert Front",
+            width: 160,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
         },
         {
-            field: "birthCertificate",
-            headerName: "Birth Cert",
-            width: 120,
-            renderCell: (params) => (params.value ? "✅" : "❌")
+            field: "birthCertificateBackImageUrl",
+            headerName: "Birth Cert Back",
+            width: 160,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
         },
-        {field: "status", headerName: "Status", width: 130},
+        { field: "status", headerName: "Status", width: 130 },
         {
             field: "actions",
             headerName: "Actions",
             width: 150,
             renderCell: () => (
                 <>
-                    <EditGrade5ApplicationModal/>
-                    <ViewG5ApplicationModal/>
+                    <EditGrade5ApplicationModal />
+                    <ViewG5ApplicationModal />
                 </>
-            )
-        }
+            ),
+        },
     ];
+
     const columns_nic: GridColDef[] = [
-        {field: "name", headerName: "Student Name", width: 200},
-        {field: "index", headerName: "Index Number", width: 150},
+        { field: "studentName", headerName: "Student Name", width: 200 },
+        { field: "registrationNumber", headerName: "registration Number", width: 250 },
         {
-            field: "applicationType",
-            headerName: "National Identity Card (NIC)",
-            width: 250,
-            valueFormatter: (params) => params.value.toUpperCase()
+            field: "birthCertificateFrontImageUrl",
+            headerName: "Birth Cert Front",
+            width: 160,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
         },
         {
-            field: "birthCertificate",
-            headerName: "Birth Cert",
-            width: 120,
-            renderCell: (params) => (params.value ? "✅" : "❌")
+            field: "birthCertificateBackImageUrl",
+            headerName: "Birth Cert Back",
+            width: 160,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
         },
-        {field: "status", headerName: "Status", width: 130},
+        {
+            field: "nicFrontImageUrl",
+            headerName: "NIC Front",
+            width: 140,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
+        },
+        {
+            field: "nicBackImageUrl",
+            headerName: "NIC Back",
+            width: 140,
+            renderCell: (params) =>
+                params.value ? "✅" : "❌",
+        },
+        { field: "status", headerName: "Status", width: 130 },
         {
             field: "actions",
             headerName: "Actions",
             width: 150,
             renderCell: () => (
                 <>
-                    <EditNICApplicationModal/>
-                    <ViewNICApplicationModal/>
+                    <EditNICApplicationModal />
+                    <ViewNICApplicationModal />
                 </>
-            )
-        }
+            ),
+        },
     ];
+
+
+    // ================== UI ==================
+    const getColumns = () => {
+        switch (selectedApplication) {
+            case "ol":
+                return columns_ol;
+            case "al":
+                return columns_al;
+            case "g5":
+                return columns_g5;
+            case "nic":
+                return columns_nic;
+            default:
+                return [];
+        }
+    };
 
     return (
         <section className="h-max flex w-[95%] flex-col justify-center">
@@ -224,8 +244,7 @@ export const ViewExamsAndNICApplicationStatus = () => {
             </section>
 
             {/* Dropdown Section */}
-            <section
-                className="bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md">
+            <section className="bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md">
                 <div className="flex flex-row flex-wrap items-center justify-center w-full">
                     <DropdownField
                         label="Select Application Type"
@@ -240,154 +259,39 @@ export const ViewExamsAndNICApplicationStatus = () => {
                     />
                 </div>
             </section>
-            {selectedApplication === 'ol' && (
-                <div className='flex flex-col items-start w-full'>
-                    <h4 className="text-lg font-semibold text-[#005285] mb-4 mt-6">Application Status</h4>
-                    <div style={{height: 400, width: '100%'}}>
-                        <Paper sx={{height: 400, width: '100%'}}>
+
+            {selectedApplication && (
+                <div className="flex flex-col items-start w-full">
+                    <h4 className="text-lg font-semibold text-[#005285] mb-4 mt-6">
+                        Application Status
+                    </h4>
+                    <div style={{ height: 400, width: "100%" }}>
+                        <Paper sx={{ height: 400, width: "100%" }}>
                             <DataGrid
-                                rows={applicationData.filter(app => app.applicationType === selectedApplication)}
-                                columns={columns_ol}
+                                rows={applicationData}
+                                columns={getColumns()}
+                                loading={loading}
                                 pagination
                                 pageSizeOptions={[5, 10]}
-                                // checkboxSelection
                                 sx={{
                                     border: 0,
-                                    '& .MuiDataGrid-row:hover': {
-                                        backgroundColor: 'inherit' // Removes hover effect
+                                    "& .MuiDataGrid-row:hover": {
+                                        backgroundColor: "inherit",
                                     },
-                                    '& .MuiDataGrid-cell:focus-within': {
-                                        outline: 'none', // Removes focus outline on edit mode
-                                    }
+                                    "& .MuiDataGrid-cell:focus-within": {
+                                        outline: "none",
+                                    },
                                 }}
                                 disableRowSelectionOnClick
                                 disableColumnMenu
                                 getRowId={(row) => row.id}
-                                /*paginationModel={paginationModel}
-                                rowCount={totalElements} // Total number of rows
-                                paginationMode="server" // Use server-side pagination
-                                onPaginationModelChange={(newPagination) => {
-                                    setPaginationModel(newPagination);
-                                    fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
-                                    });
-                                }}*/
                             />
                         </Paper>
                     </div>
                 </div>
             )}
 
-            {selectedApplication === 'al' && (
-                <div className='flex flex-col items-start w-full'>
-                    <h4 className="text-lg font-semibold text-[#005285] mb-4 mt-6">Application Status</h4>
-                    <div style={{height: 400, width: '100%'}}>
-                        <Paper sx={{height: 400, width: '100%'}}>
-                            <DataGrid
-                                rows={applicationData.filter(app => app.applicationType === selectedApplication)}
-                                columns={columns_al}
-                                pagination
-                                pageSizeOptions={[5, 10]}
-                                // checkboxSelection
-                                sx={{
-                                    border: 0,
-                                    '& .MuiDataGrid-row:hover': {
-                                        backgroundColor: 'inherit' // Removes hover effect
-                                    },
-                                    '& .MuiDataGrid-cell:focus-within': {
-                                        outline: 'none', // Removes focus outline on edit mode
-                                    }
-                                }}
-                                disableRowSelectionOnClick
-                                disableColumnMenu
-                                getRowId={(row) => row.id}
-                                /*paginationModel={paginationModel}
-                                rowCount={totalElements} // Total number of rows
-                                paginationMode="server" // Use server-side pagination
-                                onPaginationModelChange={(newPagination) => {
-                                    setPaginationModel(newPagination);
-                                    fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
-                                    });
-                                }}*/
-                            />
-                        </Paper>
-                    </div>
-                </div>
-            )}
-
-            {selectedApplication === 'g5' && (
-                <div className='flex flex-col items-start w-full'>
-                    <h4 className="text-lg font-semibold text-[#005285] mb-4 mt-6">Application Status</h4>
-                    <div style={{height: 400, width: '100%'}}>
-                        <Paper sx={{height: 400, width: '100%'}}>
-                            <DataGrid
-                                rows={applicationData.filter(app => app.applicationType === selectedApplication)}
-                                columns={columns_g5}
-                                pagination
-                                pageSizeOptions={[5, 10]}
-                                // checkboxSelection
-                                sx={{
-                                    border: 0,
-                                    '& .MuiDataGrid-row:hover': {
-                                        backgroundColor: 'inherit' // Removes hover effect
-                                    },
-                                    '& .MuiDataGrid-cell:focus-within': {
-                                        outline: 'none', // Removes focus outline on edit mode
-                                    }
-                                }}
-                                disableRowSelectionOnClick
-                                disableColumnMenu
-                                getRowId={(row) => row.id}
-                                /*paginationModel={paginationModel}
-                                rowCount={totalElements} // Total number of rows
-                                paginationMode="server" // Use server-side pagination
-                                onPaginationModelChange={(newPagination) => {
-                                    setPaginationModel(newPagination);
-                                    fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
-                                    });
-                                }}*/
-                            />
-                        </Paper>
-                    </div>
-                </div>
-            )}
-
-            {selectedApplication === 'nic' && (
-                <div className='flex flex-col items-start w-full'>
-                    <h4 className="text-lg font-semibold text-[#005285] mb-4 mt-6">Application Status</h4>
-                    <div style={{height: 400, width: '100%'}}>
-                        <Paper sx={{height: 400, width: '100%'}}>
-                            <DataGrid
-                                rows={applicationData.filter(app => app.applicationType === selectedApplication)}
-                                columns={columns_nic}
-                                pagination
-                                pageSizeOptions={[5, 10]}
-                                // checkboxSelection
-                                sx={{
-                                    border: 0,
-                                    '& .MuiDataGrid-row:hover': {
-                                        backgroundColor: 'inherit' // Removes hover effect
-                                    },
-                                    '& .MuiDataGrid-cell:focus-within': {
-                                        outline: 'none', // Removes focus outline on edit mode
-                                    }
-                                }}
-                                disableRowSelectionOnClick
-                                disableColumnMenu
-                                getRowId={(row) => row.id}
-                                /*paginationModel={paginationModel}
-                                rowCount={totalElements} // Total number of rows
-                                paginationMode="server" // Use server-side pagination
-                                onPaginationModelChange={(newPagination) => {
-                                    setPaginationModel(newPagination);
-                                    fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
-                                    });
-                                }}*/
-                            />
-                        </Paper>
-                    </div>
-                </div>
-            )}
-            <FooterSpace/>
+            <FooterSpace />
         </section>
     );
 };

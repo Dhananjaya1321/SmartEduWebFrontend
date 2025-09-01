@@ -9,7 +9,7 @@ import {Button} from "../../../component/Button/Button";
 import {DropdownField} from "../../../component/DropdownField/DropdownField";
 import {
     alStreams,
-    alStreamSubjects,
+    alStreamSubjects, examsOptions,
     gradeOptions,
     gradeSpanOptions,
     gradeSubjectMap,
@@ -17,6 +17,8 @@ import {
 } from "../../../context/Arrays";
 import {useEffect, useState} from "react";
 import {Table, TableBody, TableCell, TableHead, TableRow, IconButton, Tooltip} from "@mui/material";
+import letterAPIController from "../../../../controller/LetterAPIController";
+import examsAPIController from "../../../../controller/ExamsAPIController";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -39,6 +41,7 @@ export const CreateExamModal = () => {
 
     // Form fields
     const [selectedGrade, setSelectedGrade] = useState('');
+    const [selectedExam, setSelectedExam] = useState('');
     const [selectedStream, setSelectedStream] = useState('');
     const [subjects, setSubjects] = useState<string[]>([]);
     const [selectedSubject, setSelectedSubject] = useState('');
@@ -77,6 +80,7 @@ export const CreateExamModal = () => {
         if (!selectedSubject || !selectedPaper || !examDate || !startTime || !endTime) return;
 
         const newEntry = {
+            stream:selectedStream,
             subject: selectedSubject,
             paper: selectedPaper,
             date: examDate,
@@ -98,18 +102,27 @@ export const CreateExamModal = () => {
         setExamSubjects(prev => prev.filter((_, i) => i !== index));
     };
 
-    const handleCreateExam = () => {
+    const handleCreateExam = async () => {
         const payload = {
-            examName,
-            examYear,
+            examName:selectedExam,
+            year:examYear,
             grade: selectedGrade,
-            stream: selectedStream,
             timetable: examSubjects
         };
 
         console.log("Exam Payload:", payload);
-        // TODO: Send payload to backend via API
-        handleClose();
+        const response = await examsAPIController.save(payload);
+        if (response) {
+            handleClose();
+            setSelectedSubject('');
+            setSelectedPaper('');
+            setExamDate('');
+            setStartTime('');
+            setEndTime('');
+            setSelectedGrade('')
+            setSelectedStream('')
+            setExamSubjects([])
+        }
     };
     return (
         <div>
@@ -146,18 +159,23 @@ export const CreateExamModal = () => {
                                     value={selectedGrade}
                                     onChange={(e) => setSelectedGrade(e.target.value)}
                                 />
-                                <TextField
-                                    name="examName"
-                                    placeholder={'ex- First Term Exam'}
-                                    label={'Exam name'}
-                                    important={"*"}
-                                    onChange={(e) => setExamName(e.target.value)}
+                                <DropdownField
+                                    label="Select Exam"
+                                    important="*"
+                                    mt={"12px"}
+                                    mb={"12px"}
+                                    ml={"12px"}
+                                    mr={"12px"}
+                                    options={examsOptions}
+                                    value={selectedExam}
+                                    onChange={(e) => setSelectedExam(e.target.value)}
                                 />
                                 <TextField
                                     name="year"
-                                    label={'Year'}
-                                    important={"*"}
-                                    type={"date"}
+                                    label="Year"
+                                    important="*"
+                                    type="number"
+                                    inputProps={{ min: "1900", max: "2100", step: "1" }}
                                     onChange={(e) => setExamYear(e.target.value)}
                                 />
                             </div>
@@ -286,6 +304,7 @@ export const CreateExamModal = () => {
                             <Button
                                 name={'Create'}
                                 color={'bg-green-600'}
+                                onClick={handleCreateExam}
                             />
                         </div>
                     </section>

@@ -23,7 +23,7 @@ export const TextArea = ({label, placeholder, msg, important,disabled = false, n
 };
 type props = {
     label: string,
-    placeholder: string,
+    placeholder?: string,
     msg?: string,
     important?: string,
     name?: string,

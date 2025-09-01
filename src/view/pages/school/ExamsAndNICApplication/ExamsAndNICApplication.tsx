@@ -5,19 +5,153 @@ import {Autocomplete} from "@mui/material";
 import {DropdownField} from "../../../component/DropdownField/DropdownField";
 import {examsAndNICApplicationOptions} from "../../../context/Arrays";
 import {FileUploader} from "../../../component/FileUploader/FileUploader";
+import studentAPIController from "../../../../controller/StudentAPIController";
+import examsAndApplicationsAPIController from "../../../../controller/ExamsAndApplicationsAPIController";
 
 interface Student {
     id: number;
-    name: string;
-    index: string;
+    fullName: string;
+    registrationNumber: string;
 }
 
 export const ExamsAndNICApplication = () => {
     const [selectedApplication, setSelectedApplication] = useState('');
     const [student, setStudent] = useState<Student[]>([]);
     const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
-    const handleStudentSearch = async (inputValue: string) => {
 
+    const [nicFrontAL, setNicFrontAL] = useState<string | null>(null);
+    const [nicBackAL, setNicBackAL] = useState<string | null>(null);
+    const [birthCertificateFrontAL, setBirthCertificateFrontAL] = useState<string | null>(null);
+    const [birthCertificateBackAL, setBirthCertificateBackAL] = useState<string | null>(null);
+
+    const [nicFrontOL, setNicFrontOL] = useState<string | null>(null);
+    const [nicBackOL, setNicBackOL] = useState<string | null>(null);
+    const [birthCertificateFrontOL, setBirthCertificateFrontOL] = useState<string | null>(null);
+    const [birthCertificateBackOL, setBirthCertificateBackOL] = useState<string | null>(null);
+
+    const [birthCertificateFrontG5, setBirthCertificateFrontG5] = useState<string | null>(null);
+    const [birthCertificateBackG5, setBirthCertificateBackG5] = useState<string | null>(null);
+
+    const [birthCertificateFrontNIC, setBirthCertificateFrontNIC] = useState<string | null>(null);
+    const [birthCertificateBackNIC, setBirthCertificateBackNIC] = useState<string | null>(null);
+
+    const handleStudentSearch = async (inputValue: string) => {
+        const response = await studentAPIController.searchStudentsByName(inputValue, selectedApplication);
+        if (response) {
+            setStudent(response);
+        }
+    };
+    const handleApplyForAL = async () => {
+        if (!selectedStudent || !selectedApplication) {
+            alert("Please select student and application type");
+            return;
+        }
+
+        const payload = {
+            type:selectedApplication,
+            studentId: selectedStudent.id,
+            nicFrontImageUrl: nicFrontAL,
+            nicBackImageUrl: nicBackAL,
+            birthCertificateFrontImageUrl: birthCertificateFrontAL,
+            birthCertificateBackImageUrl: birthCertificateBackAL
+        };
+
+
+        try {
+            const res = await examsAndApplicationsAPIController.save(payload);
+            if (res) {
+                alert("Application submitted successfully!");
+                setSelectedStudent(null)
+            } else {
+                alert("Failed to submit application");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error submitting application");
+        }
+    };
+
+    const handleApplyForOL = async () => {
+        if (!selectedStudent || !selectedApplication) {
+            alert("Please select student and application type");
+            return;
+        }
+
+        const payload = {
+            type:selectedApplication,
+            studentId: selectedStudent.id,
+            nicFrontImageUrl: nicFrontOL,
+            nicBackImageUrl: nicBackOL,
+            birthCertificateFrontImageUrl: birthCertificateFrontOL,
+            birthCertificateBackImageUrl: birthCertificateBackOL
+        };
+
+        try {
+            const res = await examsAndApplicationsAPIController.save(payload);
+            if (res) {
+                alert("Application submitted successfully!");
+                setSelectedStudent(null)
+            } else {
+                alert("Failed to submit application");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error submitting application");
+        }
+    };
+
+    const handleApplyForG5 = async () => {
+        if (!selectedStudent || !selectedApplication) {
+            alert("Please select student and application type");
+            return;
+        }
+
+        const payload = {
+            type:selectedApplication,
+            studentId: selectedStudent.id,
+            birthCertificateFrontImageUrl: birthCertificateFrontG5,
+            birthCertificateBackImageUrl: birthCertificateBackG5
+        };
+
+        try {
+            const res = await examsAndApplicationsAPIController.save(payload);
+            if (res) {
+                alert("Application submitted successfully!");
+                setSelectedStudent(null)
+            } else {
+                alert("Failed to submit application");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error submitting application");
+        }
+    };
+
+    const handleApplyForNIC = async () => {
+        if (!selectedStudent || !selectedApplication) {
+            alert("Please select student and application type");
+            return;
+        }
+
+        const payload = {
+            type:selectedApplication,
+            studentId: selectedStudent.id,
+            birthCertificateFrontImageUrl: birthCertificateFrontNIC,
+            birthCertificateBackImageUrl: birthCertificateBackNIC
+        };
+
+        try {
+            const res = await examsAndApplicationsAPIController.save(payload);
+            if (res) {
+                alert("Application submitted successfully!");
+                setSelectedStudent(null)
+            } else {
+                alert("Failed to submit application");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error submitting application");
+        }
     };
 
     return (
@@ -59,7 +193,7 @@ export const ExamsAndNICApplication = () => {
                                                 </div>
                                                 <Autocomplete
                                                     options={student}
-                                                    getOptionLabel={(option) => `${option.name} (${option.index})`}
+                                                    getOptionLabel={(option) => `${option.fullName} (${option.registrationNumber})`}
                                                     value={selectedStudent}
                                                     onChange={(event, newValue) => setSelectedStudent(newValue)}
                                                     onInputChange={(event, value) => handleStudentSearch(value)}
@@ -87,7 +221,7 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate front side photo"}/>
+                                            <FileUploader label={"Birth certificate front side photo"} onChange={setBirthCertificateFrontOL}/>
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +229,7 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate back side photo"}/>
+                                            <FileUploader label={"Birth certificate back side photo"} onChange={setBirthCertificateBackOL}/>
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +237,7 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"NIC front side photo"}/>
+                                            <FileUploader label={"NIC front side photo"} onChange={setNicFrontOL}/>
                                         </div>
                                     </div>
                                 </div>
@@ -111,13 +245,13 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"NIC back side photo"}/>
+                                            <FileUploader label={"NIC back side photo"} onChange={setNicBackOL}/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <Button name={'Apply'} color={'bg-green-600'}/>
+                        <Button name={'Apply'} onClick={handleApplyForOL} color={'bg-green-600'}/>
                     </div>
                 )}
 
@@ -136,7 +270,7 @@ export const ExamsAndNICApplication = () => {
                                                 </div>
                                                 <Autocomplete
                                                     options={student}
-                                                    getOptionLabel={(option) => `${option.name} (${option.index})`}
+                                                    getOptionLabel={(option) => `${option.fullName} (${option.registrationNumber})`}
                                                     value={selectedStudent}
                                                     onChange={(event, newValue) => setSelectedStudent(newValue)}
                                                     onInputChange={(event, value) => handleStudentSearch(value)}
@@ -164,7 +298,7 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate front side photo"}/>
+                                            <FileUploader label={"Birth certificate front side photo"} onChange={setBirthCertificateFrontAL}/>
                                         </div>
                                     </div>
                                 </div>
@@ -172,7 +306,7 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate back side photo"}/>
+                                            <FileUploader label={"Birth certificate back side photo"} onChange={setBirthCertificateBackAL}/>
                                         </div>
                                     </div>
                                 </div>
@@ -180,7 +314,7 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"NIC front side photo"}/>
+                                            <FileUploader label={"NIC front side photo"} onChange={setNicFrontAL}/>
                                         </div>
                                     </div>
                                 </div>
@@ -188,13 +322,13 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"NIC back side photo"}/>
+                                            <FileUploader label={"NIC back side photo"} onChange={setNicBackAL}/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <Button name={'Apply'} color={'bg-green-600'}/>
+                        <Button name={'Apply'} onClick={handleApplyForAL} color={'bg-green-600'}/>
                     </div>
                 )}
 
@@ -213,7 +347,7 @@ export const ExamsAndNICApplication = () => {
                                                 </div>
                                                 <Autocomplete
                                                     options={student}
-                                                    getOptionLabel={(option) => `${option.name} (${option.index})`}
+                                                    getOptionLabel={(option) => `${option.fullName} (${option.registrationNumber})`}
                                                     value={selectedStudent}
                                                     onChange={(event, newValue) => setSelectedStudent(newValue)}
                                                     onInputChange={(event, value) => handleStudentSearch(value)}
@@ -241,7 +375,7 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate front side photo"}/>
+                                            <FileUploader label={"Birth certificate front side photo"} onChange={setBirthCertificateFrontG5}/>
                                         </div>
                                     </div>
                                 </div>
@@ -249,13 +383,13 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate back side photo"}/>
+                                            <FileUploader label={"Birth certificate back side photo"} onChange={setBirthCertificateBackG5}/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <Button name={'Apply'} color={'bg-green-600'}/>
+                        <Button name={'Apply'} onClick={handleApplyForG5} color={'bg-green-600'}/>
                     </div>
                 )}
 
@@ -274,7 +408,7 @@ export const ExamsAndNICApplication = () => {
                                                 </div>
                                                 <Autocomplete
                                                     options={student}
-                                                    getOptionLabel={(option) => `${option.name} (${option.index})`}
+                                                    getOptionLabel={(option) => `${option.fullName} (${option.registrationNumber})`}
                                                     value={selectedStudent}
                                                     onChange={(event, newValue) => setSelectedStudent(newValue)}
                                                     onInputChange={(event, value) => handleStudentSearch(value)}
@@ -302,7 +436,7 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate front side photo"}/>
+                                            <FileUploader label={"Birth certificate front side photo"} onChange={setBirthCertificateFrontNIC}/>
                                         </div>
                                     </div>
                                 </div>
@@ -310,13 +444,13 @@ export const ExamsAndNICApplication = () => {
                                     <div className='flex flex-row flex-wrap items-center justify-center w-full'>
                                         <div
                                             className='mx-3 flex flex-row flex-wrap items-center justify-center w-full'>
-                                            <FileUploader label={"Birth certificate back side photo"}/>
+                                            <FileUploader label={"Birth certificate back side photo"} onChange={setBirthCertificateBackNIC}/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <Button name={'Apply'} color={'bg-green-600'}/>
+                        <Button name={'Apply'} onClick={handleApplyForNIC} color={'bg-green-600'}/>
                     </div>
                 )}
             </section>

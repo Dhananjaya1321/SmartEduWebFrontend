@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
 import {Paper, Tooltip} from "@mui/material";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
@@ -6,6 +6,7 @@ import EditPrinciplesModal from "../../../models/ZMoE/EditPrinciplesModal/EditPr
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {TransferModal} from "../../../models/Common/TransferModal/TransferModal";
+import principalAPIController from "../../../../controller/PrincipalAPIController";
 
 export const ZMoEManagePrinciples = () => {
     const columns: GridColDef[] = [
@@ -26,26 +27,20 @@ export const ZMoEManagePrinciples = () => {
             ),
         },
         {
-            field: 'email',
-            headerName: 'Email',
-            width: 200,
-            renderCell: (params) => {
-                const email = params.row.user?.email || 'N/A'; // Use optional chaining to safely access email
-                return (
-                    <Tooltip title={email}>
-                        <div
-                            style={{
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                textAlign: 'start',
-                            }}
-                        >
-                            {email}
-                        </div>
-                    </Tooltip>
-                );
-            },
+            field: 'email', headerName: 'Email', width: 200, renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div
+                        style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            textAlign: 'start',
+                        }}
+                    >
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
         },
         {
             field: 'contact', headerName: 'Contact', width: 200, renderCell: (params) => (
@@ -95,7 +90,7 @@ export const ZMoEManagePrinciples = () => {
                 </Tooltip>
             ),
         },
-        {
+       /* {
             field: 'transfer',
             headerName: 'Transfer',
             width: 100,
@@ -104,14 +99,14 @@ export const ZMoEManagePrinciples = () => {
                     <TransferModal/>
                 </>
             ),
-        },
+        },*/
         {
             field: 'actions',
             headerName: 'Actions',
             width: 100,
             renderCell: (params) => (
                 <>
-                    <EditPrinciplesModal/>
+                    <EditPrinciplesModal principal={params.row.originalPrincipal}/>
                     <button
                         className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
                         <FontAwesomeIcon icon={faTrash}/>
@@ -120,6 +115,27 @@ export const ZMoEManagePrinciples = () => {
             ),
         },
     ];
+    const [principals, setPrincipals] = useState([]);
+
+    useEffect(() => {
+        const fetchPrincipals = async () => {
+            const data = await principalAPIController.getAll();
+            if (data) {
+                const formattedData = data.map((item: any, index: number) => ({
+                    id: item.id,
+                    principleName: item.fullName || 'N/A',
+                    email: item.email || 'N/A',
+                    contact: item.contact || 'N/A',
+                    school: item.schoolName || 'N/A', // adjust this if not included in response
+                    address: item.address || 'N/A',
+                    originalPrincipal: item
+                }));
+                setPrincipals(formattedData);
+            }
+        };
+
+        fetchPrincipals();
+    }, []);
 
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
@@ -132,11 +148,13 @@ export const ZMoEManagePrinciples = () => {
                 {/*searching and add new button*/}
                 <Paper sx={{height: 400, width: '100%'}}>
                     <DataGrid
-                        rows={[]}
+                        rows={principals}
                         columns={columns}
                         pagination
                         pageSizeOptions={[5, 10]}
-                        // checkboxSelection
+                        disableRowSelectionOnClick
+                        disableColumnMenu
+                        getRowId={(row) => row.id}
                         sx={{
                             border: 0,
                             '& .MuiDataGrid-row:hover': {
@@ -146,17 +164,6 @@ export const ZMoEManagePrinciples = () => {
                                 outline: 'none', // Removes focus outline on edit mode
                             }
                         }}
-                        disableRowSelectionOnClick
-                        disableColumnMenu
-                        getRowId={(row) => row.id}
-                        /*paginationModel={paginationModel}
-                        rowCount={totalElements} // Total number of rows
-                        paginationMode="server" // Use server-side pagination
-                        onPaginationModelChange={(newPagination) => {
-                            setPaginationModel(newPagination);
-                            fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
-                            });
-                        }}*/
                     />
                 </Paper>
             </section>

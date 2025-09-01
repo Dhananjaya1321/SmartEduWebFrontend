@@ -1,9 +1,86 @@
 import {LoginAside} from "../../../component/LoginAside/LoginAside";
 import {TextFieldForLoginPages} from "../../../component/TextFieldForLoginPages/TextFieldForLoginPages";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import userAPIController from "../../../../controller/UserAPIController";
+import {useState} from "react";
 
 export const LoginPage = () => {
-        return (
+    const [loginData, setLoginData] = useState({
+        username: '',
+        password: '',
+    });
+
+    const [errors, setErrors] = useState({
+        username: "",
+        password: ""
+    });
+
+    const navigate = useNavigate();
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setLoginData({
+            ...loginData,
+            [name]: value,
+        });
+
+        setErrors({
+            ...errors,
+            [name]: ""
+        });
+    };
+
+    const handleLogin = async () => {
+        const { username, password } = loginData;
+
+        if (!username || !password) {
+            setErrors({
+                username: !username ? 'Please enter your email or username to login' : '',
+                password: !password ? 'Please enter your password to login' : '',
+            });
+            return;
+        }
+
+        try {
+            const response = await userAPIController.checkLogin(username, password);
+
+            if (response && response.token) {
+                // Save to localStorage
+                localStorage.setItem("token", response.token);
+                localStorage.setItem("username", response.username);
+                localStorage.setItem("role", response.role);
+
+                // Redirect based on role
+                const role = response.role;
+                if (["MOE_ADMIN", "MOE_EMPLOYEE"].includes(role)) {
+                    navigate("/ministry-education-offices-admin");
+                } else if (["PMOE_ADMIN", "PMOE_EMPLOYEE"].includes(role)) {
+                    navigate("/provincial-education-offices-admin");
+                } else if (["ZMOE_ADMIN", "ZMOE_EMPLOYEE"].includes(role)) {
+                    navigate("/zonal-education-offices-admin");
+                } else if (["SCHOOL_ADMIN", "SCHOOL_EMPLOYEE"].includes(role)) {
+                    navigate("/school-admin");
+                } else {
+                    // fallback route
+                    navigate("/");
+                }
+            } else if (response && response.error) {
+                if (response.error === "Incorrect password") {
+                    setErrors({ username: "", password: "Incorrect password" });
+                } else if (response.error === "Incorrect email or username") {
+                    setErrors({ username: "Incorrect email or username", password: "" });
+                }
+            }
+        } catch (error) {
+            console.error("Login failed:", error);
+            setErrors({
+                username: "",
+                password: "Login failed, try again later"
+            });
+        }
+    };
+
+    return (
             <section className='relative justify-center items-center flex flex-row w-full sm:h-[600px]'>
                 <LoginAside btnStatus={"Register"}/>
                 <article className='loginArticles flex flex-col justify-center w-[80%] sm:w-[40%] h-[600px] bg-white px-8
@@ -14,11 +91,13 @@ export const LoginPage = () => {
                     </div>
                     <div className='flex flex-col text-start'>
                         <TextFieldForLoginPages
-                            name="emailOrUsername"
-                            placeholder={'Email or Username'}
-                            label={'Email or Username'}
+                            name="username"
+                            placeholder={'Username'}
+                            label={'Username'}
                             important={"*"}
-
+                            value={loginData.username}
+                            onChange={handleInputChange}
+                            msg={errors.username}
                         />
                         <TextFieldForLoginPages
                             name="password"
@@ -26,13 +105,16 @@ export const LoginPage = () => {
                             label={'Password'}
                             type={'password'}
                             important={"*"}
-
+                            value={loginData.password}
+                            onChange={handleInputChange}
+                            msg={errors.password}
                         />
                         <Link className='flex justify-end mt-4 text-blue-900' to={'/forgot-password'}>
                             <p>Forgot password?</p>
                         </Link>
                         <button
                             className={`mt-7 bg-[#006CAF] px-6 w-full py-3 rounded-md text-white font-medium`}
+                            onClick={handleLogin}
                         >
                             Login
                         </button>
