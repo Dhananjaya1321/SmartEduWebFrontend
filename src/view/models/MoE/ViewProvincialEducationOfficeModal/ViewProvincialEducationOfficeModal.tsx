@@ -23,8 +23,20 @@ const style = {
     p: 4,
     overflowY: 'auto' // Enable scrolling if content overflows
 };
+interface ViewModalProps {
+    office: {
+        province: string;
+        officeAddress: string;
+        name: string;
+        contact: string;
+        nic: string;
+        username: string;
+        email: string;
+        address: string;
+    };
+}
 
-export default function ViewProvincialEducationOfficeModal() {
+export default function ViewProvincialEducationOfficeModal({ office }: ViewModalProps) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -63,11 +75,8 @@ export default function ViewProvincialEducationOfficeModal() {
                                     ml={"12px"}
                                     mr={"12px"}
                                     label={"Select province"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
+                                    options={[{ label: office.province, value: office.province }]}
+                                    value={office.province}
                                 />
 
                             </div>
@@ -77,7 +86,7 @@ export default function ViewProvincialEducationOfficeModal() {
                                     placeholder={'ex- ABC Road, Galle'}
                                     label={'Address'}
                                     disabled={true}
-
+                                    value={office.province}
                                 />
                             </div>
                         </section>
@@ -92,21 +101,21 @@ export default function ViewProvincialEducationOfficeModal() {
                                     placeholder={'ex- Nimal'}
                                     label={'Name'}
                                     important={"*"} disabled={true}
-
+                                    value={office.name}
                                 />
                                 <TextField
                                     name="contact"
                                     placeholder={'ex- 070 000 0000'}
                                     label={'Contact'}
                                     important={"*"} disabled={true}
-
+                                    value={office.contact}
                                 />
                                 <TextField
                                     name="nic"
                                     placeholder={'ex- 000000000000 or 000000000v'}
                                     label={'NIC'}
                                     important={"*"} disabled={true}
-
+                                    value={office.nic}
                                 />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
@@ -115,14 +124,14 @@ export default function ViewProvincialEducationOfficeModal() {
                                     placeholder={'ex- Isuru123'}
                                     label={'Username'}
                                     important={"*"} disabled={true}
-
+                                    value={office.username}
                                 />
                                 <TextField
                                     name="email"
                                     placeholder={'ex- example@gmail.com'}
                                     label={'Email'}
                                     important={"*"} disabled={true}
-
+                                    value={office.email}
                                 />
                                 <div className='grow w-[220px] mx-3 my-3 gap-1 flex flex-col justify-start'>
                                     <div className='flex flex-row'>
@@ -138,7 +147,6 @@ export default function ViewProvincialEducationOfficeModal() {
                                     <div className={`h-[5px]`}>
                                         <small
                                             className={`text-start text-red-600 block`}>
-                                            {"The password is automatically generated and sent to the user's provided email address."}
                                         </small>
                                     </div>
                                 </div>
@@ -149,8 +157,7 @@ export default function ViewProvincialEducationOfficeModal() {
                                     placeholder={'ex- ABC Road, Galle'}
                                     label={'Address'}
                                     disabled={true}
-
-
+                                    value={office.address}
                                 />
                             </div>
                         </section>
@@ -158,6 +165,7 @@ export default function ViewProvincialEducationOfficeModal() {
                             <Button
                                 name={'Done'}
                                 color={'bg-blue-600'}
+                                onClick={handleClose}
                             />
                         </div>
                     </section>

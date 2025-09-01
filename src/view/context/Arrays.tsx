@@ -139,6 +139,33 @@ export const gradeOptions = [
     { label: 'Grade 13', value: 'grade_13' }
 ];
 
+// Event Grades Options
+export const eventGradeOptions = [
+    { label: 'Select...', value: '' },
+    { label: 'Grade 1', value: 'grade_1' },
+    { label: 'Grade 2', value: 'grade_2' },
+    { label: 'Grade 3', value: 'grade_3' },
+    { label: 'Grade 4', value: 'grade_4' },
+    { label: 'Grade 5', value: 'grade_5' },
+    { label: 'Grade 6', value: 'grade_6' },
+    { label: 'Grade 7', value: 'grade_7' },
+    { label: 'Grade 8', value: 'grade_8' },
+    { label: 'Grade 9', value: 'grade_9' },
+    { label: 'Grade 10', value: 'grade_10' },
+    { label: 'Grade 11', value: 'grade_11' },
+    { label: 'Grade 12', value: 'grade_12' },
+    { label: 'Grade 13', value: 'grade_13' },
+    { label: 'Grade 1 to 5', value: 'grade_1_to_5' },
+    { label: 'Grade 6 to 9', value: 'grade_6_to_9' },
+    { label: 'Grade 1 to 9', value: 'grade_1_to_9' },
+    { label: 'Grade 9 to 11', value: 'grade_9_to_11' },
+    { label: 'Grade 6 to 11', value: 'grade_6_to_11' },
+    { label: 'Grade 6 to 13', value: 'grade_6_to_13' },
+    { label: 'Grade 10 to 13', value: 'grade_10_to_13' },
+    { label: 'Grade 12 to 13', value: 'grade_12_to_13' },
+    { label: 'All Grades', value: 'all_grade' },
+];
+
 
 // Basic subject map for grade 1–11
 export const gradeSubjectMap: Record<string, string[]> = {
@@ -146,7 +173,7 @@ export const gradeSubjectMap: Record<string, string[]> = {
     grade_2: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
     grade_3: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
     grade_4: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
-    grade_5: ["Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
+    grade_5: ["Other","Religion", "First Language", "English Language", "Mathematics", "Environmental Studies", "Aesthetic Education", "Health and Physical Education", "Civic Education"],
 
     grade_6: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Geography", "Health & PE", "ICT", "Aesthetics", "Civic Education"],
     grade_7: ["Buddhism / Hinduism / Islam / Christianity", "Sinhala / Tamil", "English", "Mathematics", "Science", "History", "Geography", "Health & PE", "ICT", "Aesthetics", "Civic Education"],
@@ -171,6 +198,8 @@ export const paperType = [
     { label: 'Part 1', value: 'part_1' },
     { label: 'Part 2', value: 'part_2' },
     { label: 'Part 3', value: 'part_3' },
+    { label: 'Part 4', value: 'part_4' },
+    { label: 'Part 5', value: 'part_5' },
 
 ];
 
@@ -211,3 +240,25 @@ export const alStreamSubjects: Record<string, string[]> = {
         "Common General Test"
     ]
 };
+
+// Event Grades Options
+export const examsAndNICApplicationOptions = [
+    { label: 'Select...', value: '' },
+    { label: 'G.C.E. (O/L) Examination', value: 'ol' },
+    { label: 'G.C.E. (A/L) Examination', value: 'al' },
+    { label: 'Grade 5 Scholarship Examination', value: 'g5' },
+    { label: 'NIC Application', value: 'nic' },
+
+];
+
+export const examsOptions = [
+    { label: 'Select...', value: '' },
+    { label: 'G.C.E. (O/L) Examination', value: 'G.C.E. (O/L) Examination' },
+    { label: 'G.C.E. (A/L) Examination', value: 'G.C.E. (A/L) Examination' },
+    { label: 'Grade 5 Scholarship Examination', value: 'Grade 5 Scholarship Examination' },
+    { label: 'First Term Exam', value: 'First Term Exam' },
+    { label: 'Mid-Term Exam', value: 'Mid-Term Exam' },
+    { label: 'Final Term Exam', value: 'Final Term Exam' },
+    { label: 'Other Exam', value: 'Other Exam' },
+
+];

@@ -1,32 +1,33 @@
-import {useNavigate} from "react-router-dom";
-import {useUserContext} from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../../context/UserContext"; // Optional: if you're using context
 
 export const DashboardTopNavBar = () => {
-   /* const navigate = useNavigate();
-    const { setUser } = useUserContext();
+    const navigate = useNavigate();
+    const { setUser } = useUserContext(); // Optional: depends on whether you're using context
 
     const handleLogoutClick = () => {
-        setUser(null);
-        navigate("/");
+        // Remove token and user data from localStorage
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        localStorage.removeItem("role");
+
+        // Clear context user if using
+        if (setUser) {
+            setUser(null);
+        }
+
+        // Redirect to login or landing page
+        navigate("/"); // or use "/login" if you have a dedicated login page
     };
 
-    const handleBackToHomeClick = () => {
-        navigate("/");
-    };
-*/
+
     return (
         <nav className='bg-white w-screen h-[75px] top-0 left-0 right-[20px] fixed shadow z-40
         flex flex-row justify-end gap-1 items-center'>
             <div className="flex flex-row items-center justify-center gap-2 mr-8">
                 <button
-                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
-                    // onClick={handleBackToHomeClick}
-                >
-                    Back to Home
-                </button>
-                <button
                     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-                    // onClick={handleLogoutClick}
+                    onClick={handleLogoutClick}
                 >
                     Logout
                 </button>

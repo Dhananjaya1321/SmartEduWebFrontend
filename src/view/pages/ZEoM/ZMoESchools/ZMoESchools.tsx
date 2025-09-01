@@ -1,193 +1,122 @@
-import React from "react";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
-import {FooterSpace} from "../../../component/FooterSpace/FooterSpace";
-import {Footer} from "../../../component/Footer/Footer";
-import {Paper, Tooltip} from "@mui/material";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTrash} from "@fortawesome/free-solid-svg-icons";
-import ViewSchoolModal from "../../../models/ZMoE/ViewSchoolModal/ViewSchoolModal";
+import React, { useEffect, useState } from "react";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Paper, Tooltip } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FooterSpace } from "../../../component/FooterSpace/FooterSpace";
+import { Footer } from "../../../component/Footer/Footer";
 import EditSchoolModal from "../../../models/ZMoE/EditSchoolModal/EditSchoolModal";
+import ViewSchoolModal from "../../../models/ZMoE/ViewSchoolModal/ViewSchoolModal";
 import AcceptSchoolModal from "../../../models/ZMoE/AcceptSchoolModal/AcceptSchoolModal";
+import schoolAPIController from "../../../../controller/SchoolAPIController";
+import userAPIController from "../../../../controller/UserAPIController";
 
 export const ZMoESchools = () => {
+    const [pendingSchools, setPendingSchools] = useState([]);
+    const [approvedSchools, setApprovedSchools] = useState([]);
+
+    useEffect(() => {
+        const fetchSchools = async () => {
+            const pending = await schoolAPIController.findAllPendingSchools();
+            const approved = await schoolAPIController.findAllApprovedSchools();
+            setPendingSchools(pending);
+            setApprovedSchools(approved);
+        };
+        fetchSchools();
+    }, []);
+
+    const mapSchoolsToRows = (schools: any[]) => {
+        return schools.map((school: any) => ({
+            id: school.id,
+            logoUrl: school.logoUrl,
+            school: school.schoolName,
+            address: `${school.district}, ${school.zonal}`,
+            principle: school.principal.fullName || "N/A",
+            originalSchool: school
+        }));
+    };
+
+
     const columns: GridColDef[] = [
         {
+            field: 'logo',
+            headerName: 'Logo',
+            width: 100,
+            renderCell: (params) => (
+                <img
+                    src={params.row.logoUrl}
+                    alt="logo"
+                    style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '6px' }}
+                />
+            ),
+        },
+        {
             field: 'school', headerName: 'School', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
-                    </div>
-                </Tooltip>
+                <Tooltip title={params.value}><div className="truncate">{params.value}</div></Tooltip>
             ),
         },
         {
             field: 'address', headerName: 'Address', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
-                    </div>
-                </Tooltip>
+                <Tooltip title={params.value}><div className="truncate">{params.value}</div></Tooltip>
             ),
         },
         {
-            field: 'principle', headerName: 'Principle', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
-                    </div>
-                </Tooltip>
+            field: 'principle', headerName: 'Principal', width: 200, renderCell: (params) => (
+                <Tooltip title={params.value}><div className="truncate">{params.value}</div></Tooltip>
             ),
         },
         {
-            field: 'email',
-            headerName: 'Email',
-            width: 200,
-            renderCell: (params) => {
-                const email = params.row.user?.email || 'N/A'; // Use optional chaining to safely access email
-                return (
-                    <Tooltip title={email}>
-                        <div
-                            style={{
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                textAlign: 'start',
-                            }}
-                        >
-                            {email}
-                        </div>
-                    </Tooltip>
-                );
-            },
-        },
-        {
-            field: 'actions',
-            headerName: 'Actions',
-            width: 400,
-            renderCell: (params) => (
+            field: 'actions', headerName: 'Actions', width: 400, renderCell: (params) => (
                 <>
-                    <EditSchoolModal/>
-                    <ViewSchoolModal/>
+                    <EditSchoolModal school={params.row.originalSchool}/>
+                    <ViewSchoolModal school={params.row.originalSchool}/>
                     <button
-                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100">
-                        <FontAwesomeIcon icon={faTrash}/>
+                        className="rounded-xl w-[40px] h-[40px] text-red-600 hover:bg-red-100"
+                        onClick={() => handleDelete(params.row.id)}
+                    >
+                        <FontAwesomeIcon icon={faTrash} />
                     </button>
                 </>
             ),
         },
     ];
+
     const pr_columns: GridColDef[] = [
-        {
-            field: 'school', headerName: 'School', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
-                    </div>
-                </Tooltip>
-            ),
-        },
-        {
-            field: 'address', headerName: 'Address', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
-                    </div>
-                </Tooltip>
-            ),
-        },
-        {
-            field: 'principle', headerName: 'Principle', width: 200, renderCell: (params) => (
-                <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
-                        {params.value}
-                    </div>
-                </Tooltip>
-            ),
-        },
-        {
-            field: 'email',
-            headerName: 'Email',
-            width: 200,
-            renderCell: (params) => {
-                const email = params.row.user?.email || 'N/A'; // Use optional chaining to safely access email
-                return (
-                    <Tooltip title={email}>
-                        <div
-                            style={{
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                textAlign: 'start',
-                            }}
-                        >
-                            {email}
-                        </div>
-                    </Tooltip>
-                );
-            },
-        },
+        ...columns.slice(0, -1),
         {
             field: 'actions',
             headerName: 'Actions',
             width: 400,
             renderCell: (params) => (
                 <>
-                    <AcceptSchoolModal/>
+                    <AcceptSchoolModal school={params.row.originalSchool} />
                 </>
-            ),
-        },
+            )
+        }
     ];
 
+    const handleDelete = async (id: string) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this school?");
+        if (confirmDelete) {
+            const isDeleted = await schoolAPIController.deleteSchoolById(id);
+            if (isDeleted) {
+                // Refresh the list after deletion
+                const pending = await schoolAPIController.findAllPendingSchools();
+                const approved = await schoolAPIController.findAllApprovedSchools();
+                setPendingSchools(pending);
+                setApprovedSchools(approved);
+            } else {
+                alert("Failed to delete the school. Please try again.");
+            }
+        }
+    };
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
             <section className='text-[#005285] flex flex-row justify-start mt-5'>
                 <h3>Manage Schools</h3>
             </section>
-            {/*url display section*/}
-            <section
-                className='bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md'>
+
+            <section className='bg-white flex flex-col items-center mt-5 p-5 rounded-xl shadow-md'>
                 <section className="flex flex-row justify-between items-center w-full mb-5">
                     <div className="flex flex-col">
                         <div className='flex flex-row'>
@@ -201,70 +130,53 @@ export const ZMoESchools = () => {
                         ></input>
                     </div>
                 </section>
-                {/*Pending registrations*/}
-                <Paper sx={{height: 400, width: '100%'}}>
-                    <DataGrid
-                        rows={[]}
-                        columns={pr_columns}
-                        pagination
-                        pageSizeOptions={[5, 10]}
-                        // checkboxSelection
-                        sx={{
-                            border: 0,
-                            '& .MuiDataGrid-row:hover': {
-                                backgroundColor: 'inherit' // Removes hover effect
-                            },
-                            '& .MuiDataGrid-cell:focus-within': {
-                                outline: 'none', // Removes focus outline on edit mode
-                            }
-                        }}
-                        disableRowSelectionOnClick
-                        disableColumnMenu
-                        getRowId={(row) => row.id}
-                        /*paginationModel={paginationModel}
-                        rowCount={totalElements} // Total number of rows
-                        paginationMode="server" // Use server-side pagination
-                        onPaginationModelChange={(newPagination) => {
-                            setPaginationModel(newPagination);
-                            fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
-                            });
-                        }}*/
-                    />
-                </Paper>
-                <div className="h-10 w-full"></div>
-                {/*Registered*/}
-                <Paper sx={{height: 400, width: '100%'}}>
-                    <DataGrid
-                        rows={[]}
-                        columns={columns}
-                        pagination
-                        pageSizeOptions={[5, 10]}
-                        // checkboxSelection
-                        sx={{
-                            border: 0,
-                            '& .MuiDataGrid-row:hover': {
-                                backgroundColor: 'inherit' // Removes hover effect
-                            },
-                            '& .MuiDataGrid-cell:focus-within': {
-                                outline: 'none', // Removes focus outline on edit mode
-                            }
-                        }}
-                        disableRowSelectionOnClick
-                        disableColumnMenu
-                        getRowId={(row) => row.id}
-                        /*paginationModel={paginationModel}
-                        rowCount={totalElements} // Total number of rows
-                        paginationMode="server" // Use server-side pagination
-                        onPaginationModelChange={(newPagination) => {
-                            setPaginationModel(newPagination);
-                            fetchAllCustomers(newPagination.page, newPagination.pageSize).then(r => {
-                            });
-                        }}*/
-                    />
-                </Paper>
+
+                {pendingSchools.length > 0 && (
+                    <Paper sx={{height: 400, width: '100%', mb: 3}}>
+                        <h4 className="text-[#005285] mb-2">Pending Registrations</h4>
+                        <DataGrid
+                            rows={mapSchoolsToRows(pendingSchools)}
+                            columns={pr_columns}
+                            pagination
+                            pageSizeOptions={[5, 10]}
+                            disableRowSelectionOnClick
+                            disableColumnMenu
+                            getRowId={(row) => row.id}
+                            sx={{
+                                border: 0,
+                                '& .MuiDataGrid-row:hover': { backgroundColor: 'inherit' },
+                                '& .MuiDataGrid-cell:focus-within': { outline: 'none' },
+                            }}
+                        />
+                    </Paper>
+                )}
+
+                {approvedSchools.length > 0 && (
+                    <Paper sx={{ height: 400, width: '100%' }}>
+                        <h4 className="text-[#005285] mb-2">Approved Schools</h4>
+                        <DataGrid
+                            rows={mapSchoolsToRows(approvedSchools)}
+                            columns={columns}
+                            pagination
+                            pageSizeOptions={[5, 10]}
+                            disableRowSelectionOnClick
+                            disableColumnMenu
+                            getRowId={(row) => row.id}
+                            sx={{
+                                border: 0,
+                                '& .MuiDataGrid-row:hover': { backgroundColor: 'inherit' },
+                                '& .MuiDataGrid-cell:focus-within': { outline: 'none' },
+                            }}
+                        />
+                    </Paper>
+                )}
+
+
+
             </section>
-            <FooterSpace/>
-            <Footer/>
+
+            <FooterSpace />
+            <Footer />
         </section>
     );
 };

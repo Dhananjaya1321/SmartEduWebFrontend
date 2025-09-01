@@ -15,6 +15,8 @@ import {
     schoolLevelOptions,
     schoolTypeOptions, studentPopulationOptions
 } from "../../../context/Arrays"
+import schoolAPIController from "../../../../controller/SchoolAPIController";
+
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -31,30 +33,95 @@ const style = {
 };
 
 
-export default function EditSchoolModal() {
-    const [open, setOpen] = React.useState(false);
+export default function EditSchoolModal({school}: { school: any }) {
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const [formData, setFormData] = useState({
+        schoolName: '',
+        province: '',
+        district: '',
+        zonal: '',
+        levelOfSchool: '',
+        typeOfSchool: '',
+        gradeSpan: '',
+        gender: '',
+        ethnicity: '',
+        languageMedium: '',
+        studentPopulation: '',
+        teacherPopulation: '',
+        classCount: ''
+    });
+
     const [districts, setDistricts] = useState<string[]>([]);
     const [zonals, setZonals] = useState<string[]>([]);
-    const [selectedZonal, setSelectedZonal] = useState('');
 
-    // Load districts when province changes
+    // Load data into form on open
     useEffect(() => {
-        if ("Western") {
-            const loadedDistricts = provinceDistrictMap["Western"] || [];
-            setDistricts(loadedDistricts);
+        if (school) {
+            setFormData({
+                schoolName: school.schoolName || '',
+                province: school.province || '',
+                district: school.district || '',
+                zonal: school.zonal || '',
+                levelOfSchool: school.levelOfSchool || '',
+                typeOfSchool: school.typeOfSchool || '',
+                gradeSpan: school.gradeSpan || '',
+                gender: school.gender || '',
+                ethnicity: school.ethnicity || '',
+                languageMedium: school.languageMedium || '',
+                studentPopulation: school.studentPopulation || '',
+                teacherPopulation: school.teacherPopulation || '',
+                classCount: school.classCount?.toString() || ''
+            });
         }
-    }, ["Western"]);
+    }, [school, open]);
 
-    // Load zonals when district changes
     useEffect(() => {
-        if ("Colombo") {
-            const zones = districtZoneMap["Colombo"] || [];
-            setZonals(zones);
+        setDistricts(provinceDistrictMap[formData.province] || []);
+    }, [formData.province]);
+
+    useEffect(() => {
+        setZonals(districtZoneMap[formData.district] || []);
+    }, [formData.district]);
+
+    const handleChange = (field: string, value: string) => {
+        setFormData(prev => ({...prev, [field]: value}));
+    };
+
+    const handleUpdate = async () => {
+        const payload = {
+            id: school.id,
+            schoolName: formData.schoolName,
+            province: formData.province,
+            district: formData.district,
+            zonal: formData.zonal,
+            levelOfSchool: formData.levelOfSchool,
+            typeOfSchool: formData.typeOfSchool,
+            gradeSpan: formData.gradeSpan,
+            gender: formData.gender,
+            ethnicity: formData.ethnicity,
+            languageMedium: formData.languageMedium,
+            studentPopulation: formData.studentPopulation,
+            teacherPopulation: formData.teacherPopulation,
+            classCount: formData.classCount,
+            logoUrl: school.logoUrl,
+            schoolNumber: school.schoolNumber,
+            status: school.status
+        };
+
+        const success = await schoolAPIController.updateSchoolDetails(payload);
+
+        if (success) {
+            alert("School updated successfully");
+            handleClose();
+        } else {
+            alert("Update failed");
         }
-    }, ["Colombo"]);
+    };
+
+
 
     return (
         <div>
@@ -88,7 +155,8 @@ export default function EditSchoolModal() {
                                     placeholder={'School name'}
                                     important={"*"}
                                     label={'School name'}
-
+                                    value={formData.schoolName}
+                                    onChange={(e) => handleChange("schoolName", e.target.value)}
                                 />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
@@ -99,11 +167,11 @@ export default function EditSchoolModal() {
                                     mb={"12px"}
                                     ml={"12px"}
                                     mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
+                                    value={formData.province}
+                                    options={[{
+                                        label: 'Select...',
+                                        value: ''
+                                    }, ...Object.keys(provinceDistrictMap).map(p => ({label: p, value: p}))]}
                                     disabled={true}
                                 />
                                 <DropdownField
@@ -113,11 +181,11 @@ export default function EditSchoolModal() {
                                     mb={"12px"}
                                     ml={"12px"}
                                     mr={"12px"}
-                                    options={
-                                        [
-                                            {label: 'Select...', value: ''},
-                                        ]
-                                    }
+                                    value={formData.district}
+                                    options={[{label: 'Select...', value: ''}, ...districts.map(d => ({
+                                        label: d,
+                                        value: d
+                                    }))]}
                                     disabled={true}
                                 />
                                 <DropdownField
@@ -127,12 +195,12 @@ export default function EditSchoolModal() {
                                     mb={"12px"}
                                     ml={"12px"}
                                     mr={"12px"}
+                                    value={formData.zonal}
                                     options={[{label: 'Select...', value: ''}, ...zonals.map(z => ({
                                         label: z,
                                         value: z
                                     }))]}
-                                    value={selectedZonal}
-                                    onChange={(e) => setSelectedZonal(e.target.value)}
+                                    onChange={(e) => handleChange("zonal", e.target.value)}
                                 />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
@@ -144,6 +212,8 @@ export default function EditSchoolModal() {
                                     ml={"12px"}
                                     mr={"12px"}
                                     options={schoolLevelOptions}
+                                    value={formData.levelOfSchool}
+                                    onChange={(e) => handleChange("levelOfSchool", e.target.value)}
                                 />
                                 <DropdownField
                                     important={"*"}
@@ -153,6 +223,8 @@ export default function EditSchoolModal() {
                                     ml={"12px"}
                                     mr={"12px"}
                                     options={schoolTypeOptions}
+                                    value={formData.typeOfSchool}
+                                    onChange={(e) => handleChange("typeOfSchool", e.target.value)}
                                 />
                                 <DropdownField
                                     important={"*"}
@@ -162,6 +234,8 @@ export default function EditSchoolModal() {
                                     ml={"12px"}
                                     mr={"12px"}
                                     options={gradeSpanOptions}
+                                    value={formData.gradeSpan}
+                                    onChange={(e) => handleChange("gradeSpan", e.target.value)}
                                 />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
@@ -173,6 +247,8 @@ export default function EditSchoolModal() {
                                     ml={"12px"}
                                     mr={"12px"}
                                     options={genderOptions}
+                                    value={formData.gender}
+                                    onChange={(e) => handleChange("gender", e.target.value)}
                                 />
                                 <DropdownField
                                     important={"*"}
@@ -182,6 +258,8 @@ export default function EditSchoolModal() {
                                     ml={"12px"}
                                     mr={"12px"}
                                     options={ethnicityOptions}
+                                    value={formData.ethnicity}
+                                    onChange={(e) => handleChange("ethnicity", e.target.value)}
                                 />
                                 <DropdownField
                                     important={"*"}
@@ -191,6 +269,8 @@ export default function EditSchoolModal() {
                                     ml={"12px"}
                                     mr={"12px"}
                                     options={languageMediumOptions}
+                                    value={formData.languageMedium}
+                                    onChange={(e) => handleChange("languageMedium", e.target.value)}
                                 />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
@@ -202,6 +282,8 @@ export default function EditSchoolModal() {
                                     ml={"12px"}
                                     mr={"12px"}
                                     options={studentPopulationOptions}
+                                    value={formData.studentPopulation}
+                                    onChange={(e) => handleChange("studentPopulation", e.target.value)}
                                 />
                                 <DropdownField
                                     important={"*"}
@@ -211,13 +293,16 @@ export default function EditSchoolModal() {
                                     ml={"12px"}
                                     mr={"12px"}
                                     options={studentPopulationOptions}
+                                    value={formData.teacherPopulation}
+                                    onChange={(e) => handleChange("teacherPopulation", e.target.value)}
                                 />
                                 <TextField
                                     name="classCount"
                                     placeholder={'Class count'}
                                     important={"*"}
                                     label={'Number of Grade 1 classes'}
-
+                                    value={formData.classCount}
+                                    onChange={(e) => handleChange("classCount", e.target.value)}
                                 />
                             </div>
                         </section>
@@ -225,6 +310,7 @@ export default function EditSchoolModal() {
                             <Button
                                 name={'Update'}
                                 color={'bg-green-600'}
+                                onClick={handleUpdate}
                             />
                         </div>
                     </section>

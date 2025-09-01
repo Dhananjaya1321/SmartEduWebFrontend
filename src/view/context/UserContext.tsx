@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 // Define UserContext types
 interface User {
-    email: string;
+    email?: string;
     username: string;
     role: string;
-    password?: string; // Optional for extra security
+    password?: string; // Optional and shouldn't be stored in frontend ideally
 }
 
 interface UserContextType {
@@ -27,7 +27,30 @@ export const useUserContext = () => {
 
 // Provider component
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null); // Initialize with null (no user logged in)
+    const [user, setUser] = useState<User | null>(null);
+
+    // Restore user from localStorage on app load
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (e) {
+                console.error("Failed to parse user from localStorage", e);
+                localStorage.removeItem("user");
+            }
+        }
+    }, []);
+
+    // Keep localStorage in sync when user changes
+    useEffect(() => {
+        if (user) {
+            localStorage.setItem("user", JSON.stringify(user));
+        } else {
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+        }
+    }, [user]);
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

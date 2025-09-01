@@ -9,6 +9,7 @@ import {faPen, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {TextField} from "../../../component/TextField/TextField";
 import {DropdownField} from "../../../component/DropdownField/DropdownField";
 import {useState} from "react";
+import pMOEAPIController from "../../../../controller/PMOEAPIController";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -39,7 +40,68 @@ export default function ProvincialEducationOfficeModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [selectedProvince, setSelectedProvince] = useState('');
+
+    const [formData, setFormData] = useState({
+        selectedProvince: '',
+        provincialAddress: '',
+        name: '',
+        contact: '',
+        nic: '',
+        username: '',
+        email: '',
+        adminAddress: ''
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleProvinceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setFormData(prev => ({ ...prev, selectedProvince: e.target.value }));
+    };
+
+    const handleSave = async () => {
+        if (!formData.selectedProvince || !formData.name || !formData.contact || !formData.nic || !formData.username || !formData.email) {
+            alert("All fields marked with * are required");
+            return;
+        }
+
+        const payload = {
+            province: formData.selectedProvince,
+            officeAddress: formData.provincialAddress,
+            name: formData.name,
+            nic: formData.nic,
+            contact: formData.contact,
+            username: formData.username,
+            password: '', // Placeholder, backend will generate
+            address: formData.adminAddress,
+            email: formData.email
+        };
+
+        try {
+            const response = await pMOEAPIController.savePMOEOfficeWithAdmin(payload);
+            if (response) {
+                alert("Provincial Education Office created successfully!");
+                handleClose();
+                setFormData({
+                    selectedProvince: '',
+                    provincialAddress: '',
+                    name: '',
+                    contact: '',
+                    nic: '',
+                    username: '',
+                    email: '',
+                    adminAddress: ''
+                });
+            } else {
+                alert("Failed to create provincial office.");
+            }
+        } catch (error) {
+            console.error("Error saving provincial office:", error);
+            alert("Unexpected error occurred.");
+        }
+    };
 
     return (
         <div>
@@ -82,11 +144,8 @@ export default function ProvincialEducationOfficeModal() {
                                             ...Object.keys(provinceDistrictMap).map(p => ({label: p, value: p}))
                                         ]
                                     }
-                                    value={selectedProvince}
-                                    onChange={(e) => {
-                                        const province = e.target.value;
-                                        setSelectedProvince(province);
-                                    }}
+                                    value={formData.selectedProvince}
+                                    onChange={handleProvinceChange}
                                 />
 
                             </div>
@@ -95,7 +154,8 @@ export default function ProvincialEducationOfficeModal() {
                                     name="provincialAddress"
                                     placeholder={'ex- ABC Road, Galle'}
                                     label={'Address'}
-
+                                    value={formData.provincialAddress}
+                                    onChange={handleChange}
                                 />
                             </div>
                         </section>
@@ -110,18 +170,24 @@ export default function ProvincialEducationOfficeModal() {
                                     placeholder={'ex- Nimal'}
                                     label={'Name'}
                                     important={"*"}
+                                    value={formData.name}
+                                    onChange={handleChange}
                                 />
                                 <TextField
                                     name="contact"
                                     placeholder={'ex- 070 000 0000'}
                                     label={'Contact'}
                                     important={"*"}
+                                    value={formData.contact}
+                                    onChange={handleChange}
                                 />
                                 <TextField
                                     name="nic"
                                     placeholder={'ex- 000000000000 or 000000000v'}
                                     label={'NIC'}
                                     important={"*"}
+                                    value={formData.nic}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className='flex flex-row flex-wrap items-center justify-center w-full'>
@@ -130,14 +196,16 @@ export default function ProvincialEducationOfficeModal() {
                                     placeholder={'ex- Isuru123'}
                                     label={'Username'}
                                     important={"*"}
-
+                                    value={formData.username}
+                                    onChange={handleChange}
                                 />
                                 <TextField
                                     name="email"
                                     placeholder={'ex- example@gmail.com'}
                                     label={'Email'}
                                     important={"*"}
-
+                                    value={formData.email}
+                                    onChange={handleChange}
                                 />
                                 <div className='grow w-[220px] mx-3 my-3 gap-1 flex flex-col justify-start'>
                                     <div className='flex flex-row'>
@@ -163,7 +231,8 @@ export default function ProvincialEducationOfficeModal() {
                                     name="adminAddress"
                                     placeholder={'ex- ABC Road, Galle'}
                                     label={'Address'}
-
+                                    value={formData.adminAddress}
+                                    onChange={handleChange}
                                 />
                             </div>
                         </section>
@@ -171,6 +240,7 @@ export default function ProvincialEducationOfficeModal() {
                             <Button
                                 name={'Create'}
                                 color={'bg-green-600'}
+                                onClick={handleSave}
                             />
                         </div>
                     </section>

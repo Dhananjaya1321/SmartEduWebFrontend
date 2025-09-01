@@ -1,5 +1,6 @@
 // @ts-ignore
 import backgroundImage from "../../../assets/images/backgroundImage.jpg";
+import {Link} from "react-router-dom";
 export const LandingPage = () => {
     return (
         <main className='relative w-[100%]'>
@@ -22,16 +23,20 @@ export const LandingPage = () => {
                     From attendance to admissions, SmartEdu streamlines every process, promotes transparency,
                     and empowers smarter learning across the nation.</p>
                 <div className="mt-5 z-50 flex gap-5">
-                    <button
-                        className="w-[200px] bg-white text-black px-[40px] py-4 text-2xl font-medium rounded-full hover:bg-blue-200 transition"
-                    >
-                        Register
-                    </button>
-                    <button
-                        className="w-[200px] bg-white text-black px-[40px] py-4 text-2xl font-medium rounded-full hover:bg-blue-200 transition"
-                    >
-                        Login
-                    </button>
+                    <Link className='flex justify-end mt-4 text-blue-900' to={'/register'}>
+                        <button
+                            className="w-[200px] bg-white text-black px-[40px] py-4 text-2xl font-medium rounded-full hover:bg-blue-200 transition"
+                        >
+                            Register
+                        </button>
+                    </Link>
+                    <Link className='flex justify-end mt-4 text-blue-900' to={'/login'}>
+                        <button
+                            className="w-[200px] bg-white text-black px-[40px] py-4 text-2xl font-medium rounded-full hover:bg-blue-200 transition"
+                        >
+                            Login
+                        </button>
+                    </Link>
                 </div>
             </section>
         </main>

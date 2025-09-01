@@ -11,36 +11,40 @@ import EditProvincialEducationOfficeModal
     from "../../../models/MoE/EditProvincialEducationOfficeModal/EditProvincialEducationOfficeModal";
 import ViewProvincialEducationOfficeModal
     from "../../../models/MoE/ViewProvincialEducationOfficeModal/ViewProvincialEducationOfficeModal";
+import pMOEAPIController from "../../../../controller/PMOEAPIController";
+import {useEffect, useState} from "react";
 
 export const MoEProvincialEducationOffice = () => {
     const columns: GridColDef[] = [
         {
-            field: 'PMoE', headerName: 'pMoE', width: 200, renderCell: (params) => (
+            field: 'province',
+            headerName: 'Province',
+            width: 200,
+            renderCell: (params) => (
                 <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
+                    <div style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'start',
+                    }}>
                         {params.value}
                     </div>
                 </Tooltip>
             ),
         },
         {
-            field: 'admin', headerName: 'Admin', width: 200, renderCell: (params) => (
+            field: 'name',
+            headerName: 'Admin',
+            width: 200,
+            renderCell: (params) => (
                 <Tooltip title={params.value}>
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            textAlign: 'start',
-                        }}
-                    >
+                    <div style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'start',
+                    }}>
                         {params.value}
                     </div>
                 </Tooltip>
@@ -50,33 +54,24 @@ export const MoEProvincialEducationOffice = () => {
             field: 'email',
             headerName: 'Email',
             width: 200,
-            renderCell: (params) => {
-                const email = params.row.user?.email || 'N/A'; // Use optional chaining to safely access email
-                return (
-                    <Tooltip title={email}>
-                        <div
-                            style={{
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                textAlign: 'start',
-                            }}
-                        >
-                            {email}
-                        </div>
-                    </Tooltip>
-                );
-            },
+            renderCell: (params) => (
+                <Tooltip title={params.value}>
+                    <div style={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'start',
+                    }}>
+                        {params.value}
+                    </div>
+                </Tooltip>
+            ),
         },
         {
             field: 'changeAdmin',
             headerName: 'Change admin',
             width: 400,
-            renderCell: (params) => (
-                <>
-                    <ChangeAdminProvincialEducationOfficeModal/>
-                </>
-            ),
+            renderCell: (params) => <ChangeAdminProvincialEducationOfficeModal office={params.row}/>
         },
         {
             field: 'actions',
@@ -84,12 +79,24 @@ export const MoEProvincialEducationOffice = () => {
             width: 400,
             renderCell: (params) => (
                 <>
-                    <EditProvincialEducationOfficeModal/>
-                    <ViewProvincialEducationOfficeModal/>
+                    <EditProvincialEducationOfficeModal office={params.row}/>
+                    <ViewProvincialEducationOfficeModal office={params.row}/>
                 </>
             ),
-        },
+        }
     ];
+
+    // Inside the component
+    const [pmoeAdmins, setPmoeAdmins] = useState([]);
+
+    useEffect(() => {
+        const fetchPMOEs = async () => {
+            const data = await pMOEAPIController.getAllPMOEAdmins();
+            console.log("data",data,"content",data.content)
+            setPmoeAdmins(data.content);
+        };
+        fetchPMOEs();
+    }, []);
 
     return (
         <section className='h-max flex w-[95%] flex-col justify-center'>
@@ -117,11 +124,10 @@ export const MoEProvincialEducationOffice = () => {
                 {/*searching and add new button*/}
                 <Paper sx={{height: 400, width: '100%'}}>
                     <DataGrid
-                        rows={[]}
+                        rows={pmoeAdmins}
                         columns={columns}
                         pagination
                         pageSizeOptions={[5, 10]}
-                        // checkboxSelection
                         sx={{
                             border: 0,
                             '& .MuiDataGrid-row:hover': {
