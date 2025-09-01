@@ -43,6 +43,7 @@ import {
 import {Letters} from "./view/pages/school/Letters/Letters";
 import {TimeTable} from "./view/pages/school/TimeTable/TimeTable";
 import {GradesAndClasses} from "./view/pages/school/GradesAndClasses/GradesAndClasses";
+import {Students} from "./view/pages/school/Students/Students";
 
 
 function AppContent() {
@@ -62,6 +63,7 @@ function AppContent() {
                     <Route index path="manage-users" element={<SchoolUser/>}/>
                     <Route path="manage-teachers" element={<SchoolTeacher/>}/>
                 </Route>
+                <Route path="manage-students" element={<Students/>}/>
                 <Route path="manage-grades-and-classes" element={<GradesAndClasses/>}/>
                 <Route path="manage-time-table" element={<TimeTable/>}/>
                 <Route path="manage-exam" element={<ManageExams/>}/>
