@@ -238,3 +238,13 @@ export const alStreamSubjects: Record<string, string[]> = {
         "Common General Test"
     ]
 };
+
+// Event Grades Options
+export const examsAndNICApplicationOptions = [
+    { label: 'Select...', value: '' },
+    { label: 'G.C.E. (O/L) Examination', value: 'ol' },
+    { label: 'G.C.E. (A/L) Examination', value: 'al' },
+    { label: 'Grade 5 Scholarship Examination', value: 'g5' },
+    { label: 'NIC Application', value: 'nic' },
+
+];
