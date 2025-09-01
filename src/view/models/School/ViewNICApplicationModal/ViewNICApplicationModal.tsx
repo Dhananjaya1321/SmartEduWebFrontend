@@ -2,12 +2,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import {TextArea} from "../../../component/TextArea/TextArea";
 import {Button} from "../../../component/Button/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faTimes} from "@fortawesome/free-solid-svg-icons";
 import {TextField} from "../../../component/TextField/TextField";
-import {DropdownField} from "../../../component/DropdownField/DropdownField";
 
 const style = {
     position: 'absolute' as 'absolute',
