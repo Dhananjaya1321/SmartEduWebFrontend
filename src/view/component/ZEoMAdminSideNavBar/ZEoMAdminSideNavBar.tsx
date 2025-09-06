@@ -69,14 +69,14 @@ export const ZEoMAdminSideNavBar = () => {
                 isActive={activeButton === 'Schools'}
                 onClick={() => handleButtonClick('Schools')}
             />
-            <SideNavBarButton
+           {/* <SideNavBarButton
                 path={'/zonal-education-offices-admin/manage-al-admission'}
                 name={'A/L Admission'}
                 image={examAndNICApplications}
                 activeImage={activeExamAndNICApplications}
                 isActive={activeButton === 'A/LAdmission'}
                 onClick={() => handleButtonClick('A/LAdmission')}
-            />
+            />*/}
             <SideNavBarButton
                 path={'/zonal-education-offices-admin/manage-users'}
                 name={'Users'}
