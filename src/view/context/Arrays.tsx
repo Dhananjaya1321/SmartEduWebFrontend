@@ -251,7 +251,7 @@ export const examsAndNICApplicationOptions = [
 
 ];
 
-export const examsOptions = [
+export const examsOptionsToMOE = [
     { label: 'Select...', value: '' },
     { label: 'G.C.E. (O/L) Examination', value: 'G.C.E. (O/L) Examination' },
     { label: 'G.C.E. (A/L) Examination', value: 'G.C.E. (A/L) Examination' },
@@ -261,4 +261,12 @@ export const examsOptions = [
     { label: 'Final Term Exam', value: 'Final Term Exam' },
     { label: 'Other Exam', value: 'Other Exam' },
 
+];
+
+export const examsOptions = [
+    { label: 'Select...', value: '' },
+    { label: 'First Term Exam', value: 'First Term Exam' },
+    { label: 'Mid-Term Exam', value: 'Mid-Term Exam' },
+    { label: 'Final Term Exam', value: 'Final Term Exam' },
+    { label: 'Other Exam', value: 'Other Exam' },
 ];

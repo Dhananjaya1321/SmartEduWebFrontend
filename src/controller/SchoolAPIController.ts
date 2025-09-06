@@ -8,7 +8,7 @@ const schoolAPIController = {
                 school
             );
             if (response.status === 200) {
-                return response.data;
+                return response.data.data;
             } else {
                 return null;
             }

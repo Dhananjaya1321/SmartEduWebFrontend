@@ -67,7 +67,6 @@ export const Letters = () => {
         {field: "letterType", headerName: "Letter type", width: 200},
         {field: "lastGrade", headerName: "Last grade", width: 200},
         {field: "requestedDate", headerName: "Requested date", width: 200},
-        {field: "description", headerName: "Description", width: 250},
         {field: "status", headerName: "Status", width: 150},
         {
             field: "actions",
