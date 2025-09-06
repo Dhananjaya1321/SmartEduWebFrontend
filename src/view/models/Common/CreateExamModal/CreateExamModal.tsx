@@ -1,78 +1,79 @@
 import * as React from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {TextField} from "../../../component/TextField/TextField";
-import {TextArea} from "../../../component/TextArea/TextArea";
-import {Button} from "../../../component/Button/Button";
-import {DropdownField} from "../../../component/DropdownField/DropdownField";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { TextField } from "../../../component/TextField/TextField";
+import { Button } from "../../../component/Button/Button";
+import { DropdownField } from "../../../component/DropdownField/DropdownField";
 import {
     alStreams,
-    alStreamSubjects, examsOptions,
+    alStreamSubjects,
+    examsOptions,
+    examsOptionsToMOE,
     gradeOptions,
-    gradeSpanOptions,
     gradeSubjectMap,
     paperType
 } from "../../../context/Arrays";
-import {useEffect, useState} from "react";
-import {Table, TableBody, TableCell, TableHead, TableRow, IconButton, Tooltip} from "@mui/material";
-import letterAPIController from "../../../../controller/LetterAPIController";
+import { useEffect, useState } from "react";
+import { Table, TableBody, TableCell, TableHead, TableRow, IconButton, Tooltip } from "@mui/material";
 import examsAPIController from "../../../../controller/ExamsAPIController";
 
 const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '70%',
-    maxHeight: '90vh', // Ensure the modal doesn't exceed the viewport height
-    bgcolor: 'background.paper',
-    border: '2px solid #006CAF',
-    borderRadius: '10px',
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "70%",
+    maxHeight: "90vh",
+    bgcolor: "background.paper",
+    border: "2px solid #006CAF",
+    borderRadius: "10px",
     boxShadow: 24,
     p: 4,
-    overflowY: 'auto' // Enable scrolling if content overflows
+    overflowY: "auto"
 };
+
 export const CreateExamModal = () => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     // Form fields
-    const [selectedGrade, setSelectedGrade] = useState('');
-    const [selectedExam, setSelectedExam] = useState('');
-    const [selectedStream, setSelectedStream] = useState('');
+    const [selectedGrade, setSelectedGrade] = useState("");
+    const [selectedExam, setSelectedExam] = useState("");
+    const [selectedStream, setSelectedStream] = useState("");
     const [subjects, setSubjects] = useState<string[]>([]);
-    const [selectedSubject, setSelectedSubject] = useState('');
-    const [selectedPaper, setSelectedPaper] = useState('');
-    const [examDate, setExamDate] = useState('');
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
+    const [selectedSubject, setSelectedSubject] = useState("");
+    const [selectedPaper, setSelectedPaper] = useState("");
+    const [examDate, setExamDate] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
+    const [examYear, setExamYear] = useState("");
+    const [examSubjects, setExamSubjects] = useState<any[]>([]);
 
-    const [examName, setExamName] = useState('');
-    const [examYear, setExamYear] = useState('');
-
-    const [examSubjects, setExamSubjects] = useState<any[]>([]); // holds rows
+    // Role-based exam options
+    const role = localStorage.getItem("role");
+    const examOptionsForRole = role === "MOE_ADMIN" ? examsOptionsToMOE : examsOptions;
 
     // Show stream dropdown for grade 12/13
-    const showStream = selectedGrade === 'grade_12' || selectedGrade === 'grade_13';
+    const showStream = selectedGrade === "grade_12" || selectedGrade === "grade_13";
 
     useEffect(() => {
         if (!showStream) {
             const subjectList = gradeSubjectMap[selectedGrade] || [];
             setSubjects(subjectList);
-            setSelectedStream('');
+            setSelectedStream("");
         } else {
             setSubjects([]);
         }
-        setSelectedSubject('');
+        setSelectedSubject("");
     }, [selectedGrade]);
 
     useEffect(() => {
         if (showStream && selectedStream) {
             setSubjects(alStreamSubjects[selectedStream] || []);
-            setSelectedSubject('');
+            setSelectedSubject("");
         }
     }, [selectedStream]);
 
@@ -80,32 +81,32 @@ export const CreateExamModal = () => {
         if (!selectedSubject || !selectedPaper || !examDate || !startTime || !endTime) return;
 
         const newEntry = {
-            stream:selectedStream,
+            stream: selectedStream,
             subject: selectedSubject,
             paper: selectedPaper,
             date: examDate,
-            startTime: startTime,
-            endTime: endTime
+            startTime,
+            endTime
         };
 
-        setExamSubjects(prev => [...prev, newEntry]);
+        setExamSubjects((prev) => [...prev, newEntry]);
 
-        // Reset fields after adding
-        setSelectedSubject('');
-        setSelectedPaper('');
-        setExamDate('');
-        setStartTime('');
-        setEndTime('');
+        // Reset fields
+        setSelectedSubject("");
+        setSelectedPaper("");
+        setExamDate("");
+        setStartTime("");
+        setEndTime("");
     };
 
     const handleRemoveSubject = (index: number) => {
-        setExamSubjects(prev => prev.filter((_, i) => i !== index));
+        setExamSubjects((prev) => prev.filter((_, i) => i !== index));
     };
 
     const handleCreateExam = async () => {
         const payload = {
-            examName:selectedExam,
-            year:examYear,
+            examName: selectedExam,
+            year: examYear,
             grade: selectedGrade,
             timetable: examSubjects
         };
@@ -114,20 +115,21 @@ export const CreateExamModal = () => {
         const response = await examsAPIController.save(payload);
         if (response) {
             handleClose();
-            setSelectedSubject('');
-            setSelectedPaper('');
-            setExamDate('');
-            setStartTime('');
-            setEndTime('');
-            setSelectedGrade('')
-            setSelectedStream('')
-            setExamSubjects([])
+            setSelectedGrade("");
+            setSelectedStream("");
+            setSelectedSubject("");
+            setSelectedPaper("");
+            setExamDate("");
+            setStartTime("");
+            setEndTime("");
+            setExamSubjects([]);
         }
     };
+
     return (
         <div>
             <button
-                className={`h-[46px] bg-green-600 px-6 py-3 rounded-md text-white font-medium mx-3 mt-2`}
+                className="h-[46px] bg-green-600 px-6 py-3 rounded-md text-white font-medium mx-3 mt-2"
                 onClick={handleOpen}
             >
                 Create Exam
@@ -139,15 +141,16 @@ export const CreateExamModal = () => {
                         h-[40px] bg-white shadow-lg rounded-lg flex justify-center items-center"
                         onClick={handleClose}
                     >
-                        <FontAwesomeIcon icon={faTimes} size="lg"/>
+                        <FontAwesomeIcon icon={faTimes} size="lg" />
                     </button>
-                    <section
-                        className='bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md'>
-                        <section className='w-full flex flex-row flex-wrap items-center justify-center'>
+
+                    {/* Exam Info */}
+                    <section className="bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md">
+                        <section className="w-full flex flex-row flex-wrap items-center justify-center">
                             <div className="w-full items-start flex my-2">
                                 <h3 className="font-medium">Create Exam</h3>
                             </div>
-                            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                            <div className="flex flex-row flex-wrap items-center justify-center w-full">
                                 <DropdownField
                                     label="Select Grade"
                                     important="*"
@@ -166,7 +169,7 @@ export const CreateExamModal = () => {
                                     mb={"12px"}
                                     ml={"12px"}
                                     mr={"12px"}
-                                    options={examsOptions}
+                                    options={examOptionsForRole}
                                     value={selectedExam}
                                     onChange={(e) => setSelectedExam(e.target.value)}
                                 />
@@ -181,13 +184,14 @@ export const CreateExamModal = () => {
                             </div>
                         </section>
                     </section>
-                    <section
-                        className='bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md'>
-                        <section className='w-full flex flex-row flex-wrap items-center justify-center'>
+
+                    {/* Timetable */}
+                    <section className="bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md">
+                        <section className="w-full flex flex-row flex-wrap items-center justify-center">
                             <div className="w-full items-start flex my-2">
                                 <h3 className="font-medium">Create Time Table</h3>
                             </div>
-                            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                            <div className="flex flex-row flex-wrap items-center justify-center w-full">
                                 {showStream && (
                                     <DropdownField
                                         label="Select A/L Stream"
@@ -196,7 +200,7 @@ export const CreateExamModal = () => {
                                         mb={"12px"}
                                         ml={"12px"}
                                         mr={"12px"}
-                                        options={[{label: "Select...", value: ''}, ...alStreams]}
+                                        options={[{ label: "Select...", value: "" }, ...alStreams]}
                                         value={selectedStream}
                                         onChange={(e) => setSelectedStream(e.target.value)}
                                     />
@@ -208,15 +212,12 @@ export const CreateExamModal = () => {
                                     mb={"12px"}
                                     ml={"12px"}
                                     mr={"12px"}
-                                    options={[{label: 'Select...', value: ''}, ...subjects.map(s => ({
-                                        label: s,
-                                        value: s
-                                    }))]}
+                                    options={[{ label: "Select...", value: "" }, ...subjects.map((s) => ({ label: s, value: s }))]}
                                     value={selectedSubject}
                                     onChange={(e) => setSelectedSubject(e.target.value)}
                                 />
                             </div>
-                            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                            <div className="flex flex-row flex-wrap items-center justify-center w-full">
                                 <DropdownField
                                     label="Select Paper"
                                     important="*"
@@ -230,37 +231,33 @@ export const CreateExamModal = () => {
                                 />
                                 <TextField
                                     name="date"
-                                    label={'Date'}
-                                    important={"*"}
-                                    type={"date"}
+                                    label="Date"
+                                    important="*"
+                                    type="date"
                                     value={examDate}
                                     onChange={(e) => setExamDate(e.target.value)}
                                 />
                             </div>
-                            <div className='flex flex-row flex-wrap items-center justify-center w-full'>
+                            <div className="flex flex-row flex-wrap items-center justify-center w-full">
                                 <TextField
                                     name="startTime"
-                                    label={'Start time'}
-                                    important={"*"}
-                                    type={"time"}
+                                    label="Start time"
+                                    important="*"
+                                    type="time"
                                     value={startTime}
                                     onChange={(e) => setStartTime(e.target.value)}
                                 />
                                 <TextField
                                     name="endTime"
-                                    label={'End time'}
-                                    important={"*"}
-                                    type={"time"}
+                                    label="End time"
+                                    important="*"
+                                    type="time"
                                     value={endTime}
                                     onChange={(e) => setEndTime(e.target.value)}
                                 />
                             </div>
-                            <div className='flex flex-row flex-wrap items-center justify-end w-full'>
-                                <Button
-                                    name={'Add Subject'}
-                                    color={'bg-green-600'}
-                                    onClick={handleAddSubject}
-                                />
+                            <div className="flex flex-row flex-wrap items-center justify-end w-full">
+                                <Button name="Add Subject" color="bg-green-600" onClick={handleAddSubject} />
                             </div>
 
                             {/* Table */}
@@ -287,7 +284,7 @@ export const CreateExamModal = () => {
                                                 <TableCell>
                                                     <Tooltip title="Remove">
                                                         <IconButton onClick={() => handleRemoveSubject(index)}>
-                                                            <FontAwesomeIcon icon={faTrash} className="text-red-600"/>
+                                                            <FontAwesomeIcon icon={faTrash} className="text-red-600" />
                                                         </IconButton>
                                                     </Tooltip>
                                                 </TableCell>
@@ -298,14 +295,11 @@ export const CreateExamModal = () => {
                             )}
                         </section>
                     </section>
-                    <section
-                        className='bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md'>
-                        <div className='flex flex-row flex-wrap items-center justify-end w-full'>
-                            <Button
-                                name={'Create'}
-                                color={'bg-green-600'}
-                                onClick={handleCreateExam}
-                            />
+
+                    {/* Footer */}
+                    <section className="bg-white flex flex-row flex-wrap items-center justify-center mt-5 p-5 rounded-xl shadow-md">
+                        <div className="flex flex-row flex-wrap items-center justify-end w-full">
+                            <Button name="Create" color="bg-green-600" onClick={handleCreateExam} />
                         </div>
                     </section>
                 </Box>
